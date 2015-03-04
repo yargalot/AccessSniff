@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/yargalot/AccessSniff",
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.0",
+    "load-grunt-tasks": "^3.1.0",
+    "time-grunt": "^1.1.0"
   }
 }
