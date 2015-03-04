@@ -1,0 +1,22 @@
+{
+  "name": "AccessSniff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://yargalot@github.com/yargalot/AccessSniff.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yargalot/AccessSniff/issues"
+  },
+  "homepage": "https://github.com/yargalot/AccessSniff",
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "AccessSniff",
+  "version": "0.0.0",
+  "homepage": "https://github.com/yargalot/AccessSniff",
+  "authors": [
+    "Steven John Miller <steven.jmiller@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "HTML_CodeSniffer": "https://github.com/squizlabs/HTML_CodeSniffer.git#2.0.4"
+  }
+}
