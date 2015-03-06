@@ -2,5 +2,4 @@
 
 console.log('Access Sniff');
 
-
-require("../src/cli.js").interpret(process.argv);
+require("../src/cli.js").setup(process.argv);
