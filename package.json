@@ -28,6 +28,7 @@
   "dependencies": {
     "bluebird": "^2.9.13",
     "chalk": "^1.0.0",
+    "commander": "^2.6.0",
     "phantomjs": "^1.9.16",
     "underscore": "^1.8.2"
   }
