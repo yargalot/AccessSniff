@@ -10,7 +10,9 @@ var exports = {
   setup: function(files) {
 
     console.log(files);
-    
+
+    accessSniff.start(files);
+
   }
 };
 

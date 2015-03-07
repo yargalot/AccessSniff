@@ -15,13 +15,10 @@ var asset     = path.join.bind(null, __dirname, '..');
 
 var _that;
 
-function Accessibility(task) {
+function Accessibility() {
 
-  this.task     = task;
-  this.options  = task.options(Accessibility.Defaults);
+  this.options  = Accessibility.Defaults;
   this.basepath = process.cwd();
-  this.grunt    = this.task.grunt;
-  this.phantom  = require('grunt-lib-phantomjs').init(this.grunt);
   this.failTask = false;
 
   this.log      = '';
@@ -34,12 +31,9 @@ function Accessibility(task) {
 
   _that = this;
 
-
 }
 
-Accessibility.taskName         = 'accessibility';
-Accessibility.taskDescription  = 'Use HTML codesniffer to grade accessibility';
-Accessibility.Defaults         = {
+Accessibility.Defaults = {
   phantomScript: asset('../phantomjs/bridge.js'),
   urls: [],
   domElement: true,
@@ -49,7 +43,6 @@ Accessibility.Defaults         = {
   ignore: [],
   accessibilityrc: false
 };
-
 
 
 /**
@@ -313,7 +306,7 @@ Accessibility.prototype.failError = function(message, trace) {
 *
 */
 
-Accessibility.prototype.run = function(done) {
+Accessibility.prototype.run = function() {
 
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
@@ -375,24 +368,11 @@ Accessibility.prototype.run = function(done) {
 
 };
 
-Accessibility.registerWithGrunt = function(grunt) {
+Accessibility.start = function(files) {
 
-  // Please see the grunt documentation for more information regarding task and
-  // helper creation: https://github.com/gruntjs/grunt/blob/master/docs/toc.md
+  var task = new Accessibility();
 
-  // ==========================================================================
-  // TASKS
-  // ==========================================================================
-
-  grunt.registerMultiTask(Accessibility.taskName, Accessibility.taskDescription, function() {
-
-    this.grunt = grunt;
-    var done = this.async();
-    var task = new Accessibility(this);
-
-    task.run(done);
-
-  });
+  task.run();
 
 };
 
