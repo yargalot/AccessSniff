@@ -150,7 +150,7 @@ Accessibility.prototype.logger = function(msgSplit) {
   heading += ' ' + msgSplit[1];
 
   console.log(heading);
-  console.log('Line '.cyan + position.lineNumber + ' col '.cyan  + position.columnNumber);
+  console.log(chalk.cyan('Line ' + position.lineNumber + ' col '  + position.columnNumber));
   console.log(chalk.grey(msgSplit[2]));
   console.log('--------------------');
   console.log(chalk.grey(msgSplit[3]));
