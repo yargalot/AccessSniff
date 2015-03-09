@@ -136,24 +136,24 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   switch (msgSplit[0]) {
     case 'ERROR':
-        heading = msgSplit[0].red.bold;
+        heading = chalk.red.bold(msgSplit[0]);
         _that.failTask = true;
     break;
     case 'NOTICE':
-        heading = msgSplit[0].blue.bold;
+        heading = chalk.blue.bold(msgSplit[0]);
     break;
     default:
-        heading = msgSplit[0].yellow.bold;
+        heading = chalk.yellow.bold(msgSplit[0]);
     break;
   }
 
   heading += ' ' + msgSplit[1];
 
-  _that.grunt.log.subhead(heading);
-  _that.grunt.log.oklns('Line '.cyan + position.lineNumber + ' col '.cyan  + position.columnNumber);
-  _that.grunt.log.oklns(msgSplit[2].grey);
-  _that.grunt.log.oklns('--------------------'.grey);
-  _that.grunt.log.oklns(msgSplit[3].grey);
+  console.log(heading);
+  console.log('Line '.cyan + position.lineNumber + ' col '.cyan  + position.columnNumber);
+  console.log(chalk.grey(msgSplit[2]));
+  console.log('--------------------');
+  console.log(chalk.grey(msgSplit[3]));
 
   return;
 
@@ -299,6 +299,29 @@ Accessibility.prototype.failError = function(message, trace) {
 };
 
 
+Accessibility.prototype.parseOutput = function(file, deferred) {
+
+  var test = file.split("\n");
+  var _this = this;
+
+  test.every(function(element, index, array) {
+
+    var something = JSON.parse(element);
+
+
+    if (something[0] == 'wcaglint.done') {
+      return false;
+    }
+
+    _this.terminalLog(something[1]);
+    return true;
+
+  })
+
+
+  deferred.fulfill();
+};
+
 
 /**
 * Run task
@@ -312,7 +335,7 @@ Accessibility.prototype.failError = function(message, trace) {
 Accessibility.prototype.run = function(files) {
 
   var files   = Promise.resolve(files);
-  var phantom = this.phantom;
+  var _this = this;
 
   // Built-in error handlers.
   // phantom.on('fail.load',     this.failLoad);
@@ -334,26 +357,19 @@ Accessibility.prototype.run = function(files) {
       var deferredOutside = Promise.pending();
       var childArgs = [
         path.join(__dirname, './phantom.js'),
-        path.join(__dirname, '../' + file),
+        file,
         {}
       ];
 
-      // console.log(phantomPath);
-      // console.log(childArgs[0]);
-      //
-      // console.log(path.join(__dirname, file));
-
-      console.log(childArgs[0]);
-
       console.log(chalk.white.underline('Testing ' + childArgs[1]));
-
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
         // handle results
 
         if (!err) {
-          console.log(stdout);
-          deferredOutside.fulfill();
+
+          _this.parseOutput(stdout, deferredOutside);
+
           return;
         }
 
@@ -363,16 +379,9 @@ Accessibility.prototype.run = function(files) {
       });
 
 
-      // fs.readFile(file, 'utf8', function (err, data) {
-      //   _that.fileContents = data.toString();
-      // });
-
-
-      // phantom.spawn(file, {
-      //   options: _that.options,
-      //   done: function (err) {
-      //   }
-      // });
+      fs.readFile(file, 'utf8', function (err, data) {
+        _this.fileContents = data.toString();
+      });
 
       return deferredOutside.promise;
 

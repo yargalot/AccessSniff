@@ -21,7 +21,7 @@ var sendMessage = function (arg) {
     var channel = args[0];
     args[0] = channel;
 
-    console.log(JSON.stringify(args) + '\n');
+    console.log(JSON.stringify(args));
 };
 
 // This allows grunt to abort if the PhantomJS version isn't adequate.
@@ -33,20 +33,20 @@ var sendMessage = function (arg) {
 // // Relay console logging messages.
 page.onConsoleMessage = function (message) {
 
-    if (message === 'done') {
-      sendMessage('wcaglint.done', options);
-      phantom.exit();
-    } else {
-      sendMessage('console', message);
-    }
+  if (message === 'done') {
+    sendMessage('wcaglint.done', options);
+  } else {
+    sendMessage('console', message);
+  }
+
 };
 
 page.onError = function (msg, trace) {
-    sendMessage('error', msg, trace);
+  sendMessage('error', msg, trace);
 };
 
 page.onInitialized = function() {
-    sendMessage('console', 'Page Loading...');
+  sendMessage('console', 'Page Loading...');
 };
 
 page.onLoadFinished = function(status) {
@@ -80,7 +80,8 @@ page.open(url, function (status) {
         break;
         default:
             console.log('Unknown standard.');
-            phantom.exit();
         break;
     }
+
+    phantom.exit();
 });
