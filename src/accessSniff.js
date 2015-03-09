@@ -154,6 +154,7 @@ Accessibility.prototype.logger = function(msgSplit) {
   console.log(chalk.grey(msgSplit[2]));
   console.log('--------------------');
   console.log(chalk.grey(msgSplit[3]));
+  console.log('')
 
   return;
 
@@ -362,6 +363,7 @@ Accessibility.prototype.run = function(files) {
       ];
 
       console.log(chalk.white.underline('Testing ' + childArgs[1]));
+      console.log('')
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
         // handle results
