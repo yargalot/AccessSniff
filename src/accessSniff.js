@@ -13,6 +13,9 @@ var chalk     = require('chalk');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 
+var childProcess  = require('child_process')
+var phantomPath   = require('phantomjs').path
+
 var _that;
 
 function Accessibility() {
@@ -306,19 +309,19 @@ Accessibility.prototype.failError = function(message, trace) {
 *
 */
 
-Accessibility.prototype.run = function() {
+Accessibility.prototype.run = function(files) {
 
-  var files   = Promise.resolve(this.task.files);
+  var files   = Promise.resolve(files);
   var phantom = this.phantom;
 
   // Built-in error handlers.
-  phantom.on('fail.load',     this.failLoad);
-  phantom.on('fail.timeout',  this.failTime);
-
-  // The main events
-  phantom.on('error',         this.failError);
-  phantom.on('console',       this.terminalLog);
-  phantom.on('wcaglint.done', this.writeFile);
+  // phantom.on('fail.load',     this.failLoad);
+  // phantom.on('fail.timeout',  this.failTime);
+  //
+  // // The main events
+  // phantom.on('error',         this.failError);
+  // phantom.on('console',       this.terminalLog);
+  // phantom.on('wcaglint.done', this.writeFile);
 
   var promiseMapOptions = {
     concurrency: 1
@@ -326,53 +329,68 @@ Accessibility.prototype.run = function() {
 
   return files
     .bind(this)
-    .map(function(fileMap) {
-
-      this.options.filedest = fileMap.dest;
+    .map(function(file) {
 
       var deferredOutside = Promise.pending();
+      var childArgs = [
+        path.join(__dirname, './phantom.js'),
+        path.join(__dirname, '../' + file),
+        {}
+      ];
 
-      Promise.each(fileMap.src, function(file, index, array) {
+      // console.log(phantomPath);
+      // console.log(childArgs[0]);
+      //
+      // console.log(path.join(__dirname, file));
 
-        var deferred = Promise.pending();
+      console.log(childArgs[0]);
 
-        _that.grunt.log.subhead(chalk.white.underline('Testing ' + file));
-
-        fs.readFile(file, 'utf8', function (err, data) {
-          _that.fileContents = data.toString();
-        });
+      console.log(chalk.white.underline('Testing ' + childArgs[1]));
 
 
-        phantom.spawn(file, {
-          options: _that.options,
-          done: function (err) {
-            deferred.fulfill();
-          }
-        });
+      childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
+        // handle results
 
-        return deferred.promise;
+        if (!err) {
+          console.log(stdout);
+          deferredOutside.fulfill();
+          return;
+        }
 
-      }).then(function() {
+        console.log(err);
+        console.log(stderr);
         deferredOutside.fulfill();
       });
+
+
+      // fs.readFile(file, 'utf8', function (err, data) {
+      //   _that.fileContents = data.toString();
+      // });
+
+
+      // phantom.spawn(file, {
+      //   options: _that.options,
+      //   done: function (err) {
+      //   }
+      // });
 
       return deferredOutside.promise;
 
     }, promiseMapOptions)
     .catch(function(err) {
 
-      this.grunt.log.error(err);
+      console.error(err);
 
     })
-    .finally(done);
+    .finally();
 
 };
 
-Accessibility.start = function(files) {
+Accessibility.start = function(files, options) {
 
   var task = new Accessibility();
 
-  task.run();
+  task.run(files);
 
 };
 

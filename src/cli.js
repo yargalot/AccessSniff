@@ -6,11 +6,11 @@ var program = require('commander');
 
 
 var exports = {
-  run : function() {
-
-  },
 
   setup: function(options) {
+
+    var files = [];
+    //var options = {};
 
     program
       .version(packageInfo.version)
@@ -20,10 +20,12 @@ var exports = {
       .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
       .parse(options);
 
+    // console.log(program);
 
-    accessSniff.start(options);
+    accessSniff.start(program.args, options);
 
   }
+
 };
 
 

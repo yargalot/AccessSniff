@@ -19,13 +19,32 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       }
-    }
+    },
+
+    uglify: {
+      dev: {
+        options: {
+          beautify : true,
+          mangle: false
+        },
+        files: {
+          'libs/dist/HTMLCS.min.js': [
+            'libs/HTML_CodeSniffer/Standards/**/*.js',
+            'libs/HTML_CodeSniffer/HTMLCS.js',
+            'src/runner.js'
+          ]
+        }
+      },
+      dist: {
+        files: '<%= uglify.dev.files %>'
+      }
+    },
   });
 
   /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
    * plugin's task(s), then test the result.
    */
-  grunt.registerTask('dev',   ['jshint', 'watch']);
+  grunt.registerTask('dev',   ['jshint', 'uglify', 'watch']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint']);
