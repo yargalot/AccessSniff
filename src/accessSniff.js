@@ -79,11 +79,11 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
     var message = {
-      heading: msgSplit[0],
-      issue: msgSplit[1],
-      description: msgSplit[2],
-      element: msgSplit[3],
-      position: this.getElementPosition(msgSplit[3])
+      issue:        msgSplit[1],
+      heading:      msgSplit[0],
+      element:      msgSplit[3],
+      position:     this.getElementPosition(msgSplit[3]),
+      description:  msgSplit[2],
     };
 
     switch (options.outputFormat) {
@@ -270,6 +270,7 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
     var something = JSON.parse(element);
 
     if (something[0] === 'wcaglint.done') {
+      _this.writeFile();
       return false;
     }
 
