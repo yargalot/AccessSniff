@@ -5,28 +5,27 @@ var packageInfo = require('../package.json');
 var program = require('commander');
 
 
-var exports = {
+var exports = {};
 
-  setup: function(options) {
+exports.setup = function(cliOptions) {
 
-    var files = [];
-    //var options = {};
+  var files = [];
+  var options = {};
 
-    program
-      .version(packageInfo.version)
-      .option('-p, --peppers', 'Add peppers')
-      .option('-P, --pineapple', 'Add pineapple')
-      .option('-b, --bbq', 'Add bbq sauce')
-      .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
-      .parse(options);
+  program
+    .version(packageInfo.version)
+    .option('-r, --reportType [reportType]', 'Report type [json]', 'json')
+    .option('-r, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports')
+    .option('-v, --verbose', 'Log output')
+    .parse(cliOptions);
 
-    // console.log(program);
 
-    accessSniff.start(program.args, options);
+  // ADD IN REPORTS
+  options.reportType = program.reportType;
+  options.reportLocation = program.reportLocation;
 
-  }
+  accessSniff.start(program.args, options);
 
 };
-
 
 module.exports = exports;

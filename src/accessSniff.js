@@ -13,12 +13,14 @@ var chalk     = require('chalk');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 
-var childProcess  = require('child_process')
-var phantomPath   = require('phantomjs').path
+var childProcess  = require('child_process');
+var phantomPath   = require('phantomjs').path;
 
 var _that;
 
-function Accessibility() {
+function Accessibility(options) {
+
+  console.log(options);
 
   this.options  = Accessibility.Defaults;
   this.basepath = process.cwd();
@@ -32,13 +34,15 @@ function Accessibility() {
     this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
   }
 
+
+  // Extend options with input options
+  _.extend(this.options, options);
+
   _that = this;
 
 }
 
 Accessibility.Defaults = {
-  phantomScript: asset('../phantomjs/bridge.js'),
-  urls: [],
   domElement: true,
   verbose: true,
   outputFormat: false,
@@ -58,8 +62,6 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
   var ignore   = false;
   var msgSplit = msg.split('|');
-
-  var grunt   = _that.grunt;
   var options = _that.options;
 
   // If ignore get the hell out
@@ -152,9 +154,9 @@ Accessibility.prototype.logger = function(msgSplit) {
   console.log(heading);
   console.log(chalk.cyan('Line ' + position.lineNumber + ' col '  + position.columnNumber));
   console.log(chalk.grey(msgSplit[2]));
-  console.log('--------------------');
+  console.log(chalk.grey('--------------------'));
   console.log(chalk.grey(msgSplit[3]));
-  console.log('')
+  console.log('');
 
   return;
 
@@ -246,7 +248,7 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 
   // Write messages to console
   function logFinishedMesage() {
-    grunt.log.subhead('Report Finished'.cyan);
+    console.log(chalk.cyan('Report Finished'));
     grunt.log.writeln('File "' + options.filedest +
       (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
   }
@@ -285,18 +287,15 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 */
 
 Accessibility.prototype.failLoad = function(url) {
-  _that.grunt.fail.fatal('PhantomJS unable to load URL:' + url);
-  _that.phantom.halt();
+  console.log('PhantomJS unable to load URL:' + url);
 };
 
 Accessibility.prototype.failTime = function() {
-  _that.grunt.warn('PhantomJS timed out.');
-  _that.phantom.halt();
+  console.log('PhantomJS timed out.');
 };
 
 Accessibility.prototype.failError = function(message, trace) {
-  _that.grunt.log.error(chalk.red('error: ' + message));
-  _that.phantom.halt();
+  console.log(chalk.red('error: ' + message));
 };
 
 
@@ -309,15 +308,14 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 
     var something = JSON.parse(element);
 
-
-    if (something[0] == 'wcaglint.done') {
+    if (something[0] === 'wcaglint.done') {
       return false;
     }
 
     _this.terminalLog(something[1]);
     return true;
 
-  })
+  });
 
 
   deferred.fulfill();
@@ -333,9 +331,9 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 *
 */
 
-Accessibility.prototype.run = function(files) {
+Accessibility.prototype.run = function(filesInput) {
 
-  var files   = Promise.resolve(files);
+  var files   = Promise.resolve(filesInput);
   var _this = this;
 
   // Built-in error handlers.
@@ -363,7 +361,7 @@ Accessibility.prototype.run = function(files) {
       ];
 
       console.log(chalk.white.underline('Testing ' + childArgs[1]));
-      console.log('')
+      console.log('');
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
         // handle results
@@ -375,8 +373,6 @@ Accessibility.prototype.run = function(files) {
           return;
         }
 
-        console.log(err);
-        console.log(stderr);
         deferredOutside.fulfill();
       });
 
@@ -399,7 +395,7 @@ Accessibility.prototype.run = function(files) {
 
 Accessibility.start = function(files, options) {
 
-  var task = new Accessibility();
+  var task = new Accessibility(options);
 
   task.run(files);
 

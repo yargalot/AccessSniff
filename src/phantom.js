@@ -13,15 +13,14 @@ var options = {
 
 
 
-
 // Messages are sent to the parent by appending them to the tempfile.
 // NOTE, the tempfile appears to be shared between asynchronously running grunt tasks
 var sendMessage = function (arg) {
-    var args = Array.isArray(arg) ? arg : [].slice.call(arguments);
-    var channel = args[0];
-    args[0] = channel;
+  var args = Array.isArray(arg) ? arg : [].slice.call(arguments);
+  var channel = args[0];
+  args[0] = channel;
 
-    console.log(JSON.stringify(args));
+  console.log(JSON.stringify(args));
 };
 
 // This allows grunt to abort if the PhantomJS version isn't adequate.
@@ -57,31 +56,31 @@ page.onLoadFinished = function(status) {
 
 page.open(url, function (status) {
 
-    page.injectJs('../libs/dist/HTMLCS.min.js');
+  page.injectJs('../libs/dist/HTMLCS.min.js');
 
-    // Now Run. Note that page.evaluate() function is sanboxed to
-    // the loaded page's context. We can't pass any variable to it.
+  // Now Run. Note that page.evaluate() function is sanboxed to
+  // the loaded page's context. We can't pass any variable to it.
 
-    switch (options.accessibilityLevel) {
-        case 'WCAG2A':
-            page.evaluate(function() {
-                HTMLCS_RUNNER.run('WCAG2A');
-            });
-        break;
-        case 'WCAG2AA':
-            page.evaluate(function() {
-                HTMLCS_RUNNER.run('WCAG2AA');
-            });
-        break;
-        case 'WCAG2AAA':
-            page.evaluate(function() {
-                HTMLCS_RUNNER.run('WCAG2AAA');
-            });
-        break;
-        default:
-            console.log('Unknown standard.');
-        break;
-    }
+  switch (options.accessibilityLevel) {
+    case 'WCAG2A':
+      page.evaluate(function() {
+          HTMLCS_RUNNER.run('WCAG2A');
+      });
+    break;
+    case 'WCAG2AA':
+      page.evaluate(function() {
+          HTMLCS_RUNNER.run('WCAG2AA');
+      });
+    break;
+    case 'WCAG2AAA':
+      page.evaluate(function() {
+          HTMLCS_RUNNER.run('WCAG2AAA');
+      });
+    break;
+    default:
+      console.log('Unknown standard.');
+    break;
+  }
 
-    phantom.exit();
+  phantom.exit();
 });

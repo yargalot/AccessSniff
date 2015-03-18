@@ -1,5 +1,6 @@
-var HTMLCS_RUNNER = new function() {
-    this.run = function(standard) {
+function Runner() {
+
+  this.run = function(standard) {
         var self = this;
 
         // At the moment, it passes the whole DOM document.
@@ -53,4 +54,6 @@ var HTMLCS_RUNNER = new function() {
 
     };
 
-};
+}
+
+var HTMLCS_RUNNER = new Runner();

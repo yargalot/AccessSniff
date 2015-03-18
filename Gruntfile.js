@@ -13,14 +13,15 @@ module.exports = function(grunt) {
     // Js Hint
     // ------------------------
     jshint: {
-      all: [
-        'src/*.js'
-      ],
+      all: ['src/*.js'],
       options: {
         jshintrc: '.jshintrc'
       }
     },
 
+
+    // Uglify
+    // ------------------------
     uglify: {
       dev: {
         options: {
@@ -35,16 +36,28 @@ module.exports = function(grunt) {
           ]
         }
       },
+
       dist: {
         files: '<%= uglify.dev.files %>'
       }
     },
+
+
+    // Watch
+    // ------------------------
+    watch: {
+      jshint: {
+        files: 'src/**/*.js',
+        tasks: ['jshint']
+      }
+    }
+
   });
 
   /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
    * plugin's task(s), then test the result.
    */
-  grunt.registerTask('dev',   ['jshint', 'uglify', 'watch']);
+  grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint']);
