@@ -13,6 +13,7 @@ var chalk     = require('chalk');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 var logger    = require('./logger.js');
+var reporter  = require('./reports.js');
 
 var childProcess  = require('child_process');
 var phantomPath   = require('phantomjs').path;
@@ -25,14 +26,14 @@ function Accessibility(options) {
   this.basepath = process.cwd();
   this.failTask = false;
 
-  this.log      = '';
-  this.logJSON  = {};
+  this.log          = '';
   this.fileContents = '';
+
+  this.messageLog   = [];
 
   if (this.options.accessibilityrc) {
     this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
   }
-
 
   // Extend options with input options
   _.extend(this.options, options);
@@ -47,7 +48,10 @@ Accessibility.Defaults = {
   outputFormat: false,
   force: false,
   ignore: [],
-  accessibilityrc: false
+  accessibilityrc: false,
+
+  reportType: null,
+  reportLocation : 'reports'
 };
 
 
@@ -79,34 +83,14 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
     var message = {
-      issue:        msgSplit[1],
       heading:      msgSplit[0],
+      issue:        msgSplit[1],
       element:      msgSplit[3],
       position:     this.getElementPosition(msgSplit[3]),
       description:  msgSplit[2],
     };
 
-    switch (options.outputFormat) {
-
-      case 'json':
-        var jsonLog = _that.logJSON[options.file];
-
-        jsonLog = jsonLog || [];
-        jsonLog = jsonLog.concat(_that.outputJson(msgSplit));
-
-        _that.logJSON[options.file] = jsonLog;
-
-      break;
-
-      case 'txt':
-        if (!options.domElement) {
-          msg = msgSplit.slice(0, 3).join('|');
-        }
-
-        _that.log += msg + '\r\n';
-
-      break;
-    }
+    this.messageLog.push(message);
 
     if (message.heading === 'ERROR') {
       _that.failTask = true;
@@ -118,7 +102,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
   } else {
 
-    console.log(msg);
+    //console.log(msg);
 
   }
 };
@@ -163,103 +147,6 @@ Accessibility.prototype.getElementPosition = function(htmlString) {
 };
 
 
-
-/**
-* Json file format
-*
-*
-*/
-
-Accessibility.prototype.outputJson = function(msgSplit) {
-
-  var options     = _that.options;
-  var currentLog  = [];
-
-  currentLog.push({
-    type: msgSplit[0],
-    msg: msgSplit[2],
-    sc: msgSplit[1].split('.')[3],
-    technique: msgSplit[1].split('.')[4]
-  });
-
-  if (options.domElement) {
-    currentLog[currentLog.length - 1].element = {
-      nodeName: msgSplit[3],
-      className: msgSplit[4],
-      id: msgSplit[5]
-    };
-  }
-
-  return currentLog;
-
-};
-
-
-/**
-* Write the file
-*
-*
-*/
-
-Accessibility.prototype.writeFile = function(msg, trace) {
-
-  var grunt   = _that.grunt;
-  var options = _that.options;
-
-
-  // Write messages to console
-  function logFinishedMesage() {
-    console.log(chalk.cyan('Report Finished'));
-    grunt.log.writeln('File "' + options.filedest +
-      (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
-  }
-
-  // Write the files
-  switch (options.outputFormat) {
-    case 'json':
-      grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
-      logFinishedMesage();
-    break;
-
-    case 'txt':
-      grunt.file.write(options.filedest + '.txt' , _that.log);
-      logFinishedMesage();
-    break;
-  }
-
-  // Reset the values for next run
-  _that.log = '';
-  _that.logJSON = {};
-
-  if (_that.failTask && !options.force) {
-    _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
-  }
-
-  _that.phantom.halt();
-
-};
-
-
-
-/**
-* Phantom General Errors
-*
-*
-*/
-
-Accessibility.prototype.failLoad = function(url) {
-  console.log('PhantomJS unable to load URL:' + url);
-};
-
-Accessibility.prototype.failTime = function() {
-  console.log('PhantomJS timed out.');
-};
-
-Accessibility.prototype.failError = function(message, trace) {
-  console.log(chalk.red('error: ' + message));
-};
-
-
 Accessibility.prototype.parseOutput = function(file, deferred) {
 
   var test = file.split("\n");
@@ -270,7 +157,6 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
     var something = JSON.parse(element);
 
     if (something[0] === 'wcaglint.done') {
-      _this.writeFile();
       return false;
     }
 
@@ -279,6 +165,9 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 
   });
 
+  if (this.options.reportType) {
+    reporter.terminal(_this.messageLog, _this.options);
+  }
 
   deferred.fulfill();
 };
@@ -298,15 +187,6 @@ Accessibility.prototype.run = function(filesInput) {
   var files   = Promise.resolve(filesInput);
   var _this = this;
 
-  // Built-in error handlers.
-  // phantom.on('fail.load',     this.failLoad);
-  // phantom.on('fail.timeout',  this.failTime);
-  //
-  // // The main events
-  // phantom.on('error',         this.failError);
-  // phantom.on('console',       this.terminalLog);
-  // phantom.on('wcaglint.done', this.writeFile);
-
   var promiseMapOptions = {
     concurrency: 1
   };
@@ -322,8 +202,7 @@ Accessibility.prototype.run = function(filesInput) {
         {}
       ];
 
-      console.log(chalk.white.underline('Testing ' + childArgs[1]));
-      console.log('');
+      logger.startMessage('Testing ' + childArgs[1]);
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
         // handle results

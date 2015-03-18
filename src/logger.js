@@ -30,6 +30,13 @@ logger.generalMessage =  function(message) {
 
 };
 
+logger.startMessage = function(message) {
+
+  console.log(chalk.white.underline(message));
+  console.log('');
+
+};
+
 
 
 module.exports = logger;
