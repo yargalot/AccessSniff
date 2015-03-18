@@ -12,6 +12,7 @@ var _         = require('underscore');
 var chalk     = require('chalk');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
+var logger    = require('./logger.js');
 
 var childProcess  = require('child_process');
 var phantomPath   = require('phantomjs').path;
@@ -19,8 +20,6 @@ var phantomPath   = require('phantomjs').path;
 var _that;
 
 function Accessibility(options) {
-
-  console.log(options);
 
   this.options  = Accessibility.Defaults;
   this.basepath = process.cwd();
@@ -75,8 +74,17 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     return;
   }
 
+
   // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
+
+    var message = {
+      heading: msgSplit[0],
+      issue: msgSplit[1],
+      description: msgSplit[2],
+      element: msgSplit[3],
+      position: this.getElementPosition(msgSplit[3])
+    };
 
     switch (options.outputFormat) {
 
@@ -100,66 +108,19 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
       break;
     }
 
-    _that.logger(msgSplit);
+    if (message.heading === 'ERROR') {
+      _that.failTask = true;
+    }
+
+    if (options.verbose) {
+      logger.generalMessage(message);
+    }
 
   } else {
 
-    _that.logger(msg);
+    console.log(msg);
 
   }
-};
-
-
-
-/**
-* Console logger
-*
-*
-*/
-
-Accessibility.prototype.logger = function(msgSplit) {
-
-  var options       = _that.options;
-  var errorMessage  = _.isArray(msgSplit);
-
-  // If options verbose if false gtfo
-  if (!options.verbose) {
-    return;
-  }
-
-  // If its not an error message, return out of it
-  if (!errorMessage) {
-    return;
-  }
-
-  // Start logger
-  var heading;
-  var position = _that.getElementPosition(msgSplit[3]);
-
-  switch (msgSplit[0]) {
-    case 'ERROR':
-        heading = chalk.red.bold(msgSplit[0]);
-        _that.failTask = true;
-    break;
-    case 'NOTICE':
-        heading = chalk.blue.bold(msgSplit[0]);
-    break;
-    default:
-        heading = chalk.yellow.bold(msgSplit[0]);
-    break;
-  }
-
-  heading += ' ' + msgSplit[1];
-
-  console.log(heading);
-  console.log(chalk.cyan('Line ' + position.lineNumber + ' col '  + position.columnNumber));
-  console.log(chalk.grey(msgSplit[2]));
-  console.log(chalk.grey('--------------------'));
-  console.log(chalk.grey(msgSplit[3]));
-  console.log('');
-
-  return;
-
 };
 
 

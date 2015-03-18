@@ -1,5 +1,3 @@
-"use strict";
-
 var accessSniff = require('./accessSniff.js');
 var packageInfo = require('../package.json');
 var program = require('commander');
