@@ -1,6 +1,6 @@
+var program = require('commander');
 var accessSniff = require('./accessSniff.js');
 var packageInfo = require('../package.json');
-var program = require('commander');
 
 
 var exports = {};
@@ -14,7 +14,7 @@ exports.setup = function(cliOptions) {
     .version(packageInfo.version)
     .option('-r, --reportType [reportType]', 'Report type [json]', 'json')
     .option('-r, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports')
-    .option('-v, --verbose', 'Log output')
+    .option('-q, --quiet', 'No terminal output')
     .parse(cliOptions);
 
 
@@ -22,6 +22,10 @@ exports.setup = function(cliOptions) {
   // ADD IN REPORTS
   options.reportType = program.reportType;
   options.reportLocation = program.reportLocation;
+
+  if (program.quiet) {
+    options.quiet = program.quiet;
+  }
 
   accessSniff.start(program.args, options);
 
