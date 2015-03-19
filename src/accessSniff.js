@@ -6,11 +6,11 @@
  * Licensed under the MIT license.
  */
 
-var path      = require('path');
 var fs        = require('fs');
-var _         = require('underscore');
+var path      = require('path');
 var chalk     = require('chalk');
 var Promise   = require('bluebird');
+var _         = require('underscore');
 var asset     = path.join.bind(null, __dirname, '..');
 var logger    = require('./logger.js');
 var reporter  = require('./reports.js');

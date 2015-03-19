@@ -43,13 +43,19 @@ module.exports = function(grunt) {
     },
 
 
+    exec: {
+      testJson: {
+        cmd: 'sniff test/**/*.html -r json'
+      }
+    },
+
     // Watch
     // ------------------------
     watch: {
       jshint: {
         files: 'src/**/*.js',
-        tasks: ['jshint']
-      }
+        tasks: ['jshint', 'exec']
+      },
     }
 
   });
@@ -58,7 +64,7 @@ module.exports = function(grunt) {
    * plugin's task(s), then test the result.
    */
   grunt.registerTask('test',  ['jshint']);
-  
+
   grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
 

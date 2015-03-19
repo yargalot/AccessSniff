@@ -1,30 +1,44 @@
+var fs        = require('fs');
+var mkdirp    = require('mkdirp');
+var logger    = require('./logger.js');
+
+
 var reports = {};
 
 reports.terminal = function(messageLog, options) {
-  console.log(options);
+
+  var reportOutput;
+
+  switch(options.reportType) {
+
+    case 'json':
+      reportOutput = this.reportJson(messageLog);
+      break;
+
+    default:
+      console.log('Report type does not exist');
+      return;
+
+  }
+
+  this.writeFile(reportOutput, options.reportType, options.reportLocation);
 
 };
 
 
-reports.reportJson = function() {
-  var currentLog  = [];
+// var message = {
+//   heading:      msgSplit[0],
+//   issue:        msgSplit[1],
+//   element:      msgSplit[3],
+//   position:     this.getElementPosition(msgSplit[3]),
+//   description:  msgSplit[2],
+// };
 
-  currentLog.push({
-    type: msgSplit[0],
-    msg: msgSplit[2],
-    sc: msgSplit[1].split('.')[3],
-    technique: msgSplit[1].split('.')[4]
-  });
+reports.reportJson = function(messageLog) {
 
-  if (options.domElement) {
-    currentLog[currentLog.length - 1].element = {
-      nodeName: msgSplit[3],
-      className: msgSplit[4],
-      id: msgSplit[5]
-    };
-  }
+  console.log('Writing JSON Report');
 
-  return currentLog;
+  return JSON.stringify(messageLog);
 };
 
 
@@ -39,35 +53,26 @@ reports.reportCsv = function() {
 
 };
 
-reports.writeFile = function() {
+reports.writeFile = function(reportOutput, reportType, reportLocation) {
 
-  var options = _that.options;
+  console.log(reportLocation);
 
+  mkdirp(process.cwd() + '/' + reportLocation, function(err) {
 
-  // Write messages to console
-  function logFinishedMesage() {
-    console.log(chalk.cyan('Report Finished'));
-    grunt.log.writeln('File "' + options.filedest +
-      (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
-  }
+    if (err) {
+      console.error(err);
+    }
 
-  // Write the files
-  switch (options.outputFormat) {
-    case 'json':
-      grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
-      logFinishedMesage();
-    break;
+    fs.writeFile(process.cwd() + '/'+ reportLocation + '/test.' + reportType, reportOutput, function(err) {
+      if (err) {
+        return console.log(err);
+      }
 
-    case 'txt':
-      grunt.file.write(options.filedest + '.txt' , _that.log);
-      logFinishedMesage();
-    break;
-  }
+      logger.finishedMessage();
+    });
 
+  });
 
-  if (_that.failTask && !options.force) {
-    console.log('Task failed');
-  }
 
 };
 

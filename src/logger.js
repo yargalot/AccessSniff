@@ -37,6 +37,13 @@ logger.startMessage = function(message) {
 
 };
 
+logger.finishedMessage = function(filePath) {
+
+  console.log(chalk.cyan('Report Finished'));
+  console.log('File "' + filePath + '" created.');
+  
+};
+
 
 
 module.exports = logger;
