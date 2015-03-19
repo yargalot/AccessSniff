@@ -29,8 +29,6 @@ function Accessibility(options) {
   this.log          = '';
   this.fileContents = '';
 
-  this.messageLog   = [];
-
   if (this.options.accessibilityrc) {
     this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
   }
@@ -79,6 +77,8 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   }
 
 
+  var message = {};
+
   // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
@@ -90,8 +90,6 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
       description:  msgSplit[2],
     };
 
-    this.messageLog.push(message);
-
     if (message.heading === 'ERROR') {
       _that.failTask = true;
     }
@@ -102,9 +100,14 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
   } else {
 
+    message = null;
+
     //console.log(msg);
 
   }
+
+  return message;
+
 };
 
 
@@ -149,8 +152,11 @@ Accessibility.prototype.getElementPosition = function(htmlString) {
 
 Accessibility.prototype.parseOutput = function(file, deferred) {
 
+
   var test = file.split("\n");
   var _this = this;
+
+  var messageLog   = [];
 
   test.every(function(element, index, array) {
 
@@ -160,16 +166,24 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
       return false;
     }
 
-    _this.terminalLog(something[1]);
+    var message = _this.terminalLog(something[1]);
+
+    if (message) {
+      messageLog.push(message);
+    }
+
     return true;
 
   });
 
   if (this.options.reportType) {
-    reporter.terminal(_this.messageLog, _this.options);
+    reporter.terminal(messageLog, _this.options, function() {
+      deferred.fulfill();
+    });
+  } else {
+    deferred.fulfill();
   }
 
-  deferred.fulfill();
 };
 
 
@@ -203,6 +217,8 @@ Accessibility.prototype.run = function(filesInput) {
       ];
 
       logger.startMessage('Testing ' + childArgs[1]);
+
+      this.options.fileName = path.basename(childArgs[1], '.html');
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
         // handle results

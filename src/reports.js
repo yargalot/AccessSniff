@@ -5,7 +5,7 @@ var logger    = require('./logger.js');
 
 var reports = {};
 
-reports.terminal = function(messageLog, options) {
+reports.terminal = function(messageLog, options, callback) {
 
   var reportOutput;
 
@@ -21,7 +21,7 @@ reports.terminal = function(messageLog, options) {
 
   }
 
-  this.writeFile(reportOutput, options.reportType, options.reportLocation);
+  this.writeFile(reportOutput, options.fileName, options.reportType, options.reportLocation, callback);
 
 };
 
@@ -36,7 +36,7 @@ reports.terminal = function(messageLog, options) {
 
 reports.reportJson = function(messageLog) {
 
-  console.log('Writing JSON Report');
+  console.log('Writing JSON Report...');
 
   return JSON.stringify(messageLog);
 };
@@ -53,9 +53,7 @@ reports.reportCsv = function() {
 
 };
 
-reports.writeFile = function(reportOutput, reportType, reportLocation) {
-
-  console.log(reportLocation);
+reports.writeFile = function(reportOutput, reportName, reportType, reportLocation, callback) {
 
   mkdirp(process.cwd() + '/' + reportLocation, function(err) {
 
@@ -63,12 +61,15 @@ reports.writeFile = function(reportOutput, reportType, reportLocation) {
       console.error(err);
     }
 
-    fs.writeFile(process.cwd() + '/'+ reportLocation + '/test.' + reportType, reportOutput, function(err) {
+    var filePath = '/'+ reportLocation + '/' + reportName + '.' + reportType;
+
+    fs.writeFile(process.cwd() + filePath, reportOutput, function(err) {
       if (err) {
         return console.log(err);
       }
 
-      logger.finishedMessage();
+      logger.finishedMessage(filePath);
+      callback();
     });
 
   });
