@@ -1,8 +1,8 @@
 {
   "name": "AccessSniff",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "A node/iojs library & CLI for HTML_Codesniffer",
+  "main": "src/accessSniff.js",
   "bin": {
     "sniff": "bin/accessSniff.js"
   },
