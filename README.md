@@ -6,7 +6,7 @@ A CLI and Phantom.js library for HTML_CodeSniffer
 NOTE: This is in beta, please leave feedback. Would love it :)
 
 ## Getting Started
-Install this plugin with `npm install grunt-accessibility`
+Install this plugin with `npm install access-sniff`
 
 then use it in your project with
 
@@ -16,7 +16,7 @@ var sniff  = require('accessSniff');
 
 
 ## CLI
-You can use the CLI component by installing it globally with `npm install -g grunt-accessibility`
+You can use the CLI component by installing it globally with `npm install -g access-sniff`
 
 ### Options
 
