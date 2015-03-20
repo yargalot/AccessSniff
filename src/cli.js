@@ -13,7 +13,7 @@ exports.setup = function(cliOptions) {
   program
     .version(packageInfo.version)
     .option('-r, --reportType [reportType]', 'Report type [json]', 'json')
-    .option('-r, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports')
+    .option('-l, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports')
     .option('-q, --quiet', 'No terminal output')
     .parse(cliOptions);
 

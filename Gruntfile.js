@@ -45,7 +45,13 @@ module.exports = function(grunt) {
 
     exec: {
       testJson: {
-        cmd: 'sniff test/**/*.html -r json'
+        cmd: 'sniff test/**/*.html -r json -l test/reports'
+      },
+      testCsv: {
+        cmd: 'sniff test/**/*.html -r csv -l test/reports'
+      },
+      testTxt: {
+        cmd: 'sniff test/**/*.html -r txt -l test/reports'
       }
     },
 
