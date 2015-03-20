@@ -32,13 +32,6 @@ reports.terminal = function(messageLog, options, callback) {
 
 };
 
-// var message = {
-//   heading:      msgSplit[0],
-//   issue:        msgSplit[1],
-//   element:      msgSplit[3],
-//   position:     this.getElementPosition(msgSplit[3]),
-//   description:  msgSplit[2],
-// };
 
 reports.reportJson = function(messageLog) {
 

@@ -18,7 +18,6 @@ exports.setup = function(cliOptions) {
     .parse(cliOptions);
 
 
-
   // ADD IN REPORTS
   options.reportType = program.reportType;
   options.reportLocation = program.reportLocation;
