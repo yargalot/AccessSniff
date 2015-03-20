@@ -10,6 +10,14 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
+
+    // Clean
+    // ------------------------
+    clean: {
+      tests: ['reports']
+    },
+
+
     // Js Hint
     // ------------------------
     jshint: {
@@ -42,7 +50,8 @@ module.exports = function(grunt) {
       }
     },
 
-
+    // Executables
+    // ------------------------
     exec: {
       testJson: {
         cmd: 'sniff test/**/*.html -r json -l reports'
@@ -54,6 +63,14 @@ module.exports = function(grunt) {
         cmd: 'sniff test/**/*.html -r txt -l reports'
       }
     },
+
+
+    // Unit tests
+    // ------------------------
+    nodeunit: {
+      tests: ['test/*.js']
+    },
+
 
     // Watch
     // ------------------------
@@ -69,11 +86,11 @@ module.exports = function(grunt) {
   /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
    * plugin's task(s), then test the result.
    */
-  grunt.registerTask('test',  ['jshint']);
+  grunt.registerTask('test',  ['clean:tests', 'exec', 'jshint', 'nodeunit']);
 
   grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['clean:tests', 'exec', 'jshint', 'nodeunit']);
 };
