@@ -15,6 +15,11 @@ reports.terminal = function(messageLog, options, callback) {
       reportOutput = this.reportJson(messageLog);
       break;
 
+    case 'csv':
+      reportOutput = this.reportCsv(messageLog);
+      break;
+
+
     default:
       console.log('Report type does not exist');
       return;
@@ -45,10 +50,28 @@ reports.reportJson = function(messageLog) {
 reports.reportText = function() {
 
 
+
 };
 
 
-reports.reportCsv = function() {
+reports.reportCsv = function(messageLog) {
+
+  var output = 'heading, issue, element, line, column, description \n';
+
+  messageLog.forEach(function(message, index, array) {
+
+    console.log(message);
+
+    output += message.heading + ',';
+    output += '"' + message.issue + '"' + ',';
+    output += message.element + ',';
+    output += message.position.lineNumber + ',';
+    output += message.position.columnNumber + ',';
+    output += message.description + '\n';
+
+  });
+
+  return output;
 
 
 };
