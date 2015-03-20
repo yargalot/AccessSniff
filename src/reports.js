@@ -2,7 +2,6 @@ var fs        = require('fs');
 var mkdirp    = require('mkdirp');
 var logger    = require('./logger.js');
 
-
 var reports = {};
 
 reports.terminal = function(messageLog, options, callback) {
@@ -19,6 +18,9 @@ reports.terminal = function(messageLog, options, callback) {
       reportOutput = this.reportCsv(messageLog);
       break;
 
+    case 'txt':
+      reportOutput = this.reportTxt(messageLog);
+      break;
 
     default:
       console.log('Report type does not exist');
@@ -29,7 +31,6 @@ reports.terminal = function(messageLog, options, callback) {
   this.writeFile(reportOutput, options.fileName, options.reportType, options.reportLocation, callback);
 
 };
-
 
 // var message = {
 //   heading:      msgSplit[0],
@@ -47,9 +48,23 @@ reports.reportJson = function(messageLog) {
 };
 
 
-reports.reportText = function() {
+reports.reportTxt = function(messageLog) {
 
+  var output = 'heading, issue, element, line, column, description \n';
+  var seperator = '|';
 
+  messageLog.forEach(function(message, index, array) {
+
+    output += message.heading + seperator;
+    output += message.issue + seperator;
+    output += message.element + seperator;
+    output += message.position.lineNumber + seperator;
+    output += message.position.columnNumber + seperator;
+    output += message.description + '\n';
+
+  });
+
+  return output;
 
 };
 
@@ -57,22 +72,20 @@ reports.reportText = function() {
 reports.reportCsv = function(messageLog) {
 
   var output = 'heading, issue, element, line, column, description \n';
+  var seperator = ',';
 
   messageLog.forEach(function(message, index, array) {
 
-    console.log(message);
-
-    output += message.heading + ',';
-    output += '"' + message.issue + '"' + ',';
-    output += message.element + ',';
-    output += message.position.lineNumber + ',';
-    output += message.position.columnNumber + ',';
+    output += message.heading + seperator;
+    output += '"' + message.issue + '"' + seperator;
+    output += message.element + seperator;
+    output += message.position.lineNumber + seperator;
+    output += message.position.columnNumber + seperator;
     output += message.description + '\n';
 
   });
 
   return output;
-
 
 };
 
