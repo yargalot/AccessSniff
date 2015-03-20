@@ -82,7 +82,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
-    var message = {
+    message = {
       heading:      msgSplit[0],
       issue:        msgSplit[1],
       element:      msgSplit[3],
