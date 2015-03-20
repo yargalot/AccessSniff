@@ -23,7 +23,7 @@ exports.setup = function(cliOptions) {
   options.reportLocation = program.reportLocation;
 
   if (program.quiet) {
-    options.quiet = program.quiet;
+    options.verbose = false;
   }
 
   accessSniff.start(program.args, options);

@@ -4,3 +4,4 @@ node_js:
   - "iojs-v1.0.4"
 before_script:
   - npm install -g grunt-cli
+  - npm link

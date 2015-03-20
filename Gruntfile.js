@@ -50,6 +50,7 @@ module.exports = function(grunt) {
       }
     },
 
+
     // Executables
     // ------------------------
     exec: {
@@ -83,14 +84,12 @@ module.exports = function(grunt) {
 
   });
 
-  /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
-   * plugin's task(s), then test the result.
-   */
-  grunt.registerTask('test',  ['clean:tests', 'exec', 'jshint', 'nodeunit']);
 
   grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
+  grunt.registerTask('test',  ['clean:tests', 'exec', 'jshint', 'nodeunit']);
+
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['clean:tests', 'exec', 'jshint', 'nodeunit']);
+  grunt.registerTask('default', ['clean:tests', 'exec', 'jshint', 'nodeunit', 'watch']);
 };
