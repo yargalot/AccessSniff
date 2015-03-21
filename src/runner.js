@@ -1,58 +1,58 @@
 function Runner() {
 
   this.run = function(standard) {
-        var self = this;
+    var self = this;
 
-        // At the moment, it passes the whole DOM document.
-        HTMLCS.process(standard, document, function() {
-            var messages = HTMLCS.getMessages();
-            var length   = messages.length;
+    // At the moment, it passes the whole DOM document.
+    HTMLCS.process(standard, document, function() {
+      var messages = HTMLCS.getMessages();
+      var length   = messages.length;
 
-            for (var i = 0; i < length; i++) {
+      for (var i = 0; i < length; i++) {
 
-                var htmlString = messages[i].element.outerHTML;
+        var htmlString = messages[i].element.outerHTML;
 
-                // Print out actual element to string
-                messages[i].elementString = htmlString;
+        // Print out actual element to string
+        messages[i].elementString = htmlString;
 
-                // Output to messages
-                self.output(messages[i]);
-            }
+        // Output to messages
+        self.output(messages[i]);
+      }
 
-            console.log('done');
-        });
-    };
+      console.log('done');
+    });
+  };
 
-    this.output = function(msg) {
-        // Simple output for now.
-        var typeName = 'UNKNOWN';
+  this.output = function(msg) {
+    // Simple output for now.
+    var typeName = 'UNKNOWN';
 
-        console.log(msg);
+    console.log(msg);
 
-        switch (msg.type) {
-            case HTMLCS.ERROR:
-                typeName = 'ERROR';
-            break;
+    switch (msg.type) {
+      case HTMLCS.ERROR:
+        typeName = 'ERROR';
+        break;
 
-            case HTMLCS.WARNING:
-                typeName = 'WARNING';
-            break;
+      case HTMLCS.WARNING:
+        typeName = 'WARNING';
+        break;
 
-            case HTMLCS.NOTICE:
-                typeName = 'NOTICE';
-            break;
-        }
+      case HTMLCS.NOTICE:
+        typeName = 'NOTICE';
+        break;
+    }
 
-        console.log(
-          typeName + '|' +
-          msg.code + '|' +
-          msg.msg + '|' +
-          msg.elementString + '|' +
-          msg.element.className + '|' +
-          msg.element.id
-        );
+    console.log(
+      typeName + '|' +
+      msg.code + '|' +
+      msg.msg + '|' +
+      msg.elementString + '|' +
+      msg.element.className + '|' +
+      msg.element.id
+    );
 
-    };
+  };
 
 }
 

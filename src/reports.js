@@ -8,7 +8,7 @@ reports.terminal = function(messageLog, options, callback) {
 
   var reportOutput;
 
-  switch(options.reportType) {
+  switch (options.reportType) {
 
     case 'json':
       reportOutput = this.reportJson(messageLog);
@@ -32,14 +32,12 @@ reports.terminal = function(messageLog, options, callback) {
 
 };
 
-
 reports.reportJson = function(messageLog) {
 
   console.log('Writing JSON Report...');
 
   return JSON.stringify(messageLog);
 };
-
 
 reports.reportTxt = function(messageLog) {
 
@@ -60,7 +58,6 @@ reports.reportTxt = function(messageLog) {
   return output;
 
 };
-
 
 reports.reportCsv = function(messageLog) {
 
@@ -90,7 +87,7 @@ reports.writeFile = function(reportOutput, reportName, reportType, reportLocatio
       console.error(err);
     }
 
-    var filePath = '/'+ reportLocation + '/' + reportName + '.' + reportType;
+    var filePath = '/' + reportLocation + '/' + reportName + '.' + reportType;
 
     fs.writeFile(process.cwd() + filePath, reportOutput, function(err) {
       if (err) {
@@ -102,7 +99,6 @@ reports.writeFile = function(reportOutput, reportName, reportType, reportLocatio
     });
 
   });
-
 
 };
 

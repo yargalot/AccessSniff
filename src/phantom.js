@@ -11,11 +11,9 @@ var options = {
   accessibilityLevel: 'WCAG2A'
 };
 
-
-
 // Messages are sent to the parent by appending them to the tempfile.
 // NOTE, the tempfile appears to be shared between asynchronously running grunt tasks
-var sendMessage = function (arg) {
+var sendMessage = function(arg) {
   var args = Array.isArray(arg) ? arg : [].slice.call(arguments);
   var channel = args[0];
   args[0] = channel;
@@ -27,10 +25,10 @@ var sendMessage = function (arg) {
 //sendMessage('private', 'version', phantom.version);
 
 // Create a new page.
+// --------------------
 
-
-// // Relay console logging messages.
-page.onConsoleMessage = function (message) {
+// Relay console logging messages.
+page.onConsoleMessage = function(message) {
 
   if (message === 'done') {
     sendMessage('wcaglint.done', options);
@@ -40,7 +38,7 @@ page.onConsoleMessage = function (message) {
 
 };
 
-page.onError = function (msg, trace) {
+page.onError = function(msg, trace) {
   sendMessage('error', msg, trace);
 };
 
@@ -54,7 +52,7 @@ page.onLoadFinished = function(status) {
 
 };
 
-page.open(url, function (status) {
+page.open(url, function(status) {
 
   page.injectJs('../libs/dist/HTMLCS.min.js');
 
@@ -64,22 +62,21 @@ page.open(url, function (status) {
   switch (options.accessibilityLevel) {
     case 'WCAG2A':
       page.evaluate(function() {
-          HTMLCS_RUNNER.run('WCAG2A');
+        HTMLCS_RUNNER.run('WCAG2A');
       });
-    break;
+      break;
     case 'WCAG2AA':
       page.evaluate(function() {
-          HTMLCS_RUNNER.run('WCAG2AA');
+        HTMLCS_RUNNER.run('WCAG2AA');
       });
-    break;
+      break;
     case 'WCAG2AAA':
       page.evaluate(function() {
-          HTMLCS_RUNNER.run('WCAG2AAA');
+        HTMLCS_RUNNER.run('WCAG2AAA');
       });
-    break;
+      break;
     default:
       console.log('Unknown standard.');
-    break;
   }
 
   phantom.exit();

@@ -8,13 +8,12 @@ logger.generalMessage =  function(message) {
   switch (message.heading) {
     case 'ERROR':
       heading = chalk.red.bold(message.heading);
-    break;
+      break;
     case 'NOTICE':
       heading = chalk.blue.bold(message.heading);
-    break;
+      break;
     default:
       heading = chalk.yellow.bold(message.heading);
-    break;
   }
 
   heading += ' ' + message.issue;
@@ -43,7 +42,5 @@ logger.finishedMessage = function(filePath) {
   console.log(chalk.cyan('Report Finished'));
 
 };
-
-
 
 module.exports = logger;

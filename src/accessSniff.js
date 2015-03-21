@@ -52,21 +52,20 @@ Accessibility.Defaults = {
   reportLocation : 'reports'
 };
 
-
 /**
 * The Message Terminal, choo choo
 *
 *
 */
-
 Accessibility.prototype.terminalLog = function(msg, trace) {
 
   var ignore   = false;
   var msgSplit = msg.split('|');
   var options = _that.options;
+  var message = {};
 
   // If ignore get the hell out
-  _.each(options.ignore, function (value, key) {
+  _.each(options.ignore, function(value, key) {
     if (value === msgSplit[1]) {
       ignore = true;
     }
@@ -75,9 +74,6 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   if (ignore) {
     return;
   }
-
-
-  var message = {};
 
   // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
@@ -110,27 +106,23 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
 };
 
-
-
 /**
 * Get Elements Line and Column Number
 *
 *
 */
-
 Accessibility.prototype.getElementPosition = function(htmlString) {
 
   var position = {};
-  var htmlArray = this.fileContents.split("\n");
+  var htmlArray = this.fileContents.split('\n');
 
   htmlArray.every(function(element, lineNumber) {
-    if ( !element.match(htmlString) ) {
+    if (!element.match(htmlString)) {
       return true;
     }
 
     var columnNumber = 0;
     var colIndex = 0;
-
     var pattern = /(\s|\t)/g;
 
     while (element.charAt(colIndex).match(pattern)) {
@@ -149,14 +141,11 @@ Accessibility.prototype.getElementPosition = function(htmlString) {
 
 };
 
-
 Accessibility.prototype.parseOutput = function(file, deferred) {
 
-
-  var test = file.split("\n");
+  var test = file.split('\n');
   var _this = this;
-
-  var messageLog   = [];
+  var messageLog = [];
 
   test.every(function(element, index, array) {
 
@@ -186,7 +175,6 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 
 };
 
-
 /**
 * Run task
 *
@@ -195,7 +183,6 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 * @returns {Object} a promise that resolves with final html
 *
 */
-
 Accessibility.prototype.run = function(filesInput) {
 
   var files   = Promise.resolve(filesInput);
@@ -233,8 +220,7 @@ Accessibility.prototype.run = function(filesInput) {
         deferredOutside.fulfill();
       });
 
-
-      fs.readFile(file, 'utf8', function (err, data) {
+      fs.readFile(file, 'utf8', function(err, data) {
         _this.fileContents = data.toString();
       });
 
@@ -257,6 +243,5 @@ Accessibility.start = function(files, options) {
   task.run(files);
 
 };
-
 
 module.exports = Accessibility;
