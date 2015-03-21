@@ -3,6 +3,8 @@
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
+![Example Image](img/example.png)
+
 NOTE: This is in beta, please leave feedback. Would love it :)
 
 ## Getting Started
