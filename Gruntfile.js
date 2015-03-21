@@ -27,6 +27,10 @@ module.exports = function(grunt) {
       }
     },
 
+    jscs: {
+      main: [ "src/*.js" ]
+    },
+
 
     // Uglify
     // ------------------------
@@ -87,7 +91,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
-  grunt.registerTask('test',  ['clean:tests', 'exec', 'jshint', 'nodeunit']);
+  grunt.registerTask('test',  ['clean:tests', 'exec', 'nodeunit', 'jshint', 'jscs']);
 
 
   // By default, lint and run all tests.
