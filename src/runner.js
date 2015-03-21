@@ -1,23 +1,19 @@
 function Runner() {
 
   this.run = function(standard) {
-    var self = this;
+    var _this = this;
 
     // At the moment, it passes the whole DOM document.
     HTMLCS.process(standard, document, function() {
       var messages = HTMLCS.getMessages();
-      var length   = messages.length;
 
-      for (var i = 0; i < length; i++) {
-
-        var htmlString = messages[i].element.outerHTML;
-
+      messages.forEach(function(message, index, array) {
         // Print out actual element to string
-        messages[i].elementString = htmlString;
+        message.elementString = message.element.outerHTML;
 
         // Output to messages
-        self.output(messages[i]);
-      }
+        _this.output(message);
+      });
 
       console.log('done');
     });
@@ -26,8 +22,6 @@ function Runner() {
   this.output = function(msg) {
     // Simple output for now.
     var typeName = 'UNKNOWN';
-
-    console.log(msg);
 
     switch (msg.type) {
       case HTMLCS.ERROR:
@@ -43,14 +37,15 @@ function Runner() {
         break;
     }
 
-    console.log(
+    var message =
       typeName + '|' +
       msg.code + '|' +
       msg.msg + '|' +
       msg.elementString + '|' +
       msg.element.className + '|' +
-      msg.element.id
-    );
+      msg.element.id;
+
+    console.log(message);
 
   };
 

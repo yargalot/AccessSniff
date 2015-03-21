@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev',   ['jshint', 'uglify:dev', 'watch']);
 
-  grunt.registerTask('test',  ['clean:tests', 'exec', 'nodeunit', 'jshint', 'jscs']);
+  grunt.registerTask('test',  ['clean:tests', 'uglify:dev', 'exec', 'nodeunit', 'jshint', 'jscs']);
 
 
   // By default, lint and run all tests.
