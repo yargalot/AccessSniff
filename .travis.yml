@@ -1,7 +1,15 @@
 language: node_js
 node_js:
-  - "0.11"
-  - "iojs-v1.0.4"
+- '0.11'
+- iojs-v1.0.4
 before_script:
-  - npm install -g grunt-cli
-  - npm link
+- npm install -g grunt-cli
+- npm link
+deploy:
+  provider: npm
+  email: steven.jmiller@gmail.com
+  api_key:
+    secure: IM+hE6X1eHDLCQmPby4fF6d2Vaftl2qS1ZYCNNotJ+ezmhc3RTa5pcd6nCwS3LiJrpRmAxsFfy4Xa5DULAIIKfk9mSVd4UugvwEfRUjDwr4S4r9QBruojlnvdZokF/IMl3OA8/1M7x4tnC//SpyMkVubahGQ150Nn9uS9AYMk+M=
+  on:
+    tags: true
+    repo: yargalot/AccessSniff
