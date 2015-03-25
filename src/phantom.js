@@ -47,9 +47,7 @@ page.onInitialized = function() {
 };
 
 page.onLoadFinished = function(status) {
-
   sendMessage('console', 'Page Loaded. Starting Tests');
-
 };
 
 page.open(url, function(status) {
