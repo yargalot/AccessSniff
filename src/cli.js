@@ -16,6 +16,11 @@ exports.setup = function(cliOptions) {
     .option('-q, --quiet', 'No terminal output')
     .parse(cliOptions);
 
+  if (!program.args.length) {
+    console.error('Please provide a filepath to check');
+    return false;
+  }
+
   // ADD IN REPORTS
   options.reportType = program.reportType;
   options.reportLocation = program.reportLocation;
