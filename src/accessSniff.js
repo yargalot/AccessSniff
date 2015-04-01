@@ -188,7 +188,7 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 * @returns {Object} a promise that resolves with final html
 *
 */
-Accessibility.prototype.run = function(filesInput) {
+Accessibility.prototype.run = function(filesInput, callback) {
 
   var files   = Promise.resolve(filesInput);
   var _this = this;
@@ -238,16 +238,17 @@ Accessibility.prototype.run = function(filesInput) {
 
     })
     .finally(function() {
+      callback();
       return true;
     });
 
 };
 
-Accessibility.start = function(files, options) {
+Accessibility.start = function(files, options, callback) {
 
   var task = new Accessibility(options);
 
-  task.run(files);
+  task.run(files, callback);
 
 };
 
