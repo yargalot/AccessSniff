@@ -47,7 +47,6 @@ Accessibility.Defaults = {
   force: false,
   ignore: [],
   accessibilityrc: false,
-
   reportType: null,
   reportLocation : 'reports'
 };
@@ -238,7 +237,9 @@ Accessibility.prototype.run = function(filesInput) {
       console.error(err);
 
     })
-    .finally();
+    .finally(function() {
+      return true;
+    });
 
 };
 

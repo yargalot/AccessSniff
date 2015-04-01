@@ -16,9 +16,15 @@ then use it in your project with
 var sniff  = require('accessSniff');
 ```
 
-
 ## CLI
 You can use the CLI component by installing it globally with `npm install -g access-sniff`
+
+```cmd
+sniff test/**/*.html -r json -l reports
+sniff test/**/*.html -r csv -l reports
+sniff test/**/*.html -r txt -l reports
+```
+
 
 ### Options
 
