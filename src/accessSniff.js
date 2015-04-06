@@ -234,12 +234,17 @@ Accessibility.prototype.run = function(filesInput, callback) {
     }, promiseMapOptions)
     .catch(function(err) {
 
-      console.error(err);
+      return err;
 
     })
     .finally(function() {
-      callback();
+
+      if (typeof callback === 'function') {
+        callback();
+      }
+
       return true;
+
     });
 
 };
@@ -248,7 +253,7 @@ Accessibility.start = function(files, options, callback) {
 
   var task = new Accessibility(options);
 
-  task.run(files, callback);
+  return task.run(files, callback);
 
 };
 

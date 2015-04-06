@@ -22,7 +22,7 @@ logger.generalMessage =  function(message) {
   console.log(chalk.cyan('Line ' + message.position.lineNumber + ' col '  + message.position.columnNumber));
   console.log(chalk.grey(message.description));
   console.log(chalk.grey('--------------------'));
-  console.log(chalk.grey(message.element));
+  console.log(chalk.grey(message.element.node));
   console.log('');
 
   return;
