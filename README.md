@@ -74,13 +74,13 @@ You can ignore rules by placing them in an array outlined below
   ]
 ```
 
-### Output Format
+### Report Format
 
-```outputFormat``` is a string
+```reportFormat``` is a string
 
 ```javascript
   options: {
-    outputFormat: 'json'
+    reportFormat: 'json'
   }
 ```
 

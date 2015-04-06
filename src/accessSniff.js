@@ -41,14 +41,14 @@ function Accessibility(options) {
 }
 
 Accessibility.Defaults = {
-  domElement: true,
-  verbose: true,
-  outputFormat: false,
-  force: false,
   ignore: [],
-  accessibilityrc: false,
+  verbose: true,
+  force: false,
+  domElement: true,
   reportType: null,
-  reportLocation : 'reports'
+  reportLocation : 'reports',
+  accessibilityrc: false,
+  accessibilityLevel: 'WCAG2A',
 };
 
 /**
@@ -171,9 +171,7 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
   });
 
   if (this.options.reportType) {
-    reporter.terminal(messageLog, _this.options, function() {
-      deferred.fulfill();
-    });
+    reporter.terminal(messageLog, _this.options, deferred.fulfill);
   } else {
     deferred.fulfill();
   }
