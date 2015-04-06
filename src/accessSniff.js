@@ -171,7 +171,9 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
   });
 
   if (this.options.reportType) {
-    reporter.terminal(messageLog, _this.options, deferred.fulfill);
+    reporter.terminal(messageLog, _this.options, function() {
+      deferred.fulfill();
+    });
   } else {
     deferred.fulfill();
   }
