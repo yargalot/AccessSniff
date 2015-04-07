@@ -70,13 +70,8 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   var reportLevels = [];
 
   // If ignore get the hell out
-  _.each(options.ignore, function(value, key) {
-    if (value === msgSplit[1]) {
-      ignore = true;
-    }
-  });
-
-  if (ignore) {
+  if (_.contains(options.ignore, msgSplit[1])) {
+    ignore = true;
     return;
   }
 
