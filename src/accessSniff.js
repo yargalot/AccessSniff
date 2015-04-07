@@ -63,7 +63,6 @@ Accessibility.Defaults = {
 */
 Accessibility.prototype.terminalLog = function(msg, trace) {
 
-  var ignore  = false;
   var options = _that.options;
   var message = {};
   var msgSplit = msg.split('|');
@@ -71,10 +70,10 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
   // If ignore get the hell out
   if (_.contains(options.ignore, msgSplit[1])) {
-    ignore = true;
     return;
   }
 
+  // Report levels
   _.each(options.reportLevels, function(value, key, list) {
     if (value) {
       reportLevels.push(key.toUpperCase());
@@ -99,7 +98,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     };
 
     if (message.heading === 'ERROR') {
-      _that.failTask = true;
+      this.failTask = true;
     }
 
     if (options.verbose) {
@@ -109,8 +108,6 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   } else {
 
     message = null;
-
-    //console.log(msg);
 
   }
 
