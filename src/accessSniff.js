@@ -30,7 +30,7 @@ function Accessibility(options) {
   this.fileContents = '';
 
   if (this.options.accessibilityrc) {
-    this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
+    this.options.ignore = fs.readFile('.accessibilityrc').ignore;
   }
 
   // Extend options with input options
@@ -46,9 +46,14 @@ Accessibility.Defaults = {
   force: false,
   domElement: true,
   reportType: null,
+  reportLevels: {
+    notice: true,
+    warning: true,
+    error: true
+  },
   reportLocation : 'reports',
   accessibilityrc: false,
-  accessibilityLevel: 'WCAG2A',
+  accessibilityLevel: 'WCAG2A'
 };
 
 /**
@@ -58,10 +63,11 @@ Accessibility.Defaults = {
 */
 Accessibility.prototype.terminalLog = function(msg, trace) {
 
-  var ignore   = false;
-  var msgSplit = msg.split('|');
+  var ignore  = false;
   var options = _that.options;
   var message = {};
+  var msgSplit = msg.split('|');
+  var reportLevels = [];
 
   // If ignore get the hell out
   _.each(options.ignore, function(value, key) {
@@ -74,8 +80,20 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     return;
   }
 
+  if (options.reportLevels.notice) {
+    reportLevels.push('NOTICE');
+  }
+
+  if (options.reportLevels.warning) {
+    reportLevels.push('WARNING');
+  }
+
+  if (options.reportLevels.error) {
+    reportLevels.push('ERROR');
+  }
+
   // Start the Logging
-  if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
+  if (_.contains(reportLevels, msgSplit[0])) {
 
     var element = {
       node:   msgSplit[3],
