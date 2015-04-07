@@ -68,10 +68,12 @@ Set to true to access a .accessibilityrc file in your project which should be la
 You can ignore rules by placing them in an array outlined below
 
 ```javascript
-  ignore : [
-    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
-    'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-  ]
+  options: {
+    ignore : [
+      'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
+      'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+    ]
+  }
 ```
 
 ### Report Format
@@ -88,6 +90,35 @@ Text or JSON format output
 
 - 'txt' will output text files
 - 'json' will output .json files
+- 'csv' will output csv
+
+### Report Location
+
+```reportLocation``` is a string
+
+```javascript
+  options: {
+    reportLocation : 'reports'
+  }
+```
+
+Set the value to where you want reports created
+
+### Report Levels
+
+`reportLevels` is a object
+
+```javascript
+  options: {
+    reportLevels: {
+      notice: true,
+      warning: true,
+      error: true
+    }
+  }
+```
+
+Set a value to ```false``` to limit output
 
 
 ### Verbose output
