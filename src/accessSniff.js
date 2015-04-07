@@ -80,17 +80,11 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     return;
   }
 
-  if (options.reportLevels.notice) {
-    reportLevels.push('NOTICE');
-  }
-
-  if (options.reportLevels.warning) {
-    reportLevels.push('WARNING');
-  }
-
-  if (options.reportLevels.error) {
-    reportLevels.push('ERROR');
-  }
+  _.each(options.reportLevels, function(value, key, list) {
+    if (value) {
+      reportLevels.push(key.toUpperCase());
+    }
+  });
 
   // Start the Logging
   if (_.contains(reportLevels, msgSplit[0])) {
