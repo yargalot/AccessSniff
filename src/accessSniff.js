@@ -30,7 +30,7 @@ function Accessibility(options) {
   this.fileContents = '';
 
   if (this.options.accessibilityrc) {
-    this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
+    this.options.ignore = fs.readFile('.accessibilityrc').ignore;
   }
 
   // Extend options with input options
@@ -41,15 +41,19 @@ function Accessibility(options) {
 }
 
 Accessibility.Defaults = {
-  domElement: true,
-  verbose: true,
-  outputFormat: false,
-  force: false,
   ignore: [],
-  accessibilityrc: false,
-
+  verbose: true,
+  force: false,
+  domElement: true,
   reportType: null,
-  reportLocation : 'reports'
+  reportLevels: {
+    notice: true,
+    warning: true,
+    error: true
+  },
+  reportLocation : 'reports',
+  accessibilityrc: false,
+  accessibilityLevel: 'WCAG2A'
 };
 
 /**
@@ -59,24 +63,25 @@ Accessibility.Defaults = {
 */
 Accessibility.prototype.terminalLog = function(msg, trace) {
 
-  var ignore   = false;
-  var msgSplit = msg.split('|');
   var options = _that.options;
   var message = {};
+  var msgSplit = msg.split('|');
+  var reportLevels = [];
 
   // If ignore get the hell out
-  _.each(options.ignore, function(value, key) {
-    if (value === msgSplit[1]) {
-      ignore = true;
-    }
-  });
-
-  if (ignore) {
+  if (_.contains(options.ignore, msgSplit[1])) {
     return;
   }
 
+  // Report levels
+  _.each(options.reportLevels, function(value, key, list) {
+    if (value) {
+      reportLevels.push(key.toUpperCase());
+    }
+  });
+
   // Start the Logging
-  if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
+  if (_.contains(reportLevels, msgSplit[0])) {
 
     var element = {
       node:   msgSplit[3],
@@ -93,7 +98,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     };
 
     if (message.heading === 'ERROR') {
-      _that.failTask = true;
+      this.failTask = true;
     }
 
     if (options.verbose) {
@@ -103,8 +108,6 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   } else {
 
     message = null;
-
-    //console.log(msg);
 
   }
 
@@ -189,7 +192,7 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 * @returns {Object} a promise that resolves with final html
 *
 */
-Accessibility.prototype.run = function(filesInput) {
+Accessibility.prototype.run = function(filesInput, callback) {
 
   var files   = Promise.resolve(filesInput);
   var _this = this;
@@ -235,18 +238,26 @@ Accessibility.prototype.run = function(filesInput) {
     }, promiseMapOptions)
     .catch(function(err) {
 
-      console.error(err);
+      return err;
 
     })
-    .finally();
+    .finally(function() {
+
+      if (typeof callback === 'function') {
+        callback();
+      }
+
+      return true;
+
+    });
 
 };
 
-Accessibility.start = function(files, options) {
+Accessibility.start = function(files, options, callback) {
 
   var task = new Accessibility(options);
 
-  task.run(files);
+  return task.run(files, callback);
 
 };
 

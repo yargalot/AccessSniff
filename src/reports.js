@@ -48,7 +48,9 @@ reports.reportTxt = function(messageLog) {
 
     output += message.heading + seperator;
     output += message.issue + seperator;
-    output += message.element + seperator;
+    output += message.element.node + seperator;
+    output += message.element.id + seperator;
+    output += message.element.class + seperator;
     output += message.position.lineNumber + seperator;
     output += message.position.columnNumber + seperator;
     output += message.description + '\n';
@@ -68,7 +70,9 @@ reports.reportCsv = function(messageLog) {
 
     output += message.heading + seperator;
     output += '"' + message.issue + '"' + seperator;
-    output += message.element + seperator;
+    output += message.element.node + seperator;
+    output += message.element.id + seperator;
+    output += message.element.class + seperator;
     output += message.position.lineNumber + seperator;
     output += message.position.columnNumber + seperator;
     output += message.description + '\n';
