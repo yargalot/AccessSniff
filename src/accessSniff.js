@@ -22,19 +22,18 @@ var _that;
 
 function Accessibility(options) {
 
-  this.options  = Accessibility.Defaults;
   this.basepath = process.cwd();
   this.failTask = false;
-
   this.log          = '';
   this.fileContents = '';
+
+  // Defaults options with input options
+  _.defaults(options, Accessibility.Defaults);
+  this.options = options;
 
   if (this.options.accessibilityrc) {
     this.options.ignore = fs.readFile('.accessibilityrc').ignore;
   }
-
-  // Extend options with input options
-  _.extend(this.options, options);
 
   _that = this;
 
@@ -52,7 +51,7 @@ Accessibility.Defaults = {
     error: true
   },
   reportLocation : 'reports',
-  accessibilityrc: false,
+  accessibilityrc: true,
   accessibilityLevel: 'WCAG2A'
 };
 
