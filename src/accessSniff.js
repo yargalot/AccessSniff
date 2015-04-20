@@ -51,7 +51,7 @@ Accessibility.Defaults = {
     error: true
   },
   reportLocation : 'reports',
-  accessibilityrc: true,
+  accessibilityrc: false,
   accessibilityLevel: 'WCAG2A'
 };
 
