@@ -3,9 +3,10 @@
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
-![Example Image](img/example.png)
+- [Gulp plugin](https://github.com/yargalot/gulp-accessibility)
+- [Grunt plugin](https://github.com/yargalot/grunt-accessibility)
 
-NOTE: This is in beta, please leave feedback. Would love it :)
+![Example Image](img/example.png)
 
 ## Getting Started
 Install this plugin with `npm install access-sniff` then use it in your project with

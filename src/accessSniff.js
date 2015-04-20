@@ -216,16 +216,13 @@ Accessibility.prototype.run = function(filesInput, callback) {
       this.options.fileName = path.basename(childArgs[1], '.html');
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
-        // handle results
 
-        if (!err) {
-
-          _this.parseOutput(stdout, deferredOutside);
-
-          return;
+        if (err) {
+          deferredOutside.fulfill();
         }
 
-        deferredOutside.fulfill();
+        _this.parseOutput(stdout, deferredOutside);
+
       });
 
       fs.readFile(file, 'utf8', function(err, data) {
@@ -236,6 +233,9 @@ Accessibility.prototype.run = function(filesInput, callback) {
 
     }, promiseMapOptions)
     .catch(function(err) {
+
+      console.error('There was an error');
+      console.error(err);
 
       return err;
 
