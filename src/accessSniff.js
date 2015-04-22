@@ -27,13 +27,25 @@ function Accessibility(options) {
   this.log          = '';
   this.fileContents = '';
 
+  if (options.accessibilityrc) {
+
+    var rcOptions = fs.readFileSync(process.cwd() + '/.accessibilityrc', 'utf8', function(err, data) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      return data;
+    });
+
+    options = _.extend(options, JSON.parse(rcOptions));
+
+  }
+
   // Defaults options with input options
   _.defaults(options, Accessibility.Defaults);
-  this.options = options;
 
-  if (this.options.accessibilityrc) {
-    this.options.ignore = fs.readFile('.accessibilityrc').ignore;
-  }
+  this.options = options;
 
   _that = this;
 
