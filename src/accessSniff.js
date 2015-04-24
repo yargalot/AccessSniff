@@ -23,7 +23,7 @@ var _that;
 function Accessibility(options) {
 
   this.basepath = process.cwd();
-  this.failTask = false;
+  this.failTask = 0;
   this.log          = '';
   this.fileContents = '';
 
@@ -97,7 +97,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     };
 
     if (message.heading === 'ERROR') {
-      this.failTask = true;
+      this.failTask += 1;
     }
 
     if (options.verbose) {
@@ -175,10 +175,10 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 
   if (this.options.reportType) {
     reporter.terminal(messageLog, _this.options, function() {
-      deferred.fulfill();
+      deferred.fulfill(messageLog);
     });
   } else {
-    deferred.fulfill();
+    deferred.fulfill(messageLog);
   }
 
 };
@@ -211,9 +211,13 @@ Accessibility.prototype.run = function(filesInput, callback) {
         {}
       ];
 
+      this.options.fileName = path.basename(childArgs[1], '.html');
+
       logger.startMessage('Testing ' + childArgs[1]);
 
-      this.options.fileName = path.basename(childArgs[1], '.html');
+      fs.readFile(file, 'utf8', function(err, data) {
+        _this.fileContents = data.toString();
+      });
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
 
@@ -225,28 +229,24 @@ Accessibility.prototype.run = function(filesInput, callback) {
 
       });
 
-      fs.readFile(file, 'utf8', function(err, data) {
-        _this.fileContents = data.toString();
-      });
-
       return deferredOutside.promise;
 
     }, promiseMapOptions)
+    .then(function(messageLog, error) {
+
+      if (typeof callback === 'function') {
+        callback(messageLog, _this.failTask);
+      }
+
+      return true;
+
+    })
     .catch(function(err) {
 
       console.error('There was an error');
       console.error(err);
 
       return err;
-
-    })
-    .finally(function() {
-
-      if (typeof callback === 'function') {
-        callback();
-      }
-
-      return true;
 
     });
 
