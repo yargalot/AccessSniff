@@ -1,4 +1,5 @@
 var program = require('commander');
+var logger    = require('./logger.js');
 var accessSniff = require('./accessSniff.js');
 var packageInfo = require('../package.json');
 
@@ -29,7 +30,11 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
-  accessSniff.start(program.args, options);
+  accessSniff.start(program.args, options, function(messageLog, errors) {
+    if (errors) {
+      logger.errorMessage(errors);
+    }
+  });
 
 };
 

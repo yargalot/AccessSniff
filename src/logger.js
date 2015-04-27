@@ -43,4 +43,10 @@ logger.finishedMessage = function(filePath) {
 
 };
 
+logger.errorMessage = function(errors) {
+
+  console.log(chalk.red('There were ' + errors + ' errors present'));
+
+};
+
 module.exports = logger;
