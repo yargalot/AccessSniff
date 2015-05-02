@@ -8,8 +8,10 @@
 
 var fs        = require('fs');
 var path      = require('path');
+var http      = require('http');
 var chalk     = require('chalk');
 var Promise   = require('bluebird');
+var validator = require('validator');
 var _         = require('underscore');
 var asset     = path.join.bind(null, __dirname, '..');
 var logger    = require('./logger.js');
@@ -217,6 +219,7 @@ Accessibility.prototype.run = function(filesInput, callback) {
     .map(function(file) {
 
       var deferredOutside = Promise.pending();
+      var isUrl = validator.isURL(file);
       var childArgs = [
         path.join(__dirname, './phantom.js'),
         file,
@@ -227,9 +230,21 @@ Accessibility.prototype.run = function(filesInput, callback) {
 
       logger.startMessage('Testing ' + childArgs[1]);
 
-      fs.readFile(file, 'utf8', function(err, data) {
-        _this.fileContents = data.toString();
-      });
+      if (isUrl) {
+        http.get(file, function(response) {
+
+          response.on('data', function(data) {
+            console.log(data);
+            process.stdout.write(data);
+            _this.fileContents = data;
+          });
+
+        });
+      } else {
+        fs.readFile(file, 'utf8', function(err, data) {
+          _this.fileContents = data.toString();
+        });
+      }
 
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
 

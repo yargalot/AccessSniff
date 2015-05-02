@@ -44,6 +44,7 @@
     "commander": "^2.6.0",
     "mkdirp": "^0.5.0",
     "phantomjs": "^1.9.16",
-    "underscore": "^1.8.2"
+    "underscore": "^1.8.2",
+    "validator": "^3.39.0"
   }
 }
