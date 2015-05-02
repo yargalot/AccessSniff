@@ -6,13 +6,8 @@ var system  = require('system');
 
 var args = system.args;
 var url = args[1];
+var options = args[2];
 
-var options = {
-  accessibilityLevel: 'WCAG2A'
-};
-
-// Messages are sent to the parent by appending them to the tempfile.
-// NOTE, the tempfile appears to be shared between asynchronously running grunt tasks
 var sendMessage = function(arg) {
   var args = Array.isArray(arg) ? arg : [].slice.call(arguments);
   var channel = args[0];
@@ -20,9 +15,6 @@ var sendMessage = function(arg) {
 
   console.log(JSON.stringify(args));
 };
-
-// This allows grunt to abort if the PhantomJS version isn't adequate.
-//sendMessage('private', 'version', phantom.version);
 
 // Create a new page.
 // --------------------
@@ -57,7 +49,7 @@ page.open(url, function(status) {
   // Now Run. Note that page.evaluate() function is sanboxed to
   // the loaded page's context. We can't pass any variable to it.
 
-  switch (options.accessibilityLevel) {
+  switch (options) {
     case 'WCAG2A':
       page.evaluate(function() {
         HTMLCS_RUNNER.run('WCAG2A');

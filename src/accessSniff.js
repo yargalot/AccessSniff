@@ -220,7 +220,7 @@ Accessibility.prototype.run = function(filesInput, callback) {
       var childArgs = [
         path.join(__dirname, './phantom.js'),
         file,
-        {}
+        this.options.accessibilityLevel
       ];
 
       this.options.fileName = path.basename(childArgs[1], '.html');
