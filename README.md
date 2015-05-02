@@ -77,17 +77,17 @@ You can ignore rules by placing them in an array outlined below
   }
 ```
 
-### Report Format
+### Report Type
 
-```reportFormat``` is a string
+```reportType``` is a string
 
 ```javascript
   options: {
-    reportFormat: 'json'
+    reportType: 'json'
   }
 ```
 
-Text or JSON format output
+Text, CSV or JSON format output
 
 - 'txt' will output text files
 - 'json' will output .json files
