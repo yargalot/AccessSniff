@@ -213,7 +213,7 @@ Accessibility.prototype.getContents = function(file, callback) {
 
     });
   } else {
-    fs.readFileSync(file, 'utf8', function(err, data) {
+    fs.readFile(file, 'utf8', function(err, data) {
       callback(data.toString());
     });
   }
