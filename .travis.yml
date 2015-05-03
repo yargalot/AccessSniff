@@ -9,7 +9,8 @@ deploy:
   provider: npm
   email: steven.jmiller@gmail.com
   api_key:
-    secure: IM+hE6X1eHDLCQmPby4fF6d2Vaftl2qS1ZYCNNotJ+ezmhc3RTa5pcd6nCwS3LiJrpRmAxsFfy4Xa5DULAIIKfk9mSVd4UugvwEfRUjDwr4S4r9QBruojlnvdZokF/IMl3OA8/1M7x4tnC//SpyMkVubahGQ150Nn9uS9AYMk+M=
+    secure: lYQqCTfiuyiimvyCU3rvIQy0u3gvQc/Ufx0ZAi6m93jAGrO/ss0Em348XerZ1Ad/A82yzivb1HSfjSonI7wawmC12v84eyOE7qEtrfrT6g14t7N9ivu0uhjXouA70zuU1gSjVqzn3wMXrmtxn7tef2N5YowWXd4ZRhV0rMvpOCY=
   on:
+    branch: master
     tags: true
     repo: yargalot/AccessSniff
