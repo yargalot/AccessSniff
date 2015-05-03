@@ -68,7 +68,7 @@ module.exports = function(grunt) {
         cmd: 'sniff test/**/*.html -r txt -l reports'
       },
       testUrl: {
-        cmd: 'sniff http://www.google.com -r json -l reports'
+        cmd: 'sniff http://statamic.com/ -r json -l reports'
       }
     },
 

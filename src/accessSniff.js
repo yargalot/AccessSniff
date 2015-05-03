@@ -197,6 +197,29 @@ Accessibility.prototype.parseOutput = function(file, deferred) {
 
 };
 
+Accessibility.prototype.getContents = function(file, callback) {
+
+  var contents;
+  var isUrl = validator.isURL(file);
+
+  if (isUrl) {
+    http.get(file, function(response) {
+
+      response.setEncoding('utf8');
+
+      response.on('data', function(data) {
+        callback(data);
+      });
+
+    });
+  } else {
+    fs.readFileSync(file, 'utf8', function(err, data) {
+      callback(data.toString());
+    });
+  }
+
+};
+
 /**
 * Run task
 *
@@ -219,7 +242,7 @@ Accessibility.prototype.run = function(filesInput, callback) {
     .map(function(file) {
 
       var deferredOutside = Promise.pending();
-      var isUrl = validator.isURL(file);
+
       var childArgs = [
         path.join(__dirname, './phantom.js'),
         file,
@@ -230,22 +253,12 @@ Accessibility.prototype.run = function(filesInput, callback) {
 
       logger.startMessage('Testing ' + childArgs[1]);
 
-      if (isUrl) {
-        http.get(file, function(response) {
+      // Get file contents
+      this.getContents(file, function(contents) {
+        _this.fileContents = contents;
+      });
 
-          response.setEncoding('utf8');
-
-          response.on('data', function(data) {
-            _this.fileContents = data;
-          });
-
-        });
-      } else {
-        fs.readFile(file, 'utf8', function(err, data) {
-          _this.fileContents = data.toString();
-        });
-      }
-
+      // Call Phantom
       childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
 
         if (err) {

@@ -24,8 +24,14 @@ or install the module globally and type
 sniff test/**/*.html -r json -l reports
 ```
 
+AccessSniff can test both locally hosted files and websites.
+
+```
+sniff http://statamic.com/ -r json -l reports
+```
+
 ## Options
-You can pass some options
+You can pass the following options
 
 ### Accessibility Level
 
