@@ -233,9 +233,9 @@ Accessibility.prototype.run = function(filesInput, callback) {
       if (isUrl) {
         http.get(file, function(response) {
 
+          response.setEncoding('utf8');
+
           response.on('data', function(data) {
-            console.log(data);
-            process.stdout.write(data);
             _this.fileContents = data;
           });
 
