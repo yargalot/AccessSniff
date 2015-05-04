@@ -12,7 +12,7 @@ module.exports.tasks = {
   // JSCS
   // ------------------------
   jscs: {
-    main: [ "src/*.js" ]
+    main: ['src/*.js', 'config/*.js', 'Gruntfile.js']
   },
 
   // Executables

@@ -11,7 +11,6 @@ module.exports = function(grunt) {
   grunt.initConfig(configs);
 
   // Grunt tasks
-  grunt.registerTask('dev',     ['jshint', 'uglify:dev', 'watch']);
   grunt.registerTask('test',    ['clean:tests', 'uglify:dev', 'exec', 'nodeunit', 'jshint', 'jscs']);
-  grunt.registerTask('default', ['clean:tests', 'exec', 'jshint', 'nodeunit', 'watch']);
+  grunt.registerTask('default', ['clean:tests', 'uglify:dev', 'jshint', 'jscs', 'watch']);
 };
