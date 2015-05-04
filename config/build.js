@@ -1,5 +1,14 @@
 module.exports.tasks = {
 
+  // Watch
+  // ------------------------
+  watch: {
+    babel: {
+      files: ['src/**/*.js'],
+      tasks: ['jshint', 'jscs', 'babel']
+    },
+  },
+
   // Clean
   // ------------------------
   clean: {
@@ -9,14 +18,14 @@ module.exports.tasks = {
   // Babel
   // ------------------------
   babel: {
-      options: {
-          sourceMap: true
-      },
-      dist: {
-          files: {
-              'dist/app.js': 'src/app.js'
-          }
+    options: {
+      sourceMap: true
+    },
+    dist: {
+      files: {
+          'dist/accessSniff.js': 'src/accessSniff.js'
       }
+    }
   },
 
   // Uglify
@@ -39,14 +48,5 @@ module.exports.tasks = {
       files: '<%= uglify.dev.files %>'
     }
   },
-
-  // Watch
-  // ------------------------
-  watch: {
-    jshint: {
-      files: 'src/**/*.js',
-      tasks: ['jshint', 'exec']
-    },
-  }
 
 };

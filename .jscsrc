@@ -1,3 +1,4 @@
 {
-	"preset": "grunt"
+	"preset": "grunt",
+	"esnext": true
 }

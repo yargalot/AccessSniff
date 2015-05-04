@@ -1,5 +1,14 @@
 module.exports.tasks = {
 
+  // Watch
+  // ------------------------
+  watch: {
+    jshint: {
+      files: ['src/**/*.js', 'config/*.js', 'Gruntfile.js'],
+      tasks: ['jshint', 'jscs', 'babel']
+    },
+  },
+
   // Js Hint
   // ------------------------
   jshint: {

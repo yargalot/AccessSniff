@@ -1,7 +1,7 @@
 var chalk  = require('chalk');
 var logger = {};
 
-logger.generalMessage =  function(message) {
+logger.generalMessage = function(message) {
 
   var heading;
 
