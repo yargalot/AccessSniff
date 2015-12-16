@@ -278,7 +278,7 @@ Accessibility.prototype.run = function(filesInput, callback) {
         callback(messageLog, _this.failTask);
       }
 
-      return messageLog;
+      return true;
 
     })
     .catch(function(err) {
