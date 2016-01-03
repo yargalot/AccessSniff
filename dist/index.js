@@ -24,10 +24,6 @@ var _http = require('http');
 
 var _http2 = _interopRequireDefault(_http);
 
-var _chalk = require('chalk');
-
-var _chalk2 = _interopRequireDefault(_chalk);
-
 var _bluebird = require('bluebird');
 
 var _bluebird2 = _interopRequireDefault(_bluebird);
@@ -40,11 +36,11 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _logger = require('./logger.js');
+var _logger = require('./logger');
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _reports = require('./reports.js');
+var _reports = require('./reports');
 
 var _reports2 = _interopRequireDefault(_reports);
 

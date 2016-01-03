@@ -9,12 +9,11 @@
 import fs from 'fs';
 import path from 'path';
 import http from 'http';
-import chalk from 'chalk';
 import Promise from 'bluebird';
 import validator from 'validator';
 import _ from 'underscore';
-import logger from './logger.js';
-import reporter from './reports.js';
+import logger from './logger';
+import reporter from './reports';
 import childProcess from 'child_process';
 import phantom from 'phantomjs';
 
@@ -208,7 +207,7 @@ export default class Accessibility {
 
   run(filesInput, callback) {
 
-    var files   = Promise.resolve(filesInput);
+    var files = Promise.resolve(filesInput);
     var _this = this;
 
     var promiseMapOptions = {

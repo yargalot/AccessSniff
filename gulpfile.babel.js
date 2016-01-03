@@ -10,10 +10,11 @@ gulp.task('lint', () =>
   );
 
 gulp.task('babel', () =>
-  gulp.src('./src/index.js')
+  gulp.src('./src/**/*.js')
     .pipe(babel({
       presets: ['es2015']
     }))
+    .on('error', console.error.bind(console))
     .pipe(gulp.dest('dist'))
 );
 
