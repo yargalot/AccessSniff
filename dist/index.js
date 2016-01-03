@@ -241,7 +241,7 @@ var Accessibility = (function () {
         });
       } else {
         _fs2.default.readFile(file, 'utf8', function (err, data) {
-          callback(data.toString());
+          return callback(data.toString());
         });
       }
     }
