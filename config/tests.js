@@ -1,20 +1,5 @@
 module.exports.tasks = {
 
-  // Js Hint
-  // ------------------------
-  jshint: {
-    all: ['src/*.js'],
-    options: {
-      jshintrc: '.jshintrc'
-    }
-  },
-
-  // JSCS
-  // ------------------------
-  jscs: {
-    main: ['src/*.js', 'config/*.js', 'Gruntfile.js']
-  },
-
   // Executables
   // ------------------------
   exec: {
