@@ -1,13 +1,12 @@
-var program = require('commander');
-var logger    = require('./logger.js');
-var accessSniff = require('./accessSniff.js');
-var packageInfo = require('../package.json');
+import program from 'commander';
+import logger from './logger';
+import accessSniff from './accessSniff';
+import packageInfo from '../package.json';
 
 var exports = {};
 
 exports.setup = function(cliOptions) {
 
-  var files = [];
   var options = {};
 
   program
@@ -18,7 +17,7 @@ exports.setup = function(cliOptions) {
     .parse(cliOptions);
 
   if (!program.args.length) {
-    console.error('Please provide a filepath to check');
+    logger.generalError('Please provide a filepath to check');
     return false;
   }
 
@@ -30,7 +29,7 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
-  accessSniff.start(program.args, options, function(messageLog, errors) {
+  accessSniff.start(program.args, options, (messageLog, errors) => {
     if (errors) {
       logger.errorMessage(errors);
     }

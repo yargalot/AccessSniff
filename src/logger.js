@@ -1,10 +1,12 @@
 /*eslint-disable no-console */
-var chalk  = require('chalk');
-var logger = {};
+import chalk from 'chalk';
+
+// Init Logger object
+let logger = {};
 
 logger.generalMessage =  function(message) {
 
-  var heading;
+  let heading;
 
   switch (message.heading) {
     case 'ERROR':
@@ -39,15 +41,13 @@ logger.startMessage = function(message) {
 
 logger.finishedMessage = function(filePath) {
 
-  console.log(chalk.cyan('File "' + filePath + '" created.'));
+  console.log(chalk.cyan(`File "${filePath}" created.`));
   console.log(chalk.cyan('Report Finished'));
 
 };
 
-logger.errorMessage = function(errors) {
+logger.errorMessage = errors => console.log(chalk.red(`There were ${errors} errors present`));
 
-  console.log(chalk.red('There were ' + errors + ' errors present'));
-
-};
+logger.generalError = err => console.error(err);
 
 module.exports = logger;

@@ -46,7 +46,7 @@ module.exports.tasks = {
     jshint: {
       files: 'src/**/*.js',
       tasks: ['jshint', 'exec']
-    },
+    }
   }
 
 };

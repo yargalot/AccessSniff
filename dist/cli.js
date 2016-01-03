@@ -1,35 +1,47 @@
 'use strict';
 
-var program = require('commander');
-var logger = require('./logger.js');
-var accessSniff = require('./accessSniff.js');
-var packageInfo = require('../package.json');
+var _commander = require('commander');
+
+var _commander2 = _interopRequireDefault(_commander);
+
+var _logger = require('./logger');
+
+var _logger2 = _interopRequireDefault(_logger);
+
+var _accessSniff = require('./accessSniff');
+
+var _accessSniff2 = _interopRequireDefault(_accessSniff);
+
+var _package = require('../package.json');
+
+var _package2 = _interopRequireDefault(_package);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _exports = {};
 
 _exports.setup = function (cliOptions) {
 
-  var files = [];
   var options = {};
 
-  program.version(packageInfo.version).option('-r, --reportType [reportType]', 'Report type [json]', 'json').option('-l, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports').option('-q, --quiet', 'No terminal output').parse(cliOptions);
+  _commander2.default.version(_package2.default.version).option('-r, --reportType [reportType]', 'Report type [json]', 'json').option('-l, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports').option('-q, --quiet', 'No terminal output').parse(cliOptions);
 
-  if (!program.args.length) {
-    console.error('Please provide a filepath to check');
+  if (!_commander2.default.args.length) {
+    _logger2.default.generalError('Please provide a filepath to check');
     return false;
   }
 
   // ADD IN REPORTS
-  options.reportType = program.reportType;
-  options.reportLocation = program.reportLocation;
+  options.reportType = _commander2.default.reportType;
+  options.reportLocation = _commander2.default.reportLocation;
 
-  if (program.quiet) {
+  if (_commander2.default.quiet) {
     options.verbose = false;
   }
 
-  accessSniff.start(program.args, options, function (messageLog, errors) {
+  _accessSniff2.default.start(_commander2.default.args, options, function (messageLog, errors) {
     if (errors) {
-      logger.errorMessage(errors);
+      _logger2.default.errorMessage(errors);
     }
   });
 };
