@@ -1,5 +1,9 @@
 'use strict';
 
+/* global HTMLCS, document */
+/* eslint-disable no-console */
+/*eslint no-unused-vars: 0*/
+
 function Runner() {
 
   this.run = function (standard) {
@@ -9,7 +13,7 @@ function Runner() {
     HTMLCS.process(standard, document, function () {
       var messages = HTMLCS.getMessages();
 
-      messages.forEach(function (message, index, array) {
+      messages.forEach(function (message) {
         // Print out actual element to string
         message.elementString = message.element.outerHTML;
 

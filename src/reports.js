@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var fs        = require('fs');
 var mkdirp    = require('mkdirp');
 var logger    = require('./logger.js');
@@ -44,7 +45,7 @@ reports.reportTxt = function(messageLog) {
   var output = 'heading, issue, element, line, column, description \n';
   var seperator = '|';
 
-  messageLog.forEach(function(message, index, array) {
+  messageLog.forEach(function(message) {
 
     output += message.heading + seperator;
     output += message.issue + seperator;
@@ -66,7 +67,7 @@ reports.reportCsv = function(messageLog) {
   var output = 'heading, issue, element, line, column, description \n';
   var seperator = ',';
 
-  messageLog.forEach(function(message, index, array) {
+  messageLog.forEach(function(message) {
 
     output += message.heading + seperator;
     output += '"' + message.issue + '"' + seperator;

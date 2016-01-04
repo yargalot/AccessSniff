@@ -89,9 +89,7 @@ var Accessibility = (function () {
     if (options && options.accessibilityrc) {
 
       var accessRcPath = process.cwd() + '/.accessibilityrc';
-      var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8', function (err, data) {
-        return err ? console.error(err) : data;
-      });
+      var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8');
 
       options = _underscore2.default.extend(options, JSON.parse(rcOptions));
     }
@@ -107,7 +105,7 @@ var Accessibility = (function () {
 
   _createClass(Accessibility, [{
     key: 'terminalLog',
-    value: function terminalLog(msg, trace) {
+    value: function terminalLog(msg) {
 
       var options = this.options;
       var message = {};
@@ -193,7 +191,7 @@ var Accessibility = (function () {
       var _this = this;
       var messageLog = [];
 
-      test.every(function (element, index, array) {
+      test.every(function (element) {
 
         var something = JSON.parse(element);
 
@@ -243,7 +241,6 @@ var Accessibility = (function () {
       var isUrl = _validator2.default.isURL(file);
       var childArgs = [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel];
 
-      console.log(__dirname);
       this.options.fileName = _path2.default.basename(childArgs[1], '.html');
 
       _logger2.default.startMessage('Testing ' + childArgs[1]);
@@ -265,15 +262,9 @@ var Accessibility = (function () {
   }, {
     key: 'run',
     value: function run(filesInput) {
-
       var files = _bluebird2.default.resolve(filesInput);
-      var _this = this;
 
-      var promiseMapOptions = {
-        concurrency: 1
-      };
-
-      return files.bind(this).map(this.fileResolver, promiseMapOptions).then(function (messageLog) {
+      return files.bind(this).map(this.fileResolver, { concurrency: 1 }).then(function (messageLog) {
         return messageLog;
       }).catch(function (err) {
         _logger2.default.generalError('There was an error', err);

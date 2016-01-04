@@ -4,6 +4,7 @@ import eslint from 'gulp-eslint';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import nodeunit from 'gulp-nodeunit';
+import runSequence from 'run-sequence';
 
 const srcFolder = './src';
 const distFolder = './dist';
@@ -71,7 +72,7 @@ gulp.task('test:watch', () =>
 gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
 
 // Actual tasks
-gulp.task('test', ['lint', 'nodeunit']);
+gulp.task('test', () => runSequence('lint', 'babel', 'compressHTMLCS', 'nodeunit'));
 gulp.task('default', [
   'lint',
   'compressHTMLCS',

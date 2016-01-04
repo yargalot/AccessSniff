@@ -36,7 +36,8 @@
     "gulp-eslint": "^1.1.1",
     "gulp-nodeunit": "0.0.5",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.1"
+    "gulp-uglify": "^1.5.1",
+    "run-sequence": "^1.1.5"
   },
   "dependencies": {
     "bluebird": "^2.9.13",

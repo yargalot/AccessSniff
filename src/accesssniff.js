@@ -48,11 +48,7 @@ export default class Accessibility {
     if (options && options.accessibilityrc) {
 
       const accessRcPath = `${process.cwd()}/.accessibilityrc`;
-      const rcOptions = fs.readFileSync(
-        accessRcPath,
-        'utf8',
-        (err, data) => err ? console.error(err) : data
-      );
+      const rcOptions = fs.readFileSync(accessRcPath, 'utf8');
 
       options = _.extend(options, JSON.parse(rcOptions));
 
@@ -66,7 +62,7 @@ export default class Accessibility {
   *
   *
   */
-  terminalLog(msg, trace) {
+  terminalLog(msg) {
 
     var options = this.options;
     var message = {};
@@ -79,7 +75,7 @@ export default class Accessibility {
     }
 
     // Report levels
-    _.each(options.reportLevels, function(value, key) {
+    _.each(options.reportLevels, (value, key) => {
       if (value) {
         reportLevels.push(key.toUpperCase());
       }
@@ -155,7 +151,7 @@ export default class Accessibility {
     var _this = this;
     var messageLog = [];
 
-    test.every(function(element, index, array) {
+    test.every(element => {
 
       var something = JSON.parse(element);
 
@@ -206,7 +202,6 @@ export default class Accessibility {
       this.options.accessibilityLevel
     ];
 
-    console.log(__dirname);
     this.options.fileName = path.basename(childArgs[1], '.html');
 
     logger.startMessage('Testing ' + childArgs[1]);
@@ -229,17 +224,11 @@ export default class Accessibility {
   }
 
   run(filesInput) {
-
-    var files = Promise.resolve(filesInput);
-    var _this = this;
-
-    var promiseMapOptions = {
-      concurrency: 1
-    };
+    const files = Promise.resolve(filesInput);
 
     return files
       .bind(this)
-      .map(this.fileResolver, promiseMapOptions)
+      .map(this.fileResolver, { concurrency: 1 })
       .then(messageLog =>  messageLog)
       .catch(function(err) {
         logger.generalError('There was an error', err);
