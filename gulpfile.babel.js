@@ -2,7 +2,8 @@ import gulp from 'gulp';
 import babel from 'gulp-babel';
 import eslint from 'gulp-eslint';
 import uglify from 'gulp-uglify';
-import rename from 'gulp-rename';
+import concat from 'gulp-concat';
+import nodeunit from 'gulp-nodeunit';
 
 const srcFolder = './src';
 const distFolder = './dist';
@@ -34,18 +35,46 @@ gulp.task('compressHTMLCS', () =>
     .src([
       `${HTMLCSFolder}/Standards/**/*.js`,
       `${HTMLCSFolder}/HTMLCS.js`,
-      `${srcFolder}/runner.js`
+      `${distFolder}/runner.js`
     ])
+    .pipe(concat('HTMLCS.min.js'))
     .pipe(uglify())
-    .pipe(rename('HTMLCS.min.js'))
     .pipe(gulp.dest(distFolder))
+);
+
+gulp.task('nodeunit', () =>
+  gulp
+    .src(`test/**/*.test.js`)
+    .pipe(nodeunit({
+      reporter: 'junit',
+      reporterOptions: {
+        output: 'test'
+      }
+    }))
 );
 
 gulp.task('babel:watch', () =>
   gulp
-    .watch('./src/**/*.js', ['lint', 'babel'])
+    .watch(`${srcFolder}/**/*.js`, ['lint', 'babel'])
 );
 
+gulp.task('compress:watch', () =>
+  gulp
+    .watch(`${distFolder}/runner.js`, ['compressHTMLCS'])
+);
+
+gulp.task('test:watch', () =>
+  gulp
+    .watch(`test/*.js`, ['nodeunit'])
+);
+
+gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
+
 // Actual tasks
-gulp.task('test', ['lint']);
-gulp.task('default', ['lint', 'compressHTMLCS', 'babel', 'babel:watch']);
+gulp.task('test', ['lint', 'nodeunit']);
+gulp.task('default', [
+  'lint',
+  'compressHTMLCS',
+  'babel',
+  'watch'
+]);

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require("../src/cli.js").setup(process.argv);
+require('../dist/cli.js').setup(process.argv);

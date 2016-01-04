@@ -1,6 +1,6 @@
 import program from 'commander';
 import logger from './logger';
-import accessSniff from './accessSniff';
+import accessSniff from './';
 import packageInfo from '../package.json';
 
 var exports = {};
@@ -29,7 +29,7 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
-  accessSniff.start(program.args, options, (messageLog, errors) => {
+  accessSniff(program.args, options, (messageLog, errors) => {
     if (errors) {
       logger.errorMessage(errors);
     }

@@ -8,9 +8,9 @@ var _logger = require('./logger');
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _accessSniff = require('./accessSniff');
+var _ = require('./');
 
-var _accessSniff2 = _interopRequireDefault(_accessSniff);
+var _2 = _interopRequireDefault(_);
 
 var _package = require('../package.json');
 
@@ -39,7 +39,7 @@ _exports.setup = function (cliOptions) {
     options.verbose = false;
   }
 
-  _accessSniff2.default.start(_commander2.default.args, options, function (messageLog, errors) {
+  (0, _2.default)(_commander2.default.args, options, function (messageLog, errors) {
     if (errors) {
       _logger2.default.errorMessage(errors);
     }
