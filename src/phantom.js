@@ -43,26 +43,20 @@ page.onLoadFinished = function() {
 
 page.open(url, function() {
 
-  page.injectJs('../libs/dist/HTMLCS.min.js');
+  page.injectJs('./HTMLCS.min.js');
 
   // Now Run. Note that page.evaluate() function is sanboxed to
   // the loaded page's context. We can't pass any variable to it.
 
   switch (options) {
     case 'WCAG2A':
-      page.evaluate(function() {
-        HTMLCS_RUNNER.run('WCAG2A');
-      });
+      page.evaluate(() => HTMLCS_RUNNER.run('WCAG2A'));
       break;
     case 'WCAG2AA':
-      page.evaluate(function() {
-        HTMLCS_RUNNER.run('WCAG2AA');
-      });
+      page.evaluate(() => HTMLCS_RUNNER.run('WCAG2AA'));
       break;
     case 'WCAG2AAA':
-      page.evaluate(function() {
-        HTMLCS_RUNNER.run('WCAG2AAA');
-      });
+      page.evaluate(() => HTMLCS_RUNNER.run('WCAG2AAA'));
       break;
     default:
       console.log('Unknown standard.');
