@@ -1,6 +1,6 @@
-'use strict';
+/* eslint-disable no-console */
+/* global HTMLCS_RUNNER, phantom */
 
-var fs      = require('fs');
 var page    = require('webpage').create();
 var system  = require('system');
 
@@ -15,7 +15,6 @@ var sendMessage = function(arg) {
 
   console.log(JSON.stringify(args));
 };
-
 // Create a new page.
 // --------------------
 
@@ -38,11 +37,11 @@ page.onInitialized = function() {
   sendMessage('console', 'Page Loading...');
 };
 
-page.onLoadFinished = function(status) {
+page.onLoadFinished = function() {
   sendMessage('console', 'Page Loaded. Starting Tests');
 };
 
-page.open(url, function(status) {
+page.open(url, function() {
 
   page.injectJs('../libs/dist/HTMLCS.min.js');
 
