@@ -18,7 +18,6 @@ import childProcess from 'child_process';
 import phantom from 'phantomjs';
 
 const phantomPath = phantom.path;
-const asset = path.join.bind(null, __dirname, '..');
 
 export default class Accessibility {
   constructor(options) {
@@ -27,7 +26,7 @@ export default class Accessibility {
     this.log          = '';
     this.fileContents = '';
 
-    this.Defaults = {
+    this.defaults = {
       ignore: [],
       verbose: true,
       force: false,
@@ -43,7 +42,10 @@ export default class Accessibility {
       accessibilityLevel: 'WCAG2A'
     };
 
-    if (options.accessibilityrc) {
+    // Defaults options with input options
+    _.defaults(options, this.defaults);
+
+    if (options && options.accessibilityrc) {
 
       const accessRcPath = `${process.cwd()}/.accessibilityrc`;
       const rcOptions = fs.readFileSync(
@@ -55,8 +57,6 @@ export default class Accessibility {
       options = _.extend(options, JSON.parse(rcOptions));
 
     }
-    // Defaults options with input options
-    _.defaults(options, Accessibility.Defaults);
 
     this.options = options;
   }
@@ -79,7 +79,7 @@ export default class Accessibility {
     }
 
     // Report levels
-    _.each(options.reportLevels, function(value, key, list) {
+    _.each(options.reportLevels, function(value, key) {
       if (value) {
         reportLevels.push(key.toUpperCase());
       }
@@ -99,7 +99,7 @@ export default class Accessibility {
         issue:        msgSplit[1],
         element:      element,
         position:     this.getElementPosition(msgSplit[3]),
-        description:  msgSplit[2],
+        description:  msgSplit[2]
       };
 
       if (message.heading === 'ERROR') {
@@ -151,7 +151,6 @@ export default class Accessibility {
   }
 
   parseOutput(file, deferred) {
-
     var test = file.split('\n');
     var _this = this;
     var messageLog = [];
@@ -184,28 +183,52 @@ export default class Accessibility {
 
   }
 
-  getContents(file, callback) {
+  getUrlContents(url, callback) {
+    http.get(url, function(response) {
 
-    var contents;
-    var isUrl = validator.isURL(file);
+      response.setEncoding('utf8');
+      response.on('data', data => callback(data));
 
-    if (isUrl) {
-      http.get(file, function(response) {
+    });
+  }
 
-        response.setEncoding('utf8');
+  getFileContents(file) {
+    return fs.readFileSync(file, 'utf8');
+  }
 
-        response.on('data', function(data) {
-          callback(data);
-        });
+  fileResolver(file) {
 
+    var deferredOutside = Promise.pending();
+    const isUrl = validator.isURL(file);
+    var childArgs = [
+      path.join(__dirname, './phantom.js'),
+      file,
+      this.options.accessibilityLevel
+    ];
+
+    console.log(__dirname);
+    this.options.fileName = path.basename(childArgs[1], '.html');
+
+    logger.startMessage('Testing ' + childArgs[1]);
+
+    // Get file contents
+    this.fileContents = isUrl ? this.getUrlContents(file) : this.getFileContents(file);
+
+    // Call Phantom
+    childProcess
+      .execFile(phantomPath, childArgs, (err, stdout) => {
+        if (err) {
+          deferredOutside.fulfill();
+        }
+
+        this.parseOutput(stdout, deferredOutside);
       });
-    } else {
-      fs.readFile(file, 'utf8', (err, data) => callback(data.toString()));
-    }
+
+    return deferredOutside.promise;
 
   }
 
-  run(filesInput, callback) {
+  run(filesInput) {
 
     var files = Promise.resolve(filesInput);
     var _this = this;
@@ -216,55 +239,11 @@ export default class Accessibility {
 
     return files
       .bind(this)
-      .map(function(file) {
-
-        var deferredOutside = Promise.pending();
-
-        var childArgs = [
-          path.join(__dirname, './phantom.js'),
-          file,
-          this.options.accessibilityLevel
-        ];
-
-        this.options.fileName = path.basename(childArgs[1], '.html');
-
-        logger.startMessage('Testing ' + childArgs[1]);
-
-        // Get file contents
-        this.getContents(file, function(contents) {
-          _this.fileContents = contents;
-        });
-
-        // Call Phantom
-        childProcess.execFile(phantomPath, childArgs, function(err, stdout, stderr) {
-
-          if (err) {
-            deferredOutside.fulfill();
-          }
-
-          _this.parseOutput(stdout, deferredOutside);
-
-        });
-
-        return deferredOutside.promise;
-
-      }, promiseMapOptions)
-      .then(function(messageLog, error) {
-
-        if (typeof callback === 'function') {
-          callback(messageLog, _this.failTask);
-        }
-
-        return true;
-
-      })
+      .map(this.fileResolver, promiseMapOptions)
+      .then(messageLog =>  messageLog)
       .catch(function(err) {
-
-        console.error('There was an error');
-        console.error(err);
-
+        logger.generalError('There was an error', err);
         return err;
-
       });
   }
 

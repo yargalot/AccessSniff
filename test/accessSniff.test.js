@@ -1,4 +1,5 @@
-import AccessSniff from '../dist/accesssniff';
+var AccessSniff = require('../dist').default;
+var fs = require('fs');
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -22,18 +23,16 @@ import AccessSniff from '../dist/accesssniff';
 exports.accessibilityTests = {
   setUp: function(done) {
     // setup here if necessary
-    this.access = new AccessSniff(['./examples/test.html']);
     done();
   },
-  matchReports: function(test) {
+  testFileOutput: function(test) {
+    var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
-    var actual;
-    var expected;
+    AccessSniff(['./test/examples/test.html'], {}, function(report) {
+      test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
+      test.expect(1);
+      test.done();
+    });
 
-
-
-    test.expect(6);
-
-    test.done();
   }
 };

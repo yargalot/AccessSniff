@@ -2,64 +2,12 @@
 
   
   <testsuite name="accessSniff.test.js"
-             errors="1"
+             errors="0"
              failures="0"
              tests="1">
     
       
-      <testcase name="accessibilityTests - matchReports">
-        
-          <failure message="Expected 6 assertions, 0 ran">
-            Error: Expected 6 assertions, 0 ran
-    at Object.test.done (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/types.js:121:25)
-    at Object.matchReports (accessSniff.test.js:35:10)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:232:20
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:168:13
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:131:25
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:165:17
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:463:34
-    at Object.setUp (accessSniff.test.js:26:5)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:260:35
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:458:21
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:163:13
-    at iterate (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:123:13)
-    at async.forEachSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:139:9)
-    at _asyncMap (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:162:9)
-    at Object.mapSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:152:23)
-    at Object.async.series (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:456:19)
-    at Object.&lt;anonymous&gt; (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:264:22)
-    at Object.&lt;anonymous&gt; (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:228:19)
-    at Object.&lt;anonymous&gt; (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:236:16)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:236:16
-    at Object.exports.runTest (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:70:9)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:118:25
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:513:13
-    at iterate (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:123:13)
-    at async.forEachSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:139:9)
-    at _concat (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:512:9)
-    at Object.concatSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:152:23)
-    at Object.exports.runSuite (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:96:11)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:125:21
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:513:13
-    at iterate (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:123:13)
-    at async.forEachSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:139:9)
-    at _concat (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:512:9)
-    at Object.concatSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:152:23)
-    at Object.exports.runSuite (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:96:11)
-    at Object.exports.runModule (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/core.js:158:13)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/nodeunit.js:75:21
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:513:13
-    at iterate (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:123:13)
-    at async.forEachSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:139:9)
-    at _concat (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:512:9)
-    at Object.concatSeries (/Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:152:23)
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/nodeunit.js:73:15
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:518:13
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:110:25
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/deps/async.js:515:17
-    at /Users/stevenjohnmiller/Documents/projects/AccessSniff/node_modules/gulp-nodeunit/node_modules/nodeunit/lib/utils.js:65:24
-    at FSReqWrap.oncomplete (fs.js:95:15)
-          </failure>
+      <testcase name="accessibilityTests - testFileOutput">
         
       </testcase>
     

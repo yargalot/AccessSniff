@@ -57,7 +57,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var phantomPath = _phantomjs2.default.path;
-var asset = _path2.default.join.bind(null, __dirname, '..');
 
 var Accessibility = (function () {
   function Accessibility(options) {
@@ -68,7 +67,7 @@ var Accessibility = (function () {
     this.log = '';
     this.fileContents = '';
 
-    this.Defaults = {
+    this.defaults = {
       ignore: [],
       verbose: true,
       force: false,
@@ -84,7 +83,10 @@ var Accessibility = (function () {
       accessibilityLevel: 'WCAG2A'
     };
 
-    if (options.accessibilityrc) {
+    // Defaults options with input options
+    _underscore2.default.defaults(options, this.defaults);
+
+    if (options && options.accessibilityrc) {
 
       var accessRcPath = process.cwd() + '/.accessibilityrc';
       var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8', function (err, data) {
@@ -93,8 +95,6 @@ var Accessibility = (function () {
 
       options = _underscore2.default.extend(options, JSON.parse(rcOptions));
     }
-    // Defaults options with input options
-    _underscore2.default.defaults(options, Accessibility.Defaults);
 
     this.options = options;
   }
@@ -120,7 +120,7 @@ var Accessibility = (function () {
       }
 
       // Report levels
-      _underscore2.default.each(options.reportLevels, function (value, key, list) {
+      _underscore2.default.each(options.reportLevels, function (value, key) {
         if (value) {
           reportLevels.push(key.toUpperCase());
         }
@@ -189,7 +189,6 @@ var Accessibility = (function () {
   }, {
     key: 'parseOutput',
     value: function parseOutput(file, deferred) {
-
       var test = file.split('\n');
       var _this = this;
       var messageLog = [];
@@ -220,30 +219,52 @@ var Accessibility = (function () {
       }
     }
   }, {
-    key: 'getContents',
-    value: function getContents(file, callback) {
+    key: 'getUrlContents',
+    value: function getUrlContents(url, callback) {
+      _http2.default.get(url, function (response) {
 
-      var contents;
+        response.setEncoding('utf8');
+        response.on('data', function (data) {
+          return callback(data);
+        });
+      });
+    }
+  }, {
+    key: 'getFileContents',
+    value: function getFileContents(file) {
+      return _fs2.default.readFileSync(file, 'utf8');
+    }
+  }, {
+    key: 'fileResolver',
+    value: function fileResolver(file) {
+      var _this2 = this;
+
+      var deferredOutside = _bluebird2.default.pending();
       var isUrl = _validator2.default.isURL(file);
+      var childArgs = [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel];
 
-      if (isUrl) {
-        _http2.default.get(file, function (response) {
+      console.log(__dirname);
+      this.options.fileName = _path2.default.basename(childArgs[1], '.html');
 
-          response.setEncoding('utf8');
+      _logger2.default.startMessage('Testing ' + childArgs[1]);
 
-          response.on('data', function (data) {
-            callback(data);
-          });
-        });
-      } else {
-        _fs2.default.readFile(file, 'utf8', function (err, data) {
-          return callback(data.toString());
-        });
-      }
+      // Get file contents
+      this.fileContents = isUrl ? this.getUrlContents(file) : this.getFileContents(file);
+
+      // Call Phantom
+      _child_process2.default.execFile(phantomPath, childArgs, function (err, stdout) {
+        if (err) {
+          deferredOutside.fulfill();
+        }
+
+        _this2.parseOutput(stdout, deferredOutside);
+      });
+
+      return deferredOutside.promise;
     }
   }, {
     key: 'run',
-    value: function run(filesInput, callback) {
+    value: function run(filesInput) {
 
       var files = _bluebird2.default.resolve(filesInput);
       var _this = this;
@@ -252,44 +273,10 @@ var Accessibility = (function () {
         concurrency: 1
       };
 
-      return files.bind(this).map(function (file) {
-
-        var deferredOutside = _bluebird2.default.pending();
-
-        var childArgs = [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel];
-
-        this.options.fileName = _path2.default.basename(childArgs[1], '.html');
-
-        _logger2.default.startMessage('Testing ' + childArgs[1]);
-
-        // Get file contents
-        this.getContents(file, function (contents) {
-          _this.fileContents = contents;
-        });
-
-        // Call Phantom
-        _child_process2.default.execFile(phantomPath, childArgs, function (err, stdout, stderr) {
-
-          if (err) {
-            deferredOutside.fulfill();
-          }
-
-          _this.parseOutput(stdout, deferredOutside);
-        });
-
-        return deferredOutside.promise;
-      }, promiseMapOptions).then(function (messageLog, error) {
-
-        if (typeof callback === 'function') {
-          callback(messageLog, _this.failTask);
-        }
-
-        return true;
+      return files.bind(this).map(this.fileResolver, promiseMapOptions).then(function (messageLog) {
+        return messageLog;
       }).catch(function (err) {
-
-        console.error('There was an error');
-        console.error(err);
-
+        _logger2.default.generalError('There was an error', err);
         return err;
       });
     }
