@@ -40,13 +40,14 @@
     "run-sequence": "^1.1.5"
   },
   "dependencies": {
+    "HTML_CodeSniffer": "squizlabs/HTML_CodeSniffer.git#2.0.4",
+    "axios": "^0.8.1",
     "bluebird": "^2.9.13",
     "chalk": "^1.0.0",
     "commander": "^2.6.0",
     "mkdirp": "^0.5.0",
     "phantomjs": "^1.9.16",
     "underscore": "^1.8.2",
-    "validator": "^3.39.0",
-    "HTML_CodeSniffer": "squizlabs/HTML_CodeSniffer.git#2.0.4"
+    "validator": "^3.39.0"
   }
 }

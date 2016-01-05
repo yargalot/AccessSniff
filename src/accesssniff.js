@@ -8,7 +8,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import http from 'http';
+import axios from 'axios';
 import Promise from 'bluebird';
 import validator from 'validator';
 import _ from 'underscore';
@@ -179,12 +179,12 @@ export default class Accessibility {
 
   }
 
-  getUrlContents(url, callback) {
-    http.get(url, function(response) {
-
-      response.setEncoding('utf8');
-      response.on('data', data => callback(data));
-
+  getUrlContents(url) {
+    return new Promise(function(resolve, reject) {
+      axios
+        .get(url)
+        .then(response => resolve(response))
+        .catch(response => reject(response));
     });
   }
 
@@ -207,7 +207,13 @@ export default class Accessibility {
     logger.startMessage('Testing ' + childArgs[1]);
 
     // Get file contents
-    this.fileContents = isUrl ? this.getUrlContents(file) : this.getFileContents(file);
+    if (isUrl) {
+      this.getUrlContents(file)
+        .then(data => this.fileContents = data.data)
+        .bind(this);
+    } else {
+      this.fileContents = this.getFileContents(file);
+    }
 
     // Call Phantom
     childProcess

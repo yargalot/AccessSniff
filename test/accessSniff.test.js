@@ -34,5 +34,15 @@ exports.accessibilityTests = {
       test.done();
     });
 
+  },
+  urlFileOutput: function(test) {
+    var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
+
+    AccessSniff(['http://getbootstrap.com/'], {}, function(report) {
+      test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
+      test.expect(1);
+      test.done();
+    });
+
   }
 };

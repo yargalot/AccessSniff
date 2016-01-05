@@ -20,9 +20,9 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _http = require('http');
+var _axios = require('axios');
 
-var _http2 = _interopRequireDefault(_http);
+var _axios2 = _interopRequireDefault(_axios);
 
 var _bluebird = require('bluebird');
 
@@ -218,12 +218,12 @@ var Accessibility = (function () {
     }
   }, {
     key: 'getUrlContents',
-    value: function getUrlContents(url, callback) {
-      _http2.default.get(url, function (response) {
-
-        response.setEncoding('utf8');
-        response.on('data', function (data) {
-          return callback(data);
+    value: function getUrlContents(url) {
+      return new _bluebird2.default(function (resolve, reject) {
+        _axios2.default.get(url).then(function (response) {
+          return resolve(response);
+        }).catch(function (response) {
+          return reject(response);
         });
       });
     }
@@ -246,7 +246,13 @@ var Accessibility = (function () {
       _logger2.default.startMessage('Testing ' + childArgs[1]);
 
       // Get file contents
-      this.fileContents = isUrl ? this.getUrlContents(file) : this.getFileContents(file);
+      if (isUrl) {
+        this.getUrlContents(file).then(function (data) {
+          return _this2.fileContents = data.data;
+        }).bind(this);
+      } else {
+        this.fileContents = this.getFileContents(file);
+      }
 
       // Call Phantom
       _child_process2.default.execFile(phantomPath, childArgs, function (err, stdout) {
