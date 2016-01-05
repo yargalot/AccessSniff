@@ -1,0 +1,533 @@
+[
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2",
+      "element": {
+         "node": "&lt;title&gt; Bootstrap · The world's most popular mobile-first and responsive front-end framework. &lt;/title&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the title element describes the document."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a id=&quot;skippy&quot; class=&quot;sr-only sr-only-focusable&quot; href=&quot;#content&quot;&gt;&lt;div class=&quot;container&quot;&gt;&lt;span class=&quot;skiplink-text&quot;&gt;Skip to main content&lt;/span&gt;&lt;/div&gt;&lt;/a&gt;",
+         "id": "skippy"
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/&quot; class=&quot;v4-tease&quot;&gt;Aww yeah, Bootstrap 4 is coming!&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle3.Guideline3_2.3_2_1.G107",
+      "element": {
+         "node": "&lt;button class=&quot;navbar-toggle collapsed&quot; type=&quot;button&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#bs-navbar&quot; aria-controls=&quot;bs-navbar&quot; aria-expanded=&quot;false&quot;&gt; &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt; &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt; &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt; &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt; &lt;/button&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that a change of context does not occur when this input field receives focus."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../&quot; class=&quot;navbar-brand&quot;&gt;Bootstrap&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../getting-started/&quot;&gt;Getting started&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../css/&quot;&gt;CSS&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../components/&quot;&gt;Components&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../javascript/&quot;&gt;JavaScript&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../customize/&quot;&gt;Customize&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;http://themes.getbootstrap.com&quot; onclick=&quot;ga(&quot;send&quot;,&quot;event&quot;,&quot;Navbar&quot;,&quot;Community links&quot;,&quot;Themes&quot;)&quot;&gt;Themes&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com&quot; onclick=&quot;ga(&quot;send&quot;,&quot;event&quot;,&quot;Navbar&quot;,&quot;Community links&quot;,&quot;Expo&quot;)&quot;&gt;Expo&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;http://blog.getbootstrap.com&quot; onclick=&quot;ga(&quot;send&quot;,&quot;event&quot;,&quot;Navbar&quot;,&quot;Community links&quot;,&quot;Blog&quot;)&quot;&gt;Blog&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;getting-started#download&quot; class=&quot;btn btn-outline-inverse btn-lg&quot; onclick=&quot;ga(&quot;send&quot;,&quot;event&quot;,&quot;Jumbotron actions&quot;,&quot;Download&quot;,&quot;Download 3.3.6&quot;)&quot;&gt;Download Bootstrap&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "WARNING",
+      "issue": "WCAG2A.Principle1.Guideline1_3.1_3_1_A.G141",
+      "element": {
+         "node": "&lt;h2 class=&quot;bs-docs-featurette-title&quot;&gt;Designed for everyone, everywhere.&lt;/h2&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "The heading structure is not logically nested. This h2 element appears to be the primary document heading, so should be an h1 element."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/sass-less.png&quot; alt=&quot;Sass and Less support&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/sass-less.png&quot; alt=&quot;Sass and Less support&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "WARNING",
+      "issue": "WCAG2A.Principle1.Guideline1_3.1_3_1.H48",
+      "element": {
+         "node": "&lt;p&gt;Bootstrap ships with vanilla CSS, but its source code utilizes the two most popular CSS preprocessors, &lt;a href=&quot;../css/#less&quot;&gt;Less&lt;/a&gt; and &lt;a href=&quot;../css/#sass&quot;&gt;Sass&lt;/a&gt;. Quickly get started with precompiled CSS or build on the source.&lt;/p&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this element contains a navigation section, it is recommended that it be marked up as a list."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../css/#less&quot;&gt;Less&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../css/#sass&quot;&gt;Sass&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/devices.png&quot; alt=&quot;Responsive across devices&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/devices.png&quot; alt=&quot;Responsive across devices&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/components.png&quot; alt=&quot;Components&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;assets/img/components.png&quot; alt=&quot;Components&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://github.com/twbs/bootstrap&quot; class=&quot;btn btn-outline btn-lg&quot;&gt;View the GitHub project&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../getting-started/#examples&quot;&gt;collection of examples&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com/2014/10/29/lyft/&quot; target=&quot;_blank&quot; title=&quot;Lyft&quot;&gt; &lt;img src=&quot;/assets/img/expo-lyft.jpg&quot; alt=&quot;Lyft&quot; class=&quot;img-responsive&quot;&gt; &lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context, or its title attribute, identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-lyft.jpg&quot; alt=&quot;Lyft&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-lyft.jpg&quot; alt=&quot;Lyft&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com/2014/09/30/vogue/&quot; target=&quot;_blank&quot; title=&quot;Vogue&quot;&gt; &lt;img src=&quot;/assets/img/expo-vogue.jpg&quot; alt=&quot;Vogue&quot; class=&quot;img-responsive&quot;&gt; &lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context, or its title attribute, identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-vogue.jpg&quot; alt=&quot;Vogue&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-vogue.jpg&quot; alt=&quot;Vogue&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com/2014/03/13/riot-design/&quot; target=&quot;_blank&quot; title=&quot;Riot Design&quot;&gt; &lt;img src=&quot;/assets/img/expo-riot.jpg&quot; alt=&quot;Riot Design&quot; class=&quot;img-responsive&quot;&gt; &lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context, or its title attribute, identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-riot.jpg&quot; alt=&quot;Riot Design&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-riot.jpg&quot; alt=&quot;Riot Design&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com/2014/02/12/newsweek/&quot; target=&quot;_blank&quot; title=&quot;Newsweek&quot;&gt; &lt;img src=&quot;/assets/img/expo-newsweek.jpg&quot; alt=&quot;Newsweek&quot; class=&quot;img-responsive&quot;&gt; &lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context, or its title attribute, identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G94.Image",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-newsweek.jpg&quot; alt=&quot;Newsweek&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Ensure that the img element's alt text serves the same purpose and presents the same information as the image."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle1.Guideline1_1.1_1_1.G73,G74",
+      "element": {
+         "node": "&lt;img src=&quot;/assets/img/expo-newsweek.jpg&quot; alt=&quot;Newsweek&quot; class=&quot;img-responsive&quot;&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;http://expo.getbootstrap.com&quot; class=&quot;btn btn-outline btn-lg&quot;&gt;Explore the Expo&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://github.com/twbs/bootstrap&quot;&gt;GitHub&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://twitter.com/getbootstrap&quot;&gt;Twitter&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../getting-started/#examples&quot;&gt;Examples&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;../about/&quot;&gt;About&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {
+         "lineNumber": 1,
+         "columnNumber": 2
+      },
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "WARNING",
+      "issue": "WCAG2A.Principle1.Guideline1_3.1_3_1.H48",
+      "element": {
+         "node": "&lt;p&gt;Designed and built with all the love in the world by &lt;a href=&quot;https://twitter.com/mdo&quot; target=&quot;_blank&quot;&gt;@mdo&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/fat&quot; target=&quot;_blank&quot;&gt;@fat&lt;/a&gt;. Maintained by the &lt;a href=&quot;https://github.com/orgs/twbs/people&quot;&gt;core team&lt;/a&gt; with the help of &lt;a href=&quot;https://github.com/twbs/bootstrap/graphs/contributors&quot;&gt;our contributors&lt;/a&gt;.&lt;/p&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this element contains a navigation section, it is recommended that it be marked up as a list."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://twitter.com/mdo&quot; target=&quot;_blank&quot;&gt;@mdo&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://twitter.com/fat&quot; target=&quot;_blank&quot;&gt;@fat&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://github.com/orgs/twbs/people&quot;&gt;core team&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a href=&quot;https://github.com/twbs/bootstrap/graphs/contributors&quot;&gt;our contributors&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "WARNING",
+      "issue": "WCAG2A.Principle1.Guideline1_3.1_3_1.H48",
+      "element": {
+         "node": "&lt;p&gt;Code licensed &lt;a rel=&quot;license&quot; href=&quot;https://github.com/twbs/bootstrap/blob/master/LICENSE&quot; target=&quot;_blank&quot;&gt;MIT&lt;/a&gt;, docs &lt;a rel=&quot;license&quot; href=&quot;https://creativecommons.org/licenses/by/3.0/&quot; target=&quot;_blank&quot;&gt;CC BY 3.0&lt;/a&gt;.&lt;/p&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "If this element contains a navigation section, it is recommended that it be marked up as a list."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a rel=&quot;license&quot; href=&quot;https://github.com/twbs/bootstrap/blob/master/LICENSE&quot; target=&quot;_blank&quot;&gt;MIT&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   },
+   {
+      "heading": "NOTICE",
+      "issue": "WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81",
+      "element": {
+         "node": "&lt;a rel=&quot;license&quot; href=&quot;https://creativecommons.org/licenses/by/3.0/&quot; target=&quot;_blank&quot;&gt;CC BY 3.0&lt;/a&gt;",
+         "id": ""
+      },
+      "position": {},
+      "description": "Check that the link text combined with programmatically determined link context identifies the purpose of the link."
+   }
+]
