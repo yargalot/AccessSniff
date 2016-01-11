@@ -1,17 +1,19 @@
 import Accessibility from './accesssniff';
 import reporter from './reports';
 
-export default (files, options = {}) => {
+export default (fileInput, options = {}) => {
 
   let reportFiles = [];
 
   if (typeof files === 'string') {
-    reportFiles.push(files);
+    reportFiles.push(fileInput);
   }
 
-  if (Array.isArray(files)) {
-    reportFiles = files;
+  if (Array.isArray(fileInput)) {
+    reportFiles = fileInput;
   }
+
+  // if (!reportFiles.length) {}
 
   const task = new Accessibility(options);
 

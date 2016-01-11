@@ -14,18 +14,20 @@ var _reports2 = _interopRequireDefault(_reports);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (files) {
+exports.default = function (fileInput) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   var reportFiles = [];
 
   if (typeof files === 'string') {
-    reportFiles.push(files);
+    reportFiles.push(fileInput);
   }
 
-  if (Array.isArray(files)) {
-    reportFiles = files;
+  if (Array.isArray(fileInput)) {
+    reportFiles = fileInput;
   }
+
+  // if (!reportFiles.length) {}
 
   var task = new _accesssniff2.default(options);
 
