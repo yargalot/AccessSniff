@@ -13,7 +13,6 @@ import Promise from 'bluebird';
 import validator from 'validator';
 import _ from 'underscore';
 import logger from './logger';
-import reporter from './reports';
 import childProcess from 'child_process';
 import phantom from 'phantomjs';
 
@@ -64,18 +63,17 @@ export default class Accessibility {
   */
   terminalLog(msg) {
 
-    var options = this.options;
-    var message = {};
-    var msgSplit = msg.split('|');
-    var reportLevels = [];
+    const msgSplit = msg.split('|');
+    let message = {};
+    let reportLevels = [];
 
     // If ignore get the hell out
-    if (_.contains(options.ignore, msgSplit[1])) {
+    if (_.contains(this.options.ignore, msgSplit[1])) {
       return;
     }
 
     // Report levels
-    _.each(options.reportLevels, (value, key) => {
+    _.each(this.options.reportLevels, (value, key) => {
       if (value) {
         reportLevels.push(key.toUpperCase());
       }
@@ -84,7 +82,7 @@ export default class Accessibility {
     // Start the Logging
     if (_.contains(reportLevels, msgSplit[0])) {
 
-      var element = {
+      const element = {
         node:   msgSplit[3],
         class:  msgSplit[4],
         id:     msgSplit[5]
@@ -102,7 +100,7 @@ export default class Accessibility {
         this.failTask += 1;
       }
 
-      if (options.verbose) {
+      if (this.options.verbose) {
         logger.generalMessage(message);
       }
 
@@ -121,7 +119,7 @@ export default class Accessibility {
     var position = {};
     var htmlArray = this.fileContents.split('\n');
 
-    htmlArray.every(function(element, lineNumber) {
+    htmlArray.every((element, lineNumber) => {
       if (!element.match(htmlString)) {
         return true;
       }
@@ -148,7 +146,6 @@ export default class Accessibility {
 
   parseOutput(file, deferred) {
     var test = file.split('\n');
-    var _this = this;
     var messageLog = [];
 
     test.every(element => {
@@ -159,7 +156,7 @@ export default class Accessibility {
         return false;
       }
 
-      var message = _this.terminalLog(something[1]);
+      var message = this.terminalLog(something[1]);
 
       if (message) {
         messageLog.push(message);
@@ -169,14 +166,7 @@ export default class Accessibility {
 
     });
 
-    if (this.options.reportType) {
-      reporter.terminal(messageLog, _this.options, function() {
-        deferred.fulfill(messageLog);
-      });
-    } else {
-      deferred.fulfill(messageLog);
-    }
-
+    deferred.fulfill(messageLog);
   }
 
   getUrlContents(url) {
@@ -194,9 +184,9 @@ export default class Accessibility {
 
   fileResolver(file) {
 
-    var deferredOutside = Promise.pending();
+    const deferredOutside = Promise.pending();
     const isUrl = validator.isURL(file);
-    var childArgs = [
+    const childArgs = [
       path.join(__dirname, './phantom.js'),
       file,
       this.options.accessibilityLevel
@@ -236,7 +226,7 @@ export default class Accessibility {
       .bind(this)
       .map(this.fileResolver, { concurrency: 1 })
       .then(messageLog =>  messageLog)
-      .catch(function(err) {
+      .catch(err => {
         logger.generalError('There was an error', err);
         return err;
       });

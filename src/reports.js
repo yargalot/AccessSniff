@@ -1,35 +1,40 @@
 /* eslint-disable no-console */
-var fs        = require('fs');
+import fs from 'fs';
 var mkdirp    = require('mkdirp');
 var logger    = require('./logger.js');
 
 var reports = {};
 
-reports.terminal = function(messageLog, options, callback) {
+reports.terminal = function(messageLog, options) {
 
-  var reportOutput;
+  if (!options.reportType) {
+    return messageLog;
+  }
+
+  let report = {
+    name: options.fileName,
+    type: options.reportType,
+    location: options.fileName,
+    output: ''
+  };
 
   switch (options.reportType) {
 
     case 'json':
-      reportOutput = this.reportJson(messageLog);
+      report.output = this.reportJson(messageLog);
       break;
 
     case 'csv':
-      reportOutput = this.reportCsv(messageLog);
+      report.output = this.reportCsv(messageLog);
       break;
 
     case 'txt':
-      reportOutput = this.reportTxt(messageLog);
+      report.output = this.reportTxt(messageLog);
       break;
-
-    default:
-      console.log('Report type does not exist');
-      return;
 
   }
 
-  this.writeFile(reportOutput, options.fileName, options.reportType, options.reportLocation, callback);
+  return this.writeFile(report);
 
 };
 
@@ -42,10 +47,10 @@ reports.reportJson = function(messageLog) {
 
 reports.reportTxt = function(messageLog) {
 
-  var output = 'heading, issue, element, line, column, description \n';
-  var seperator = '|';
+  let output = 'heading, issue, element, line, column, description \n';
+  const seperator = '|';
 
-  messageLog.forEach(function(message) {
+  messageLog.forEach(message => {
 
     output += message.heading + seperator;
     output += message.issue + seperator;
@@ -64,10 +69,10 @@ reports.reportTxt = function(messageLog) {
 
 reports.reportCsv = function(messageLog) {
 
-  var output = 'heading, issue, element, line, column, description \n';
-  var seperator = ',';
+  let output = 'heading, issue, element, line, column, description \n';
+  const seperator = ',';
 
-  messageLog.forEach(function(message) {
+  messageLog.forEach(message => {
 
     output += message.heading + seperator;
     output += '"' + message.issue + '"' + seperator;
@@ -84,23 +89,24 @@ reports.reportCsv = function(messageLog) {
 
 };
 
-reports.writeFile = function(reportOutput, reportName, reportType, reportLocation, callback) {
+reports.writeFile = function(report) {
 
-  mkdirp(process.cwd() + '/' + reportLocation, function(err) {
+  mkdirp(`${process.cwd()}/${report.location}`, (err) => {
 
     if (err) {
       console.error(err);
     }
 
-    var filePath = '/' + reportLocation + '/' + reportName + '.' + reportType;
+    const fileName = `${report.name}.${report.type}`;
+    const filePath = `${process.cwd()}/${report.location}/${fileName}`;
 
-    fs.writeFile(process.cwd() + filePath, reportOutput, function(err) {
+    fs.writeFile(filePath, report.output, (err) => {
       if (err) {
         return console.log(err);
       }
 
       logger.finishedMessage(filePath);
-      callback();
+      return report.output;
     });
 
   });

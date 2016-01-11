@@ -44,7 +44,10 @@ logger.startMessage = function (message) {
 
 logger.finishedMessage = function (filePath) {
 
-  console.log(_chalk2.default.cyan('File "' + filePath + '" created.'));
+  if (filePath) {
+    console.log(_chalk2.default.cyan('File "' + filePath + '" created.'));
+  }
+
   console.log(_chalk2.default.cyan('Report Finished'));
 };
 

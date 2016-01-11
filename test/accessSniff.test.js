@@ -28,19 +28,22 @@ exports.accessibilityTests = {
   testFileOutput: function(test) {
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
-    AccessSniff(['./test/examples/test.html'], {}, function(report) {
-      test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
-      test.expect(1);
-      test.done();
-    });
+    AccessSniff(['./test/examples/test.html'], {})
+      .then(report => {
+        console.log(report);
+        test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
+        test.expect(1);
+        test.done();
+      });
 
   },
   urlFileOutput: function(test) {
-    AccessSniff(['http://getbootstrap.com/'], {}, function(report) {
-      test.ok(report[0], 'Should produce a json report from boostrap');
-      test.expect(1);
-      test.done();
-    });
+    AccessSniff(['http://getbootstrap.com/'], {})
+      .then(report => {
+        test.ok(report[0], 'Should produce a json report from boostrap');
+        test.expect(1);
+        test.done();
+      });
 
   }
 };

@@ -41,9 +41,11 @@ logger.startMessage = function(message) {
 
 logger.finishedMessage = function(filePath) {
 
-  console.log(chalk.cyan(`File "${filePath}" created.`));
-  console.log(chalk.cyan('Report Finished'));
+  if (filePath) {
+    console.log(chalk.cyan(`File "${filePath}" created.`));
+  }
 
+  console.log(chalk.cyan('Report Finished'));
 };
 
 logger.errorMessage = errors => console.log(chalk.red(`There were ${errors} errors present`));

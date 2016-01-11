@@ -40,10 +40,6 @@ var _logger = require('./logger');
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _reports = require('./reports');
-
-var _reports2 = _interopRequireDefault(_reports);
-
 var _child_process = require('child_process');
 
 var _child_process2 = _interopRequireDefault(_child_process);
@@ -107,18 +103,17 @@ var Accessibility = (function () {
     key: 'terminalLog',
     value: function terminalLog(msg) {
 
-      var options = this.options;
-      var message = {};
       var msgSplit = msg.split('|');
+      var message = {};
       var reportLevels = [];
 
       // If ignore get the hell out
-      if (_underscore2.default.contains(options.ignore, msgSplit[1])) {
+      if (_underscore2.default.contains(this.options.ignore, msgSplit[1])) {
         return;
       }
 
       // Report levels
-      _underscore2.default.each(options.reportLevels, function (value, key) {
+      _underscore2.default.each(this.options.reportLevels, function (value, key) {
         if (value) {
           reportLevels.push(key.toUpperCase());
         }
@@ -145,7 +140,7 @@ var Accessibility = (function () {
           this.failTask += 1;
         }
 
-        if (options.verbose) {
+        if (this.options.verbose) {
           _logger2.default.generalMessage(message);
         }
       } else {
@@ -187,8 +182,9 @@ var Accessibility = (function () {
   }, {
     key: 'parseOutput',
     value: function parseOutput(file, deferred) {
-      var test = file.split('\n');
       var _this = this;
+
+      var test = file.split('\n');
       var messageLog = [];
 
       test.every(function (element) {
@@ -208,13 +204,7 @@ var Accessibility = (function () {
         return true;
       });
 
-      if (this.options.reportType) {
-        _reports2.default.terminal(messageLog, _this.options, function () {
-          deferred.fulfill(messageLog);
-        });
-      } else {
-        deferred.fulfill(messageLog);
-      }
+      deferred.fulfill(messageLog);
     }
   }, {
     key: 'getUrlContents',

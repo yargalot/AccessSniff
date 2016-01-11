@@ -1,37 +1,47 @@
 'use strict';
 
-/* eslint-disable no-console */
-var fs = require('fs');
-var mkdirp = require('mkdirp');
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mkdirp = require('mkdirp'); /* eslint-disable no-console */
+
 var logger = require('./logger.js');
 
 var reports = {};
 
-reports.terminal = function (messageLog, options, callback) {
+reports.terminal = function (messageLog, options) {
 
-  var reportOutput;
+  if (!options.reportType) {
+    return messageLog;
+  }
+
+  var report = {
+    name: options.fileName,
+    type: options.reportType,
+    location: options.fileName,
+    output: ''
+  };
 
   switch (options.reportType) {
 
     case 'json':
-      reportOutput = this.reportJson(messageLog);
+      report.output = this.reportJson(messageLog);
       break;
 
     case 'csv':
-      reportOutput = this.reportCsv(messageLog);
+      report.output = this.reportCsv(messageLog);
       break;
 
     case 'txt':
-      reportOutput = this.reportTxt(messageLog);
+      report.output = this.reportTxt(messageLog);
       break;
-
-    default:
-      console.log('Report type does not exist');
-      return;
 
   }
 
-  this.writeFile(reportOutput, options.fileName, options.reportType, options.reportLocation, callback);
+  return this.writeFile(report);
 };
 
 reports.reportJson = function (messageLog) {
@@ -81,23 +91,24 @@ reports.reportCsv = function (messageLog) {
   return output;
 };
 
-reports.writeFile = function (reportOutput, reportName, reportType, reportLocation, callback) {
+reports.writeFile = function (report) {
 
-  mkdirp(process.cwd() + '/' + reportLocation, function (err) {
+  mkdirp(process.cwd() + '/' + report.location, function (err) {
 
     if (err) {
       console.error(err);
     }
 
-    var filePath = '/' + reportLocation + '/' + reportName + '.' + reportType;
+    var fileName = report.name + '.' + report.type;
+    var filePath = process.cwd() + '/' + report.location + '/' + fileName;
 
-    fs.writeFile(process.cwd() + filePath, reportOutput, function (err) {
+    _fs2.default.writeFile(filePath, report.output, function (err) {
       if (err) {
         return console.log(err);
       }
 
       logger.finishedMessage(filePath);
-      callback();
+      return report.output;
     });
   });
 };
