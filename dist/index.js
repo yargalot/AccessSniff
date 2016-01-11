@@ -17,9 +17,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function (files) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+  var reportFiles = [];
+
+  if (typeof files === 'string') {
+    reportFiles.push(files);
+  }
+
+  if (Array.isArray(files)) {
+    reportFiles = files;
+  }
+
   var task = new _accesssniff2.default(options);
 
-  return task.run(files).then(function (data) {
+  return task.run(reportFiles).then(function (data) {
     return _reports2.default.terminal(data, options, function (data) {
       return data;
     });
