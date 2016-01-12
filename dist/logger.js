@@ -53,11 +53,11 @@ logger.finishedMessage = function (filePath) {
 };
 
 logger.errorMessage = function (errors) {
-  return console.log(_chalk2.default.red('There were ' + errors + ' errors present'));
+  console.log(_chalk2.default.red('There were ' + errors + ' errors present'));
 };
 
 logger.generalError = function (error) {
-  return console.error(errpr);
+  console.error(error);
 };
 
 module.exports = logger;
