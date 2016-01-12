@@ -115,9 +115,8 @@ export default class Accessibility {
   }
 
   getElementPosition(htmlString) {
-
-    var position = {};
-    var htmlArray = this.fileContents.split('\n');
+    let position = {};
+    const htmlArray = this.fileContents.split('\n');
 
     htmlArray.every((element, lineNumber) => {
       if (!element.match(htmlString)) {

@@ -1,12 +1,24 @@
+/* @flow */
 /*eslint-disable no-console */
 import chalk from 'chalk';
 
 // Init Logger object
 let logger = {};
 
-logger.generalMessage =  function(message) {
+logger.generalMessage = (message: {
+  heading: string,
+  issue: string,
+  description: string,
+  element: {
+    node: string
+  },
+  position: {
+    lineNumber: number,
+    columnNumber:  number
+  },
+}) => {
 
-  let heading;
+  let heading: string = '';
 
   switch (message.heading) {
     case 'ERROR':
@@ -32,14 +44,14 @@ logger.generalMessage =  function(message) {
 
 };
 
-logger.startMessage = function(message) {
+logger.startMessage = (message: string) => {
 
   console.log(chalk.white.underline(message));
   console.log('');
 
 };
 
-logger.finishedMessage = function(filePath) {
+logger.finishedMessage = (filePath: string) => {
 
   if (filePath) {
     console.log(chalk.cyan(`File "${filePath}" created.`));
@@ -48,8 +60,12 @@ logger.finishedMessage = function(filePath) {
   console.log(chalk.cyan('Report Finished'));
 };
 
-logger.errorMessage = errors => console.log(chalk.red(`There were ${errors} errors present`));
+logger.errorMessage = (errors: number) => {
+  console.log(chalk.red(`There were ${errors} errors present`));
+};
 
-logger.generalError = err => console.error(err);
+logger.generalError = (error: string) => {
+  console.error(error);
+};
 
 module.exports = logger;

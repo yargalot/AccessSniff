@@ -75,7 +75,7 @@ reports.reportCsv = function(messageLog) {
   messageLog.forEach(message => {
 
     output += message.heading + seperator;
-    output += '"' + message.issue + '"' + seperator;
+    output += `"${message.issue}"` + seperator;
     output += message.element.node + seperator;
     output += message.element.id + seperator;
     output += message.element.class + seperator;

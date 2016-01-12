@@ -7,11 +7,12 @@ var _chalk2 = _interopRequireDefault(_chalk);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Init Logger object
-var logger = {}; /*eslint-disable no-console */
+var logger = {};
+/*eslint-disable no-console */
 
 logger.generalMessage = function (message) {
 
-  var heading = undefined;
+  var heading = '';
 
   switch (message.heading) {
     case 'ERROR':
@@ -55,8 +56,8 @@ logger.errorMessage = function (errors) {
   return console.log(_chalk2.default.red('There were ' + errors + ' errors present'));
 };
 
-logger.generalError = function (err) {
-  return console.error(err);
+logger.generalError = function (error) {
+  return console.error(errpr);
 };
 
 module.exports = logger;
