@@ -19,7 +19,7 @@ exports.default = function (fileInput) {
 
   var reportFiles = [];
 
-  if (typeof files === 'string') {
+  if (typeof fileInput === 'string') {
     reportFiles.push(fileInput);
   }
 

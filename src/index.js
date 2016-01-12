@@ -5,7 +5,7 @@ export default (fileInput, options = {}) => {
 
   let reportFiles = [];
 
-  if (typeof files === 'string') {
+  if (typeof fileInput === 'string') {
     reportFiles.push(fileInput);
   }
 
