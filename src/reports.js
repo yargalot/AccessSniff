@@ -1,116 +1,122 @@
 /* eslint-disable no-console */
 import fs from 'fs';
+import logger from './logger.js';
+
 var mkdirp    = require('mkdirp');
-var logger    = require('./logger.js');
 
-var reports = {};
-
-reports.terminal = function(messageLog, options) {
-
-  if (!options.reportType) {
-    return messageLog;
-  }
-
-  let report = {
-    name: options.fileName,
-    type: options.reportType,
-    location: options.fileName,
-    output: ''
-  };
-
-  switch (options.reportType) {
-
-    case 'json':
-      report.output = this.reportJson(messageLog);
-      break;
-
-    case 'csv':
-      report.output = this.reportCsv(messageLog);
-      break;
-
-    case 'txt':
-      report.output = this.reportTxt(messageLog);
-      break;
-
-  }
-
-  return this.writeFile(report);
-
+const defaultOptions = {
+  fileName: 'report',
+  reportType: 'json',
+  location: 'reports'
 };
 
-reports.reportJson = function(messageLog) {
-
-  console.log('Writing JSON Report...');
-
-  return JSON.stringify(messageLog);
+export default (messageLog, options = defaultOptions) => {
+  new reports(messageLog, options);
 };
 
-reports.reportTxt = function(messageLog) {
+export class reports {
 
-  let output = 'heading, issue, element, line, column, description \n';
-  const seperator = '|';
+  constructor(messageLog, options) {
 
-  messageLog.forEach(message => {
+    let report = {
+      name: options.fileName,
+      type: options.reportType,
+      location: options.location,
+      output: ''
+    };
 
-    output += message.heading + seperator;
-    output += message.issue + seperator;
-    output += message.element.node + seperator;
-    output += message.element.id + seperator;
-    output += message.element.class + seperator;
-    output += message.position.lineNumber + seperator;
-    output += message.position.columnNumber + seperator;
-    output += message.description + '\n';
+    switch (options.reportType) {
 
-  });
+      case 'json':
+        report.output = this.reportJson(messageLog);
+        break;
 
-  return output;
+      case 'csv':
+        report.output = this.reportCsv(messageLog);
+        break;
 
-};
+      case 'txt':
+        report.output = this.reportTxt(messageLog);
+        break;
 
-reports.reportCsv = function(messageLog) {
-
-  let output = 'heading, issue, element, line, column, description \n';
-  const seperator = ',';
-
-  messageLog.forEach(message => {
-
-    output += message.heading + seperator;
-    output += `"${message.issue}"` + seperator;
-    output += message.element.node + seperator;
-    output += message.element.id + seperator;
-    output += message.element.class + seperator;
-    output += message.position.lineNumber + seperator;
-    output += message.position.columnNumber + seperator;
-    output += message.description + '\n';
-
-  });
-
-  return output;
-
-};
-
-reports.writeFile = function(report) {
-
-  mkdirp(`${process.cwd()}/${report.location}`, (err) => {
-
-    if (err) {
-      console.error(err);
     }
 
-    const fileName = `${report.name}.${report.type}`;
-    const filePath = `${process.cwd()}/${report.location}/${fileName}`;
+    return this.writeFile(report);
 
-    fs.writeFile(filePath, report.output, (err) => {
-      if (err) {
-        return console.log(err);
-      }
+  }
 
-      logger.finishedMessage(filePath);
-      return report.output;
+  reportJson(messageLog) {
+
+    console.log('Writing JSON Report...');
+
+    return JSON.stringify(messageLog);
+  }
+
+  reportTxt(messageLog) {
+
+    let output = 'heading, issue, element, line, column, description \n';
+    const seperator = '|';
+
+    messageLog.forEach(message => {
+
+      output += message.heading + seperator;
+      output += message.issue + seperator;
+      output += message.element.node + seperator;
+      output += message.element.id + seperator;
+      output += message.element.class + seperator;
+      output += message.position.lineNumber + seperator;
+      output += message.position.columnNumber + seperator;
+      output += message.description + '\n';
+
     });
 
-  });
+    return output;
 
-};
+  }
 
-module.exports = reports;
+  reportCsv(messageLog) {
+
+    let output = 'heading, issue, element, line, column, description \n';
+    const seperator = ',';
+
+    messageLog.forEach(message => {
+
+      output += message.heading + seperator;
+      output += `"${message.issue}"` + seperator;
+      output += message.element.node + seperator;
+      output += message.element.id + seperator;
+      output += message.element.class + seperator;
+      output += message.position.lineNumber + seperator;
+      output += message.position.columnNumber + seperator;
+      output += message.description + '\n';
+
+    });
+
+    return output;
+
+  }
+
+  writeFile(report) {
+
+    mkdirp(`${process.cwd()}/${report.location}`, (err) => {
+
+      if (err) {
+        console.error(err);
+      }
+
+      const fileName = `${report.name}.${report.type}`;
+      const filePath = `${process.cwd()}/${report.location}/${fileName}`;
+
+      fs.writeFile(filePath, report.output, (err) => {
+        if (err) {
+          return console.log(err);
+        }
+
+        logger.finishedMessage(filePath);
+        return report.output;
+      });
+
+    });
+
+  }
+}

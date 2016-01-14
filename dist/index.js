@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.report = undefined;
 
 var _accesssniff = require('./accesssniff');
 
@@ -32,8 +33,8 @@ exports.default = function (fileInput) {
   var task = new _accesssniff2.default(options);
 
   return task.run(reportFiles).then(function (data) {
-    return _reports2.default.terminal(data, options, function (data) {
-      return data;
-    });
+    return data;
   });
 };
+
+exports.report = _reports2.default;

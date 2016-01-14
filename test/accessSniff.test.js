@@ -1,4 +1,4 @@
-var AccessSniff = require('../dist').default;
+var AccessSniff = require('../dist');
 var fs = require('fs');
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -28,7 +28,7 @@ exports.accessibilityTests = {
   overall_testFile: test => {
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
-    AccessSniff('./test/examples/test.html')
+    AccessSniff.default('./test/examples/test.html')
       .then(report => {
         test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
         test.expect(1);
@@ -37,10 +37,17 @@ exports.accessibilityTests = {
 
   },
   overall_testUrl: test => {
-    AccessSniff(['http://getbootstrap.com/'], {})
+    AccessSniff.default(['http://getbootstrap.com/'], {})
       .then(report => {
         test.ok(report[0], 'Should produce a json report from boostrap');
         test.expect(1);
+        test.done();
+      });
+  },
+  report_JSON: test => {
+    AccessSniff.default(['./test/examples/test.html'], {})
+      .then(report => AccessSniff.report(report))
+      .then(() => {
         test.done();
       });
   }

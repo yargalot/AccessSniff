@@ -19,6 +19,8 @@ export default (fileInput, options = {}) => {
 
   return task
     .run(reportFiles)
-    .then(data => reporter.terminal(data, options, data => data));
+    .then(data => data);
 
 };
+
+export {reporter as report};
