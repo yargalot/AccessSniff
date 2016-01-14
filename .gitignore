@@ -3,3 +3,4 @@ reports
 npm-debug.log
 .idea
 test/*.xml
+test/coverage

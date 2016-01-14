@@ -5,6 +5,7 @@ import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import nodeunit from 'gulp-nodeunit';
 import runSequence from 'run-sequence';
+import istanbul from 'gulp-istanbul';
 
 const srcFolder = './src';
 const distFolder = './dist';
@@ -43,7 +44,13 @@ gulp.task('compressHTMLCS', () =>
     .pipe(gulp.dest(distFolder))
 );
 
-gulp.task('nodeunit', () =>
+gulp.task('pre-test', () =>
+  gulp.src(['dist/**/*.js'])
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire())
+);
+
+gulp.task('nodeunit', ['pre-test'], () =>
   gulp
     .src(`test/**/*.test.js`)
     .pipe(nodeunit({
@@ -52,6 +59,11 @@ gulp.task('nodeunit', () =>
         output: 'test'
       }
     }))
+    .pipe(istanbul.writeReports({
+      dir: './test/coverage',
+      reporters: ['json', 'text']
+    }))
+    .pipe(istanbul.enforceThresholds({ thresholds: { global: 70 } }))
 );
 
 gulp.task('babel:watch', () =>
