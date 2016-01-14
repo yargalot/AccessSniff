@@ -1,5 +1,4 @@
 var logger = require('../dist/logger').default;
-var fs = require('fs');
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit

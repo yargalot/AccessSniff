@@ -25,23 +25,17 @@ exports.accessibilityTests = {
     // setup here if necessary
     done();
   },
-  overall_testFile: test => {
-    var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
+  report_JSON: test => {
+    AccessSniff.default(['./test/examples/test.html'], {})
+      .then(report => AccessSniff.report(report))
+      .then(() => {
+        var report = fs.readFileSync('./reports/report.json', 'utf8');
+        var expected = fs.readFileSync('./test/expected/report.json', 'utf8');
 
-    AccessSniff.default('./test/examples/test.html')
-      .then(report => {
-        test.deepEqual(report[0], JSON.parse(expected), 'Should produce a json report for test.html');
+        test.deepEqual(report, expected, 'Should write a json report for test.html');
         test.expect(1);
         test.done();
-      });
 
-  },
-  overall_testUrl: test => {
-    AccessSniff.default(['http://getbootstrap.com/'], {})
-      .then(report => {
-        test.ok(report[0], 'Should produce a json report from boostrap');
-        test.expect(1);
-        test.done();
       });
   }
 };
