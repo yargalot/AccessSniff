@@ -77,7 +77,7 @@ logger.errorMessage = (errors: number) => {
 
 logger.generalError = (error: string) => {
 
-  console.error(error);
+  console.error(chalk.red(error));
 
   return error;
 };
