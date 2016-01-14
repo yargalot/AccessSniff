@@ -5,20 +5,22 @@ import chalk from 'chalk';
 // Init Logger object
 let logger = {};
 
-logger.generalMessage = (message: {
-  heading: string,
-  issue: string,
-  description: string,
-  element: {
-    node: string
-  },
-  position: {
-    lineNumber: number,
-    columnNumber:  number
-  },
+logger.generalMessage = (
+  message: {
+    heading: string,
+    issue: string,
+    description: string,
+    element: {
+      node: string
+    },
+    position: {
+      lineNumber: number,
+      columnNumber:  number
+    }
 }) => {
 
   let heading: string = '';
+  const lineMessage: string = `Line:${message.position.lineNumber} Col:${message.position.columnNumber}`;
 
   switch (message.heading) {
     case 'ERROR':
@@ -31,41 +33,53 @@ logger.generalMessage = (message: {
       heading = chalk.yellow.bold(message.heading);
   }
 
-  heading += ' ' + message.issue;
+  heading += ` ${message.issue}`;
 
   console.log(heading);
-  console.log(chalk.cyan('Line ' + message.position.lineNumber + ' col '  + message.position.columnNumber));
+  console.log(chalk.cyan(lineMessage));
   console.log(chalk.grey(message.description));
   console.log(chalk.grey('--------------------'));
-  console.log(chalk.grey(message.element.node));
-  console.log('');
+  console.log(chalk.grey(message.element.node), '\n');
 
-  return;
+  return [`${message.heading} ${message.issue}`, lineMessage, message.description, message.element.node];
 
 };
 
 logger.startMessage = (message: string) => {
 
-  console.log(chalk.white.underline(message));
-  console.log('');
+  console.log(chalk.white.underline(message), '\n');
+
+  return message;
 
 };
 
 logger.finishedMessage = (filePath: string) => {
 
+  let message = 'Report Finished';
+
   if (filePath) {
-    console.log(chalk.cyan(`File "${filePath}" created.`));
+    message = `File "${filePath}" created. ${message}`;
   }
 
-  console.log(chalk.cyan('Report Finished'));
+  console.log(chalk.cyan(message));
+
+  return message;
+
 };
 
 logger.errorMessage = (errors: number) => {
-  console.log(chalk.red(`There were ${errors} errors present`));
+  const message = `There were ${errors} errors present`;
+
+  console.log(chalk.red(message));
+
+  return message;
 };
 
 logger.generalError = (error: string) => {
+
   console.error(error);
+
+  return error;
 };
 
-module.exports = logger;
+export default logger;

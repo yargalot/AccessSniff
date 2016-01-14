@@ -25,7 +25,7 @@ exports.accessibilityTests = {
     // setup here if necessary
     done();
   },
-  testFileOutput: test => {
+  overall_testFile: test => {
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
     AccessSniff('./test/examples/test.html')
@@ -36,13 +36,12 @@ exports.accessibilityTests = {
       });
 
   },
-  urlFileOutput: test => {
+  overall_testUrl: test => {
     AccessSniff(['http://getbootstrap.com/'], {})
       .then(report => {
         test.ok(report[0], 'Should produce a json report from boostrap');
         test.expect(1);
         test.done();
       });
-
   }
 };
