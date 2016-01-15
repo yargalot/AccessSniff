@@ -16,8 +16,6 @@ import logger from './logger';
 import childProcess from 'child_process';
 import phantom from 'phantomjs';
 
-const phantomPath = phantom.path;
-
 export default class Accessibility {
   constructor(options) {
     this.basepath = process.cwd();
@@ -36,8 +34,9 @@ export default class Accessibility {
         warning: true,
         error: true
       },
+      reportLevelsArray: [],
       reportLocation : 'reports',
-      accessibilityrc: false,
+      accessibilityrc: true,
       accessibilityLevel: 'WCAG2A'
     };
 
@@ -45,38 +44,40 @@ export default class Accessibility {
     _.defaults(options, this.defaults);
 
     // Find the accessibilityRc file
-    if (options.accessibilityrc) {
+    const accessRcPath = `${process.cwd()}/.accessibilityrc`;
 
-      const accessRcPath = `${process.cwd()}/.accessibilityrc`;
+    if (fs.exists(accessRcPath) && options.accessibilityrc) {
       const rcOptions = fs.readFileSync(accessRcPath, 'utf8');
+
+      logger.log(`RC OPTIONS ${rcOptions}`);
 
       if (rcOptions) {
         options = _.extend(options, JSON.parse(rcOptions));
       }
     }
 
+    // We need to convert the report levels to uppercase
+    _.each(options.reportLevels, (value, key) => {
+      if (value) {
+        options.reportLevelsArray.push(key.toUpperCase());
+      }
+    });
+
+    // Assign options to this
     this.options = options;
   }
 
   terminalLog(msg) {
     const msgSplit = msg.split('|');
     let message = {};
-    let reportLevels = [];
 
     // If the level type is ignored, then return null;
     if (_.contains(this.options.ignore, msgSplit[1])) {
       return null;
     }
 
-    // We need to convert the report levels to uppercase
-    _.each(this.options.reportLevels, (value, key) => {
-      if (value) {
-        reportLevels.push(key.toUpperCase());
-      }
-    });
-
     // Start the Logging if the the report level matches
-    if (_.contains(reportLevels, msgSplit[0])) {
+    if (_.contains(this.options.reportLevelsArray, msgSplit[0])) {
       message = {
         heading: msgSplit[0],
         issue: msgSplit[1],
@@ -186,19 +187,15 @@ export default class Accessibility {
 
   fileResolver(file) {
     const deferredOutside = Promise.pending();
-    const isUrl = validator.isURL(file);
-    const childArgs = [
-      path.join(__dirname, './phantom.js'),
-      file,
-      this.options.accessibilityLevel
-    ];
 
-    this.options.fileName = path.basename(childArgs[1], '.html');
+    // Set the filename for later
+    this.options.fileName = path.basename(file, '.html');
 
-    logger.startMessage('Testing ' + childArgs[1]);
+    // Start Message
+    logger.startMessage('Testing ' + file);
 
     // Get file contents
-    if (isUrl) {
+    if (validator.isURL(file)) {
       this.getUrlContents(file)
         .then(data => this.fileContents = data.data);
     } else {
@@ -207,7 +204,11 @@ export default class Accessibility {
 
     // Call Phantom
     childProcess
-      .execFile(phantomPath, childArgs, (error, stdout) => {
+      .execFile(phantom.path, [
+        path.join(__dirname, './phantom.js'),
+        file,
+        this.options.accessibilityLevel
+      ], (error, stdout) => {
         if (error) {
           logger.generError(error);
           deferredOutside.fulfill(error);

@@ -52,8 +52,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var phantomPath = _phantomjs2.default.path;
-
 var Accessibility = function () {
   function Accessibility(options) {
     _classCallCheck(this, Accessibility);
@@ -74,8 +72,9 @@ var Accessibility = function () {
         warning: true,
         error: true
       },
+      reportLevelsArray: [],
       reportLocation: 'reports',
-      accessibilityrc: false,
+      accessibilityrc: true,
       accessibilityLevel: 'WCAG2A'
     };
 
@@ -83,16 +82,26 @@ var Accessibility = function () {
     _underscore2.default.defaults(options, this.defaults);
 
     // Find the accessibilityRc file
-    if (options.accessibilityrc) {
+    var accessRcPath = process.cwd() + '/.accessibilityrc';
 
-      var accessRcPath = process.cwd() + '/.accessibilityrc';
+    if (_fs2.default.exists(accessRcPath) && options.accessibilityrc) {
       var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8');
+
+      _logger2.default.log('RC OPTIONS ' + rcOptions);
 
       if (rcOptions) {
         options = _underscore2.default.extend(options, JSON.parse(rcOptions));
       }
     }
 
+    // We need to convert the report levels to uppercase
+    _underscore2.default.each(options.reportLevels, function (value, key) {
+      if (value) {
+        options.reportLevelsArray.push(key.toUpperCase());
+      }
+    });
+
+    // Assign options to this
     this.options = options;
   }
 
@@ -101,22 +110,14 @@ var Accessibility = function () {
     value: function terminalLog(msg) {
       var msgSplit = msg.split('|');
       var message = {};
-      var reportLevels = [];
 
       // If the level type is ignored, then return null;
       if (_underscore2.default.contains(this.options.ignore, msgSplit[1])) {
         return null;
       }
 
-      // We need to convert the report levels to uppercase
-      _underscore2.default.each(this.options.reportLevels, function (value, key) {
-        if (value) {
-          reportLevels.push(key.toUpperCase());
-        }
-      });
-
       // Start the Logging if the the report level matches
-      if (_underscore2.default.contains(reportLevels, msgSplit[0])) {
+      if (_underscore2.default.contains(this.options.reportLevelsArray, msgSplit[0])) {
         message = {
           heading: msgSplit[0],
           issue: msgSplit[1],
@@ -232,15 +233,15 @@ var Accessibility = function () {
       var _this2 = this;
 
       var deferredOutside = _bluebird2.default.pending();
-      var isUrl = _validator2.default.isURL(file);
-      var childArgs = [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel];
 
-      this.options.fileName = _path2.default.basename(childArgs[1], '.html');
+      // Set the filename for later
+      this.options.fileName = _path2.default.basename(file, '.html');
 
-      _logger2.default.startMessage('Testing ' + childArgs[1]);
+      // Start Message
+      _logger2.default.startMessage('Testing ' + file);
 
       // Get file contents
-      if (isUrl) {
+      if (_validator2.default.isURL(file)) {
         this.getUrlContents(file).then(function (data) {
           return _this2.fileContents = data.data;
         });
@@ -249,7 +250,7 @@ var Accessibility = function () {
       }
 
       // Call Phantom
-      _child_process2.default.execFile(phantomPath, childArgs, function (error, stdout) {
+      _child_process2.default.execFile(_phantomjs2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
         if (error) {
           _logger2.default.generError(error);
           deferredOutside.fulfill(error);

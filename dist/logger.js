@@ -76,4 +76,10 @@ logger.generalError = function (error) {
   return error;
 };
 
+logger.log = function (message) {
+  console.log(message);
+
+  return message;
+};
+
 exports.default = logger;
