@@ -82,12 +82,10 @@ var Accessibility = function () {
     _underscore2.default.defaults(options, this.defaults);
 
     // Find the accessibilityRc file
-    var accessRcPath = process.cwd() + '/.accessibilityrc';
+    var accessRcPath = this.basepath + '/.accessibilityrc';
 
     if (_fs2.default.exists(accessRcPath) && options.accessibilityrc) {
       var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8');
-
-      _logger2.default.log('RC OPTIONS ' + rcOptions);
 
       if (rcOptions) {
         options = _underscore2.default.extend(options, JSON.parse(rcOptions));

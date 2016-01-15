@@ -77,6 +77,7 @@ logger.generalError = function (error) {
 };
 
 logger.log = function (message) {
+
   console.log(message);
 
   return message;

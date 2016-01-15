@@ -32,7 +32,33 @@ exports.accessibilityTests = {
         var report = fs.readFileSync('./reports/report.json', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.json', 'utf8');
 
-        test.deepEqual(report, expected, 'Should write a json report for test.html');
+        test.deepEqual(report, expected, 'Should write a JSON report for test.html');
+        test.expect(1);
+        test.done();
+
+      });
+  },
+  report_CSV: test => {
+    AccessSniff.default(['./test/examples/test.html'], {})
+      .then(report => AccessSniff.report(report, {reportType: 'csv'}))
+      .then(() => {
+        var report = fs.readFileSync('./reports/report.csv', 'utf8');
+        var expected = fs.readFileSync('./test/expected/report.csv', 'utf8');
+
+        test.deepEqual(report, expected, 'Should write a CSV report for test.html');
+        test.expect(1);
+        test.done();
+
+      });
+  },
+  report_TXT: test => {
+    AccessSniff.default(['./test/examples/test.html'], {})
+      .then(report => AccessSniff.report(report, {reportType: 'txt'}))
+      .then(() => {
+        var report = fs.readFileSync('./reports/report.txt', 'utf8');
+        var expected = fs.readFileSync('./test/expected/report.txt', 'utf8');
+
+        test.deepEqual(report, expected, 'Should write a CSV report for test.html');
         test.expect(1);
         test.done();
 

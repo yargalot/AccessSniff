@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
+import _ from 'underscore';
 import fs from 'fs';
+import mkdirp from 'mkdirp';
 import logger from './logger.js';
-
-var mkdirp    = require('mkdirp');
 
 const defaultOptions = {
   fileName: 'report',
@@ -11,6 +11,9 @@ const defaultOptions = {
 };
 
 export default (messageLog, options = defaultOptions) => {
+
+  _.defaults(options, defaultOptions);
+
   new reports(messageLog, options);
 };
 
@@ -52,12 +55,12 @@ export class reports {
     return JSON.stringify(messageLog);
   }
 
-  reportTxt(messageLog) {
+  reportTxt(reports) {
 
     let output = 'heading, issue, element, line, column, description \n';
     const seperator = '|';
 
-    messageLog.forEach(message => {
+    reports.forEach(report => report.forEach(message => {
 
       output += message.heading + seperator;
       output += message.issue + seperator;
@@ -68,18 +71,18 @@ export class reports {
       output += message.position.columnNumber + seperator;
       output += message.description + '\n';
 
-    });
+    }));
 
     return output;
 
   }
 
-  reportCsv(messageLog) {
+  reportCsv(reports) {
 
     let output = 'heading, issue, element, line, column, description \n';
     const seperator = ',';
 
-    messageLog.forEach(message => {
+    reports.forEach(report => report.forEach(message => {
 
       output += message.heading + seperator;
       output += `"${message.issue}"` + seperator;
@@ -90,7 +93,7 @@ export class reports {
       output += message.position.columnNumber + seperator;
       output += message.description + '\n';
 
-    });
+    }));
 
     return output;
 
@@ -101,7 +104,7 @@ export class reports {
     mkdirp(`${process.cwd()}/${report.location}`, (err) => {
 
       if (err) {
-        console.error(err);
+        console.error('MKDIRP', err);
       }
 
       const fileName = `${report.name}.${report.type}`;
@@ -109,10 +112,11 @@ export class reports {
 
       fs.writeFile(filePath, report.output, (err) => {
         if (err) {
-          return console.log(err);
+          return console.error(err);
         }
 
         logger.finishedMessage(filePath);
+
         return report.output;
       });
 

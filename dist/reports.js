@@ -7,9 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.reports = undefined;
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
+
+var _mkdirp = require('mkdirp');
+
+var _mkdirp2 = _interopRequireDefault(_mkdirp);
 
 var _logger = require('./logger.js');
 
@@ -19,8 +27,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var mkdirp = require('mkdirp');
-
 var defaultOptions = {
   fileName: 'report',
   reportType: 'json',
@@ -29,6 +35,8 @@ var defaultOptions = {
 
 exports.default = function (messageLog) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? defaultOptions : arguments[1];
+
+  _underscore2.default.defaults(options, defaultOptions);
 
   new reports(messageLog, options);
 };
@@ -73,42 +81,46 @@ var reports = exports.reports = function () {
     }
   }, {
     key: 'reportTxt',
-    value: function reportTxt(messageLog) {
+    value: function reportTxt(reports) {
 
       var output = 'heading, issue, element, line, column, description \n';
       var seperator = '|';
 
-      messageLog.forEach(function (message) {
+      reports.forEach(function (report) {
+        return report.forEach(function (message) {
 
-        output += message.heading + seperator;
-        output += message.issue + seperator;
-        output += message.element.node + seperator;
-        output += message.element.id + seperator;
-        output += message.element.class + seperator;
-        output += message.position.lineNumber + seperator;
-        output += message.position.columnNumber + seperator;
-        output += message.description + '\n';
+          output += message.heading + seperator;
+          output += message.issue + seperator;
+          output += message.element.node + seperator;
+          output += message.element.id + seperator;
+          output += message.element.class + seperator;
+          output += message.position.lineNumber + seperator;
+          output += message.position.columnNumber + seperator;
+          output += message.description + '\n';
+        });
       });
 
       return output;
     }
   }, {
     key: 'reportCsv',
-    value: function reportCsv(messageLog) {
+    value: function reportCsv(reports) {
 
       var output = 'heading, issue, element, line, column, description \n';
       var seperator = ',';
 
-      messageLog.forEach(function (message) {
+      reports.forEach(function (report) {
+        return report.forEach(function (message) {
 
-        output += message.heading + seperator;
-        output += '"' + message.issue + '"' + seperator;
-        output += message.element.node + seperator;
-        output += message.element.id + seperator;
-        output += message.element.class + seperator;
-        output += message.position.lineNumber + seperator;
-        output += message.position.columnNumber + seperator;
-        output += message.description + '\n';
+          output += message.heading + seperator;
+          output += '"' + message.issue + '"' + seperator;
+          output += message.element.node + seperator;
+          output += message.element.id + seperator;
+          output += message.element.class + seperator;
+          output += message.position.lineNumber + seperator;
+          output += message.position.columnNumber + seperator;
+          output += message.description + '\n';
+        });
       });
 
       return output;
@@ -117,10 +129,10 @@ var reports = exports.reports = function () {
     key: 'writeFile',
     value: function writeFile(report) {
 
-      mkdirp(process.cwd() + '/' + report.location, function (err) {
+      (0, _mkdirp2.default)(process.cwd() + '/' + report.location, function (err) {
 
         if (err) {
-          console.error(err);
+          console.error('MKDIRP', err);
         }
 
         var fileName = report.name + '.' + report.type;
@@ -128,10 +140,11 @@ var reports = exports.reports = function () {
 
         _fs2.default.writeFile(filePath, report.output, function (err) {
           if (err) {
-            return console.log(err);
+            return console.error(err);
           }
 
           _logger2.default.finishedMessage(filePath);
+
           return report.output;
         });
       });
