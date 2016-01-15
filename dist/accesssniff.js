@@ -243,6 +243,8 @@ var Accessibility = function () {
         this.getUrlContents(file).then(function (data) {
           return _this2.fileContents = data.data;
         });
+      } else if (file.indexOf('<html>') > -1) {
+        this.fileContents = file;
       } else {
         this.fileContents = this.getFileContents(file);
       }

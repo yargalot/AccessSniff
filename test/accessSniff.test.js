@@ -43,5 +43,13 @@ exports.accessibilityTests = {
         test.expect(1);
         test.done();
       });
+  },
+  overall_testString: test => {
+    AccessSniff.default(['<html><body><h1>helloworld<h1></body></html>'], {})
+      .then(report => {
+        test.ok(report[0], 'Should produce a json report for html string');
+        test.expect(1);
+        test.done();
+      });
   }
 };
