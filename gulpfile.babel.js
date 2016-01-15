@@ -63,7 +63,7 @@ gulp.task('nodeunit', ['pre-test'], () =>
       dir: './test/coverage',
       reporters: ['json', 'text']
     }))
-    .pipe(istanbul.enforceThresholds({ thresholds: { global: 70 } }))
+    .pipe(istanbul.enforceThresholds({ thresholds: { global: 80 } }))
 );
 
 gulp.task('babel:watch', () =>
