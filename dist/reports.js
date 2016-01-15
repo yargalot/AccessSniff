@@ -128,26 +128,16 @@ var reports = exports.reports = function () {
   }, {
     key: 'writeFile',
     value: function writeFile(report) {
+      var fileName = report.name + '.' + report.type;
+      var filePath = process.cwd() + '/' + report.location + '/' + fileName;
 
-      (0, _mkdirp2.default)(process.cwd() + '/' + report.location, function (err) {
+      _mkdirp2.default.sync(process.cwd() + '/' + report.location);
 
-        if (err) {
-          console.error('MKDIRP', err);
-        }
+      _fs2.default.writeFileSync(filePath, report.output);
 
-        var fileName = report.name + '.' + report.type;
-        var filePath = process.cwd() + '/' + report.location + '/' + fileName;
+      _logger2.default.finishedMessage(filePath);
 
-        _fs2.default.writeFile(filePath, report.output, function (err) {
-          if (err) {
-            return console.error(err);
-          }
-
-          _logger2.default.finishedMessage(filePath);
-
-          return report.output;
-        });
-      });
+      return report.output;
     }
   }]);
 

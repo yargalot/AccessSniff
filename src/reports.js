@@ -100,27 +100,15 @@ export class reports {
   }
 
   writeFile(report) {
+    const fileName = `${report.name}.${report.type}`;
+    const filePath = `${process.cwd()}/${report.location}/${fileName}`;
 
-    mkdirp(`${process.cwd()}/${report.location}`, (err) => {
+    mkdirp.sync(`${process.cwd()}/${report.location}`);
 
-      if (err) {
-        console.error('MKDIRP', err);
-      }
+    fs.writeFileSync(filePath, report.output);
 
-      const fileName = `${report.name}.${report.type}`;
-      const filePath = `${process.cwd()}/${report.location}/${fileName}`;
+    logger.finishedMessage(filePath);
 
-      fs.writeFile(filePath, report.output, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-
-        logger.finishedMessage(filePath);
-
-        return report.output;
-      });
-
-    });
-
+    return report.output;
   }
 }
