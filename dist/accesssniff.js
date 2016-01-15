@@ -1,12 +1,12 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * AccessSniff
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * https://yargalot@github.com/yargalot/AccessSniff
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Copyright (c) 2015 Steven John Miller
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Licensed under the MIT license.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * AccessSniff
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * https://yargalot@github.com/yargalot/AccessSniff
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright (c) 2015 Steven John Miller
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Licensed under the MIT license.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -54,7 +54,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var phantomPath = _phantomjs2.default.path;
 
-var Accessibility = (function () {
+var Accessibility = function () {
   function Accessibility(options) {
     _classCallCheck(this, Accessibility);
 
@@ -82,72 +82,67 @@ var Accessibility = (function () {
     // Defaults options with input options
     _underscore2.default.defaults(options, this.defaults);
 
-    if (options && options.accessibilityrc) {
+    // Find the accessibilityRc file
+    if (options.accessibilityrc) {
 
       var accessRcPath = process.cwd() + '/.accessibilityrc';
       var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8');
 
-      options = _underscore2.default.extend(options, JSON.parse(rcOptions));
+      if (rcOptions) {
+        options = _underscore2.default.extend(options, JSON.parse(rcOptions));
+      }
     }
 
     this.options = options;
   }
 
-  /**
-  * The Message Terminal, choo choo
-  *
-  *
-  */
-
   _createClass(Accessibility, [{
     key: 'terminalLog',
     value: function terminalLog(msg) {
-
       var msgSplit = msg.split('|');
       var message = {};
       var reportLevels = [];
 
-      // If ignore get the hell out
+      // If the level type is ignored, then return null;
       if (_underscore2.default.contains(this.options.ignore, msgSplit[1])) {
-        return;
+        return null;
       }
 
-      // Report levels
+      // We need to convert the report levels to uppercase
       _underscore2.default.each(this.options.reportLevels, function (value, key) {
         if (value) {
           reportLevels.push(key.toUpperCase());
         }
       });
 
-      // Start the Logging
+      // Start the Logging if the the report level matches
       if (_underscore2.default.contains(reportLevels, msgSplit[0])) {
-
-        var element = {
-          node: msgSplit[3],
-          class: msgSplit[4],
-          id: msgSplit[5]
-        };
-
         message = {
           heading: msgSplit[0],
           issue: msgSplit[1],
-          element: element,
+          element: {
+            node: msgSplit[3],
+            class: msgSplit[4],
+            id: msgSplit[5]
+          },
           position: this.getElementPosition(msgSplit[3]),
           description: msgSplit[2]
         };
-
-        if (message.heading === 'ERROR') {
-          this.failTask += 1;
-        }
-
-        if (this.options.verbose) {
-          _logger2.default.generalMessage(message);
-        }
       } else {
-
         message = null;
       }
 
+      // If there is an error +1 the error stuff
+      if (message && message.heading === 'ERROR') {
+        this.failTask += 1;
+      }
+
+      // If verbose is true then push the output through to the terminal
+      if (message && this.options.verbose) {
+        _logger2.default.generalMessage(message);
+      }
+
+      // Return the message for reports
       return message;
     }
   }, {
@@ -183,26 +178,36 @@ var Accessibility = (function () {
     value: function parseOutput(file, deferred) {
       var _this = this;
 
-      var test = file.split('\n');
+      // We need to split the input via newline to get message entries
+      var fileMessages = file.split('\n');
       var messageLog = [];
 
-      test.every(function (element) {
+      fileMessages.every(function (messageString) {
+        // Each message will return as an array, [messageType, messagePipe]
+        // Message Pipe needs to be sent through to the terminal for parsing
+        var message = JSON.parse(messageString);
+        var messageType = message[0];
+        var messagePipe = message[1];
 
-        var something = JSON.parse(element);
-
-        if (something[0] === 'wcaglint.done') {
+        // If the type is wcaglint done hop out of the loop
+        if (messageType === 'wcaglint.done') {
           return false;
         }
 
-        var message = _this.terminalLog(something[1]);
+        // Check to see if the message is an array, and then send it
+        //through to the terminal
+        var messageOuput = Array.isArray(message) && _this.terminalLog(messagePipe);
 
-        if (message) {
-          messageLog.push(message);
+        // Push the returned message to the messageLog
+        // Message output could be null so we dont need to push that
+        if (messageOuput) {
+          messageLog.push(messageOuput);
         }
 
         return true;
       });
 
+      // Fullfill the passed promise
       deferred.fulfill(messageLog);
     }
   }, {
@@ -238,15 +243,16 @@ var Accessibility = (function () {
       if (isUrl) {
         this.getUrlContents(file).then(function (data) {
           return _this2.fileContents = data.data;
-        }).bind(this);
+        });
       } else {
         this.fileContents = this.getFileContents(file);
       }
 
       // Call Phantom
-      _child_process2.default.execFile(phantomPath, childArgs, function (err, stdout) {
-        if (err) {
-          deferredOutside.fulfill();
+      _child_process2.default.execFile(phantomPath, childArgs, function (error, stdout) {
+        if (error) {
+          _logger2.default.generError(error);
+          deferredOutside.fulfill(error);
         }
 
         _this2.parseOutput(stdout, deferredOutside);
@@ -269,6 +275,6 @@ var Accessibility = (function () {
   }]);
 
   return Accessibility;
-})();
+}();
 
 exports.default = Accessibility;
