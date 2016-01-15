@@ -44,12 +44,10 @@ export default class Accessibility {
     _.defaults(options, this.defaults);
 
     // Find the accessibilityRc file
-    const accessRcPath = `${process.cwd()}/.accessibilityrc`;
+    const accessRcPath = `${this.basepath}/.accessibilityrc`;
 
     if (fs.exists(accessRcPath) && options.accessibilityrc) {
       const rcOptions = fs.readFileSync(accessRcPath, 'utf8');
-
-      logger.log(`RC OPTIONS ${rcOptions}`);
 
       if (rcOptions) {
         options = _.extend(options, JSON.parse(rcOptions));
