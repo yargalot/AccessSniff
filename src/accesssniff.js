@@ -196,6 +196,8 @@ export default class Accessibility {
     if (validator.isURL(file)) {
       this.getUrlContents(file)
         .then(data => this.fileContents = data.data);
+    } else if (file.indexOf('<html>') > -1) {
+      this.fileContents = file;
     } else {
       this.fileContents = this.getFileContents(file);
     }
