@@ -60,7 +60,7 @@ export class reports {
     let output = 'heading, issue, element, line, column, description \n';
     const seperator = '|';
 
-    reports.forEach(report => report.forEach(message => {
+    _.each(reports, (report) => report.forEach(message => {
 
       output += message.heading + seperator;
       output += message.issue + seperator;
@@ -82,7 +82,7 @@ export class reports {
     let output = 'heading, issue, element, line, column, description \n';
     const seperator = ',';
 
-    reports.forEach(report => report.forEach(message => {
+    _.each(reports, report => report.forEach(message => {
 
       output += message.heading + seperator;
       output += `"${message.issue}"` + seperator;

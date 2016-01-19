@@ -227,7 +227,13 @@ export default class Accessibility {
     return files
       .bind(this)
       .map(this.fileResolver, { concurrency: 1 })
-      .then(messageLog =>  messageLog)
+      .then(messageLog => {
+        let logs = {};
+
+        filesInput.forEach((fileName, index) => logs[fileName] = messageLog[index]);
+
+        return logs;
+      })
       .catch(err => {
         logger.generalError('There was an error', err);
         return err;

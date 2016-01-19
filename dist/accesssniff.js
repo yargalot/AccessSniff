@@ -1,12 +1,12 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * AccessSniff
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * https://yargalot@github.com/yargalot/AccessSniff
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright (c) 2015 Steven John Miller
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Licensed under the MIT license.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * AccessSniff
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * https://yargalot@github.com/yargalot/AccessSniff
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Copyright (c) 2015 Steven John Miller
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Licensed under the MIT license.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -52,7 +52,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Accessibility = function () {
+var Accessibility = (function () {
   function Accessibility(options) {
     _classCallCheck(this, Accessibility);
 
@@ -267,7 +267,13 @@ var Accessibility = function () {
       var files = _bluebird2.default.resolve(filesInput);
 
       return files.bind(this).map(this.fileResolver, { concurrency: 1 }).then(function (messageLog) {
-        return messageLog;
+        var logs = {};
+
+        filesInput.forEach(function (fileName, index) {
+          return logs[fileName] = messageLog[index];
+        });
+
+        return logs;
       }).catch(function (err) {
         _logger2.default.generalError('There was an error', err);
         return err;
@@ -276,6 +282,6 @@ var Accessibility = function () {
   }]);
 
   return Accessibility;
-}();
+})();
 
 exports.default = Accessibility;
