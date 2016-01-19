@@ -12,10 +12,12 @@ A CLI and Phantom.js library for HTML_CodeSniffer
 Install this plugin with `npm install access-sniff` then use it in your project with
 
 ```javascript
-var accessSniff  = require('access-sniff');
-var files = ['**/*.html'];
+const AccessSniff  = require('access-sniff');
+const files = ['**/*.html'];
 
-accessSniff.start(files, options);
+AccessSniff
+  .default(files, options)
+  .then(report => AccessSniff.report(report, reportOptions))
 ```
 
 or install the module globally and type
@@ -38,9 +40,9 @@ You can pass the following options
 ```accessibilityLevel``` is a string
 
 ```javascript
-  options: {
-    accessibilityLevel: 'WCAG2A'
-  }
+options: {
+  accessibilityLevel: 'WCAG2A'
+}
 ```
 
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
@@ -75,22 +77,69 @@ Set to true to access a .accessibilityrc file in your project which should be la
 You can ignore rules by placing them in an array outlined below
 
 ```javascript
-  options: {
-    ignore : [
-      'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
-      'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-    ]
-  }
+options: {
+  ignore : [
+    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
+    'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+  ]
+}
+```
+
+### Verbose output
+
+```verbose``` is a boolean
+
+```javascript
+options: {
+  verbose: false
+}
+```
+
+Output messages to console, set to true by default
+
+
+### DomElement
+
+``` domElement ``` is a boolean
+
+```javascript
+options: {
+  domElement: false
+}
+```
+
+Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
+
+### Force
+
+```force``` is a boolean
+
+```javascript
+options: {
+  force: true
+}
+```
+
+Continue running grunt in the event of failures
+
+## Reports
+You can pass the following options to the report generator
+
+Reports are now generated from the returned json to the report module
+
+### Modular Reporting
+You can use the inbuilt system or create your own
+```javascript
+AccessSniff.report(report, reportOptions)
 ```
 
 ### Report Type
 
 ```reportType``` is a string
-
 ```javascript
-  options: {
-    reportType: 'json'
-  }
+options: {
+  reportType: 'json'
+}
 ```
 
 Text, CSV or JSON format output
@@ -126,45 +175,6 @@ Set the value to where you want reports created
 ```
 
 Set a value to ```false``` to limit output
-
-
-### Verbose output
-
-```verbose``` is a boolean
-
-```javascript
-  options: {
-    verbose: false
-  }
-```
-
-Output messages to console, set to true by default
-
-
-### DomElement
-
-``` domElement ``` is a boolean
-
-```javascript
-  options: {
-    domElement: false
-  }
-```
-
-Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
-
-### Force
-
-```force``` is a boolean
-
-```javascript
-  options: {
-    force: true
-  }
-```
-
-Continue running grunt in the event of failures
-
 
 ## CLI
 You can use the CLI component by installing it globally with `npm install -g access-sniff`
