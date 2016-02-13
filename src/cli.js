@@ -1,6 +1,6 @@
 import program from 'commander';
 import logger from './logger';
-import accessSniff from './';
+import accessSniff, { report } from './';
 import packageInfo from '../package.json';
 
 var exports = {};
@@ -17,7 +17,7 @@ exports.setup = function(cliOptions) {
     .parse(cliOptions);
 
   if (!program.args.length) {
-    logger.generalError('Please provide a filepath to check');
+    logger.generalError('Please provide a filepath, url or string to check');
     return false;
   }
 
@@ -29,11 +29,12 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
-  accessSniff(program.args, options, (messageLog, errors) => {
-    if (errors) {
-      logger.errorMessage(errors);
-    }
-  });
+  accessSniff(program.args, options)
+    .then(reportData => {
+      if (options.reportType || options.reportLocation) {
+        return report(reportData, options);
+      }
+    });
 
 };
 

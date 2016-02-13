@@ -27,7 +27,7 @@ _exports.setup = function (cliOptions) {
   _commander2.default.version(_package2.default.version).option('-r, --reportType [reportType]', 'Report type [json]', 'json').option('-l, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports').option('-q, --quiet', 'No terminal output').parse(cliOptions);
 
   if (!_commander2.default.args.length) {
-    _logger2.default.generalError('Please provide a filepath to check');
+    _logger2.default.generalError('Please provide a filepath, url or string to check');
     return false;
   }
 
@@ -39,9 +39,9 @@ _exports.setup = function (cliOptions) {
     options.verbose = false;
   }
 
-  (0, _2.default)(_commander2.default.args, options, function (messageLog, errors) {
-    if (errors) {
-      _logger2.default.errorMessage(errors);
+  (0, _2.default)(_commander2.default.args, options).then(function (reportData) {
+    if (options.reportType || options.reportLocation) {
+      return (0, _.report)(reportData, options);
     }
   });
 };

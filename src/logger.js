@@ -17,7 +17,7 @@ logger.generalMessage = (
       lineNumber: number,
       columnNumber:  number
     }
-}) => {
+  }): [string, string, string, string, string] => {
 
   let heading: string = '';
   const lineMessage: string = `Line:${message.position.lineNumber} Col:${message.position.columnNumber}`;
@@ -45,7 +45,7 @@ logger.generalMessage = (
 
 };
 
-logger.startMessage = (message: string) => {
+logger.startMessage = (message: string): string => {
 
   console.log(chalk.white.underline(message), '\n');
 
@@ -53,7 +53,7 @@ logger.startMessage = (message: string) => {
 
 };
 
-logger.finishedMessage = (filePath: string) => {
+logger.finishedMessage = (filePath: string):string => {
 
   let message = 'Report Finished';
 
@@ -67,7 +67,7 @@ logger.finishedMessage = (filePath: string) => {
 
 };
 
-logger.errorMessage = (errors: number) => {
+logger.errorMessage = (errors: number): string => {
   const message = `There were ${errors} errors present`;
 
   console.log(chalk.red(message));
@@ -75,14 +75,14 @@ logger.errorMessage = (errors: number) => {
   return message;
 };
 
-logger.generalError = (error: string) => {
+logger.generalError = (error: string): string => {
 
   console.error(chalk.red(error));
 
   return error;
 };
 
-logger.log = (message: string) => {
+logger.log = (message: string): string => {
 
   console.log(message);
 
