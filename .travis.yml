@@ -2,12 +2,16 @@ language: node_js
 node_js:
 - '0.12.7'
 - '4.2.4'
+notifications:
+  email:
+    on_success: always
+    on_failure: always
 deploy:
   provider: npm
   email: steven.jmiller@gmail.com
   api_key:
     secure: lYQqCTfiuyiimvyCU3rvIQy0u3gvQc/Ufx0ZAi6m93jAGrO/ss0Em348XerZ1Ad/A82yzivb1HSfjSonI7wawmC12v84eyOE7qEtrfrT6g14t7N9ivu0uhjXouA70zuU1gSjVqzn3wMXrmtxn7tef2N5YowWXd4ZRhV0rMvpOCY=
   on:
-    branch: master
-    tags: true
     repo: yargalot/AccessSniff
+    all_branches: true
+    tags: true
