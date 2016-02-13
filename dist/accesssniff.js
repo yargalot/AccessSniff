@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * AccessSniff
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * https://yargalot@github.com/yargalot/AccessSniff
@@ -7,10 +11,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Copyright (c) 2015 Steven John Miller
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Licensed under the MIT license.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _fs = require('fs');
 
@@ -44,9 +44,9 @@ var _child_process = require('child_process');
 
 var _child_process2 = _interopRequireDefault(_child_process);
 
-var _phantomjs = require('phantomjs');
+var _phantomjsPrebuilt = require('phantomjs-prebuilt');
 
-var _phantomjs2 = _interopRequireDefault(_phantomjs);
+var _phantomjsPrebuilt2 = _interopRequireDefault(_phantomjsPrebuilt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -250,7 +250,7 @@ var Accessibility = function () {
       }
 
       // Call Phantom
-      _child_process2.default.execFile(_phantomjs2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
+      _child_process2.default.execFile(_phantomjsPrebuilt2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
         if (error) {
           _logger2.default.generError(error);
           deferredOutside.fulfill(error);

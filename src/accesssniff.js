@@ -14,7 +14,7 @@ import validator from 'validator';
 import _ from 'underscore';
 import logger from './logger';
 import childProcess from 'child_process';
-import phantom from 'phantomjs';
+import phantom from 'phantomjs-prebuilt';
 
 export default class Accessibility {
   constructor(options) {

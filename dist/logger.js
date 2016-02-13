@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var logger = {};
 /*eslint-disable no-console */
 
+
 logger.generalMessage = function (message) {
 
   var heading = '';
