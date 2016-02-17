@@ -7,7 +7,8 @@
     "sniff": "bin/accessSniff.js"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "prepublish": "npm test"
   },
   "repository": {
     "type": "git",
