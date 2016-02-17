@@ -31,7 +31,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var defaultOptions = {
   fileName: 'report',
   reportType: 'json',
-  location: 'reports'
+  location: ''
 };
 
 exports.default = function (messageLog) {

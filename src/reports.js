@@ -7,7 +7,7 @@ import logger from './logger.js';
 const defaultOptions = {
   fileName: 'report',
   reportType: 'json',
-  location: 'reports'
+  location: ''
 };
 
 export default (messageLog, options = defaultOptions) => {
