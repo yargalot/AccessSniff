@@ -26,40 +26,43 @@ exports.accessibilityTests = {
     done();
   },
   report_JSON: test => {
-    AccessSniff.default(['./test/examples/test.html'], {})
+    AccessSniff.default(['./test/examples/test.html'], {location: 'reports'})
       .then(report => AccessSniff.report(report))
-      .then(() => {
-        var report = fs.readFileSync('./reports/report.json', 'utf8');
+      .then(report => {
+        var writtenReport = fs.readFileSync('./reports/report.json', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.json', 'utf8');
 
-        test.deepEqual(report, expected, 'Should write a JSON report for test.html');
-        test.expect(1);
+        test.deepEqual(report, expected, 'Should return JSON report data for test.html');
+        test.deepEqual(writtenReport, expected, 'Should write a JSON report for test.html');
+        test.expect(2);
         test.done();
 
       });
   },
   report_CSV: test => {
     AccessSniff.default(['./test/examples/test.html'], {})
-      .then(report => AccessSniff.report(report, {reportType: 'csv'}))
-      .then(() => {
-        var report = fs.readFileSync('./reports/report.csv', 'utf8');
+      .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'csv'}))
+      .then(report => {
+        var writtenReport = fs.readFileSync('./reports/report.csv', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.csv', 'utf8');
 
-        test.deepEqual(report, expected, 'Should write a CSV report for test.html');
-        test.expect(1);
+        test.deepEqual(report, expected, 'Should return CSV report data for test.html');
+        test.deepEqual(writtenReport, expected, 'Should write a CSV report for test.html');
+        test.expect(2);
         test.done();
 
       });
   },
   report_TXT: test => {
     AccessSniff.default(['./test/examples/test.html'], {})
-      .then(report => AccessSniff.report(report, {reportType: 'txt'}))
-      .then(() => {
-        var report = fs.readFileSync('./reports/report.txt', 'utf8');
+      .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'txt'}))
+      .then(report => {
+        var writtenReport = fs.readFileSync('./reports/report.txt', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.txt', 'utf8');
 
-        test.deepEqual(report, expected, 'Should write a CSV report for test.html');
-        test.expect(1);
+        test.deepEqual(report, expected, 'Should return TXT report data for test.html');
+        test.deepEqual(writtenReport, expected, 'Should write a TXT report for test.html');
+        test.expect(2);
         test.done();
 
       });

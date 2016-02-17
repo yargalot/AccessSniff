@@ -67,27 +67,22 @@ gulp.task('nodeunit', ['pre-test'], () =>
 );
 
 gulp.task('babel:watch', () =>
-  gulp
-    .watch(`${srcFolder}/**/*.js`, ['lint', 'babel'])
+  gulp.watch(`${srcFolder}/**/*.js`, ['lint', 'babel'])
 );
 
 gulp.task('compress:watch', () =>
-  gulp
-    .watch(`${distFolder}/runner.js`, ['compressHTMLCS'])
+  gulp.watch(`${distFolder}/runner.js`, ['compressHTMLCS'])
 );
 
 gulp.task('test:watch', () =>
-  gulp
-    .watch(`test/*.js`, ['nodeunit'])
+  gulp.watch(`test/*.js`, ['nodeunit'])
 );
 
 gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
 
 // Actual tasks
 gulp.task('test', () => runSequence('lint', 'babel', 'compressHTMLCS', 'nodeunit'));
-gulp.task('default', [
-  'lint',
-  'compressHTMLCS',
-  'babel',
-  'watch'
-]);
+
+
+gulp.task('build', ['lint', 'compressHTMLCS', 'babel']);
+gulp.task('default', ['build', 'watch']);

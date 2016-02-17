@@ -196,10 +196,10 @@ export default class Accessibility {
     if (validator.isURL(file)) {
       this.getUrlContents(file)
         .then(data => this.fileContents = data.data);
-    } else if (file.indexOf('<html>') > -1) {
-      this.fileContents = file;
-    } else {
+    } else if (fs.existsSync(file)) {
       this.fileContents = this.getFileContents(file);
+    } else {
+      this.fileContents = file;
     }
 
     // Call Phantom

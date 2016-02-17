@@ -14,14 +14,20 @@ export default (messageLog, options = defaultOptions) => {
 
   _.defaults(options, defaultOptions);
 
-  new reports(messageLog, options);
+  let report = new reports(messageLog, options);
+
+  if (options.location) {
+    report.writeFile();
+  }
+
+  return report.getReport();
 };
 
 export class reports {
 
   constructor(messageLog, options) {
 
-    let report = {
+    this.report = {
       name: options.fileName,
       type: options.reportType,
       location: options.location,
@@ -31,20 +37,18 @@ export class reports {
     switch (options.reportType) {
 
       case 'json':
-        report.output = this.reportJson(messageLog);
+        this.report.output = this.reportJson(messageLog);
         break;
 
       case 'csv':
-        report.output = this.reportCsv(messageLog);
+        this.report.output = this.reportCsv(messageLog);
         break;
 
       case 'txt':
-        report.output = this.reportTxt(messageLog);
+        this.report.output = this.reportTxt(messageLog);
         break;
 
     }
-
-    return this.writeFile(report);
 
   }
 
@@ -99,7 +103,8 @@ export class reports {
 
   }
 
-  writeFile(report) {
+  writeFile() {
+    const report = this.report;
     const fileName = `${report.name}.${report.type}`;
     const filePath = `${process.cwd()}/${report.location}/${fileName}`;
 
@@ -110,5 +115,10 @@ export class reports {
     logger.finishedMessage(filePath);
 
     return report.output;
+  }
+
+  getReport() {
+    const newReport = this.report.output;
+    return newReport;
   }
 }

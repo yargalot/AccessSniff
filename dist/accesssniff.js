@@ -243,10 +243,10 @@ var Accessibility = function () {
         this.getUrlContents(file).then(function (data) {
           return _this2.fileContents = data.data;
         });
-      } else if (file.indexOf('<html>') > -1) {
-        this.fileContents = file;
-      } else {
+      } else if (_fs2.default.existsSync(file)) {
         this.fileContents = this.getFileContents(file);
+      } else {
+        this.fileContents = file;
       }
 
       // Call Phantom

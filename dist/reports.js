@@ -40,14 +40,20 @@ exports.default = function (messageLog) {
 
   _underscore2.default.defaults(options, defaultOptions);
 
-  new reports(messageLog, options);
+  var report = new reports(messageLog, options);
+
+  if (options.location) {
+    report.writeFile();
+  }
+
+  return report.getReport();
 };
 
 var reports = exports.reports = function () {
   function reports(messageLog, options) {
     _classCallCheck(this, reports);
 
-    var report = {
+    this.report = {
       name: options.fileName,
       type: options.reportType,
       location: options.location,
@@ -57,20 +63,18 @@ var reports = exports.reports = function () {
     switch (options.reportType) {
 
       case 'json':
-        report.output = this.reportJson(messageLog);
+        this.report.output = this.reportJson(messageLog);
         break;
 
       case 'csv':
-        report.output = this.reportCsv(messageLog);
+        this.report.output = this.reportCsv(messageLog);
         break;
 
       case 'txt':
-        report.output = this.reportTxt(messageLog);
+        this.report.output = this.reportTxt(messageLog);
         break;
 
     }
-
-    return this.writeFile(report);
   }
 
   _createClass(reports, [{
@@ -129,7 +133,8 @@ var reports = exports.reports = function () {
     }
   }, {
     key: 'writeFile',
-    value: function writeFile(report) {
+    value: function writeFile() {
+      var report = this.report;
       var fileName = report.name + '.' + report.type;
       var filePath = process.cwd() + '/' + report.location + '/' + fileName;
 
@@ -140,6 +145,12 @@ var reports = exports.reports = function () {
       _logger2.default.finishedMessage(filePath);
 
       return report.output;
+    }
+  }, {
+    key: 'getReport',
+    value: function getReport() {
+      var newReport = this.report.output;
+      return newReport;
     }
   }]);
 
