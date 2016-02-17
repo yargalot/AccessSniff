@@ -125,7 +125,10 @@ Continue running grunt in the event of failures
 ## Reports
 You can pass the following options to the report generator
 
-Reports are now generated from the returned json to the report module
+#### Notes
+- Reports are now generated from the returned json to the report module
+- Report location is required to write a report
+- Reports return the content from the report
 
 ### Modular Reporting
 You can use the inbuilt system or create your own
