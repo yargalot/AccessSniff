@@ -9,19 +9,32 @@ A CLI and Phantom.js library for HTML_CodeSniffer
 ![Example Image](img/example.png)
 
 ## Getting Started
-Install this plugin with `npm install access-sniff` then use it in your project with
+Install this plugin with `npm install access-sniff --save`
 
+### Es5
 ```javascript
-const AccessSniff  = require('access-sniff');
-const files = ['**/*.html'];
+var AccessSniff = require('access-sniff');
 
 AccessSniff
-  .default(files, options)
-  .then(report => AccessSniff.report(report, reportOptions))
+  .default(['**/*.html'], options)
+  .then(function(report) {
+    AccessSniff.report(report, reportOptions);
+  });
 ```
 
-or install the module globally and type
+### Es6
+```javascript
+import AccessSniff, { reports as AccessReports } from 'access-sniff';
 
+AccessSniff(['**/*.html'], options)
+  .then(report => AccessReports(report, reportOptions));
+```
+
+
+### CLI
+```
+npm install access-sniff -g
+```
 ```
 sniff test/**/*.html -r json -l reports
 ```
