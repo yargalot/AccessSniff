@@ -11,8 +11,8 @@ A CLI and Phantom.js library for HTML_CodeSniffer
 ## Getting Started
 Install this plugin with `npm install access-sniff --save`
 
-### Es5
-```javascript
+### ES5
+```js
 var AccessSniff = require('access-sniff');
 
 AccessSniff
@@ -22,8 +22,8 @@ AccessSniff
   });
 ```
 
-### Es6
-```javascript
+### ES6
+```js
 import AccessSniff, { reports as AccessReports } from 'access-sniff';
 
 AccessSniff(['**/*.html'], options)
@@ -34,8 +34,6 @@ AccessSniff(['**/*.html'], options)
 ### CLI
 ```
 npm install access-sniff -g
-```
-```
 sniff test/**/*.html -r json -l reports
 ```
 
@@ -50,22 +48,22 @@ You can pass the following options
 
 ### Accessibility Level
 
-```accessibilityLevel``` is a string
+`accessibilityLevel` is a string
 
-```javascript
+```js
 options: {
   accessibilityLevel: 'WCAG2A'
 }
 ```
 
-Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
+Levels are `WCAG2A`, `WCAG2AA`, and `WCAG2AAA`
 
 ### Accessibilityrc
 
-```accessibilityrc``` is a boolean
+`accessibilityrc` is a boolean
 
 
-```javascript
+```js
 options: {
   accessibilityrc: true
 }
@@ -73,11 +71,11 @@ options: {
 
 Set to true to access a .accessibilityrc file in your project which should be layed out as:
 
-```javascript
+```json
 {
   "ignore": [
-  "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl",
-  "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
+    "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl",
+    "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
   ]
 }
 ```
@@ -85,13 +83,13 @@ Set to true to access a .accessibilityrc file in your project which should be la
 
 ### Ignore
 
-```ignore``` is a array
+`ignore` is an array
 
 You can ignore rules by placing them in an array outlined below
 
-```javascript
+```js
 options: {
-  ignore : [
+  ignore: [
     'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
     'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
   ]
@@ -100,9 +98,9 @@ options: {
 
 ### Verbose output
 
-```verbose``` is a boolean
+`verbose` is a boolean
 
-```javascript
+```js
 options: {
   verbose: false
 }
@@ -113,21 +111,21 @@ Output messages to console, set to true by default
 
 ### DomElement
 
-``` domElement ``` is a boolean
+`domElement` is a boolean
 
-```javascript
+```js
 options: {
   domElement: false
 }
 ```
 
-Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
+Include reference (tag name, class names & id) to reported elements. Optional for both output formats.
 
 ### Force
 
-```force``` is a boolean
+`force` is a boolean
 
-```javascript
+```js
 options: {
   force: true
 }
@@ -145,14 +143,14 @@ You can pass the following options to the report generator
 
 ### Modular Reporting
 You can use the inbuilt system or create your own
-```javascript
+```js
 AccessSniff.report(report, reportOptions)
 ```
 
 ### Report Type
 
-```reportType``` is a string
-```javascript
+`reportType` is a string
+```js
 options: {
   reportType: 'json'
 }
@@ -160,17 +158,17 @@ options: {
 
 Text, CSV or JSON format output
 
-- 'txt' will output text files
-- 'json' will output .json files
-- 'csv' will output csv
+- `txt` will output text files
+- `json` will output .json files
+- `csv` will output csv
 
 ### Report Location
 
-```reportLocation``` is a string
+`reportLocation` is a string
 
-```javascript
+```js
   options: {
-    reportLocation : 'reports'
+    reportLocation: 'reports'
   }
 ```
 
@@ -178,9 +176,9 @@ Set the value to where you want reports created
 
 ### Report Levels
 
-`reportLevels` is a object
+`reportLevels` is an object
 
-```javascript
+```js
   options: {
     reportLevels: {
       notice: true,
@@ -190,7 +188,7 @@ Set the value to where you want reports created
   }
 ```
 
-Set a value to ```false``` to limit output
+Set a value to `false` to limit output
 
 ## CLI
 You can use the CLI component by installing it globally with `npm install -g access-sniff`
