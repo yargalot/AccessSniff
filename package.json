@@ -12,9 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://yargalot@github.com/yargalot/AccessSniff.git"
+    "url": "git+https://yargalot@github.com/yargalot/AccessSniff.git"
   },
-  "author": "",
+  "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yargalot/AccessSniff/issues"
@@ -27,6 +27,17 @@
     "report",
     "WCAG"
   ],
+  "dependencies": {
+    "HTML_CodeSniffer": "github:squizlabs/HTML_CodeSniffer#2.0.6",
+    "axios": "^0.8.1",
+    "bluebird": "^2.9.13",
+    "chalk": "^1.1.1",
+    "commander": "^2.6.0",
+    "mkdirp": "^0.5.1",
+    "phantomjs-prebuilt": "^2.1.4",
+    "underscore": "^1.8.2",
+    "validator": "^3.39.0"
+  },
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-eslint": "^5.0.0-beta6",
@@ -42,16 +53,5 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.1",
     "run-sequence": "^1.1.5"
-  },
-  "dependencies": {
-    "HTML_CodeSniffer": "squizlabs/HTML_CodeSniffer.git#2.0.6",
-    "axios": "^0.8.1",
-    "bluebird": "^2.9.13",
-    "chalk": "^1.1.1",
-    "commander": "^2.6.0",
-    "mkdirp": "^0.5.1",
-    "phantomjs-prebuilt": "^2.1.4",
-    "underscore": "^1.8.2",
-    "validator": "^3.39.0"
   }
 }
