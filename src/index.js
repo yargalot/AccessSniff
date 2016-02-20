@@ -1,3 +1,4 @@
+/*eslint-disable no-console */
 import Accessibility from './accesssniff';
 import reporter from './reports';
 
@@ -13,14 +14,10 @@ export default (fileInput, options = {}) => {
     reportFiles = fileInput;
   }
 
-  // if (!reportFiles.length) {}
-
   const task = new Accessibility(options);
 
   return task
-    .run(reportFiles)
-    .then(data => data);
-
+    .run(reportFiles);
 };
 
 export {reporter as report};

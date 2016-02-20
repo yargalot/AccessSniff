@@ -123,7 +123,7 @@ Include reference (tag name, class names & id) to reported elements. Optional fo
 
 ### Force
 
-`force` is a boolean
+`force` is a boolean, defaults to `false`
 
 ```js
 options: {
@@ -131,7 +131,13 @@ options: {
 }
 ```
 
-Continue running grunt in the event of failures
+Continue running in the event of failures.
+You can catch failures from the promise as below:
+```
+AccessSniff(['**/*.html'], options)
+  .then(report => AccessReports(report, reportOptions));
+  .catch(error => console.error(error))
+```
 
 ## Reports
 You can pass the following options to the report generator

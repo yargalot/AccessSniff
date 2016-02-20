@@ -29,7 +29,7 @@ exports.accessibilityTests = {
     var target = './test/examples/test.html';
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
-    AccessSniff.default(target)
+    AccessSniff.default(target, {force: true})
       .then(report => {
         test.deepEqual(report[target], JSON.parse(expected), 'Should produce a json report for test.html');
         test.expect(1);
@@ -40,7 +40,7 @@ exports.accessibilityTests = {
   overall_testUrl: test => {
     var target = 'http://getbootstrap.com/';
 
-    AccessSniff.default([target], {})
+    AccessSniff.default([target], {force: true})
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap');
         test.expect(1);
@@ -50,7 +50,7 @@ exports.accessibilityTests = {
   overall_testString: test => {
     var testString = '<html><body><h1>helloworld<h1></body></html>';
 
-    AccessSniff.default([testString], {})
+    AccessSniff.default([testString], {force: true})
       .then(report => {
         test.ok(report[testString], 'Should produce a json report for html string');
         test.expect(1);

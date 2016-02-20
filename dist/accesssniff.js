@@ -57,7 +57,7 @@ var Accessibility = function () {
     _classCallCheck(this, Accessibility);
 
     this.basepath = process.cwd();
-    this.failTask = 0;
+    this.errorCount = 0;
     this.log = '';
     this.fileContents = '';
 
@@ -133,7 +133,7 @@ var Accessibility = function () {
 
       // If there is an error +1 the error stuff
       if (message && message.heading === 'ERROR') {
-        this.failTask += 1;
+        this.errorCount += 1;
       }
 
       // If verbose is true then push the output through to the terminal
@@ -264,6 +264,8 @@ var Accessibility = function () {
   }, {
     key: 'run',
     value: function run(filesInput) {
+      var _this3 = this;
+
       var files = _bluebird2.default.resolve(filesInput);
 
       return files.bind(this).map(this.fileResolver, { concurrency: 1 }).then(function (messageLog) {
@@ -274,9 +276,20 @@ var Accessibility = function () {
         });
 
         return logs;
-      }).catch(function (err) {
-        _logger2.default.generalError('There was an error', err);
-        return err;
+      }).then(function (data) {
+        if (!_this3.options.force && _this3.errorCount) {
+          var errorMessage = 'There was ' + _this3.errorCount + ' error';
+
+          if (_this3.errorCount > 1) {
+            errorMessage = 'There was ' + _this3.errorCount + ' errors';
+          }
+
+          _logger2.default.generalError(errorMessage);
+
+          return _bluebird2.default.reject(errorMessage);
+        }
+
+        return data;
       });
     }
   }]);

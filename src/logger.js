@@ -79,7 +79,7 @@ logger.generalError = (error: string): string => {
 
   console.error(chalk.red(error));
 
-  return error;
+  return chalk.red(error);
 };
 
 logger.log = (message: string): string => {

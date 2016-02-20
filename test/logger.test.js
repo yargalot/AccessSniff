@@ -75,7 +75,7 @@ exports.accessibilityTests = {
   },
   logger_GerneralErrorMessage: test => {
     const message = logger.generalError('Error message');
-    test.equal(message, 'Error message');
+    test.equal(message, '\u001b[31mError message\u001b[39m');
 
     test.expect(1);
     test.done();

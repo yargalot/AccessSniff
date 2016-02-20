@@ -74,7 +74,7 @@ logger.generalError = function (error) {
 
   console.error(_chalk2.default.red(error));
 
-  return error;
+  return _chalk2.default.red(error);
 };
 
 logger.log = function (message) {

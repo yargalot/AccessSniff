@@ -19,8 +19,8 @@ import phantom from 'phantomjs-prebuilt';
 export default class Accessibility {
   constructor(options) {
     this.basepath = process.cwd();
-    this.failTask = 0;
-    this.log          = '';
+    this.errorCount = 0;
+    this.log = '';
     this.fileContents = '';
 
     this.defaults = {
@@ -93,7 +93,7 @@ export default class Accessibility {
 
     // If there is an error +1 the error stuff
     if (message && message.heading === 'ERROR') {
-      this.failTask += 1;
+      this.errorCount += 1;
     }
 
     // If verbose is true then push the output through to the terminal
@@ -234,9 +234,20 @@ export default class Accessibility {
 
         return logs;
       })
-      .catch(err => {
-        logger.generalError('There was an error', err);
-        return err;
+      .then(data => {
+        if (!this.options.force && this.errorCount) {
+          let errorMessage = `There was ${this.errorCount} error`;
+
+          if (this.errorCount > 1) {
+            errorMessage = `There was ${this.errorCount} errors`;
+          }
+
+          logger.generalError(errorMessage);
+
+          return Promise.reject(errorMessage);
+        }
+
+        return data;
       });
   }
 

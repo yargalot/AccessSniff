@@ -15,6 +15,8 @@ var _reports2 = _interopRequireDefault(_reports);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*eslint-disable no-console */
+
 exports.default = function (fileInput) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
@@ -29,13 +31,9 @@ exports.default = function (fileInput) {
     reportFiles = fileInput;
   }
 
-  // if (!reportFiles.length) {}
-
   var task = new _accesssniff2.default(options);
 
-  return task.run(reportFiles).then(function (data) {
-    return data;
-  });
+  return task.run(reportFiles);
 };
 
 exports.report = _reports2.default;
