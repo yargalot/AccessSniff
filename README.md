@@ -133,7 +133,7 @@ options: {
 
 Continue running in the event of failures.
 You can catch failures from the promise as below:
-```
+```js
 AccessSniff(['**/*.html'], options)
   .then(report => AccessReports(report, reportOptions));
   .catch(error => console.error(error))
