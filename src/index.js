@@ -1,10 +1,16 @@
 /*eslint-disable no-console */
 import Accessibility from './accesssniff';
 import reporter from './reports';
+import program from 'commander';
 
 export default (fileInput, options = {}) => {
 
   let reportFiles = [];
+
+  // Options verbose
+  if (program.verbose) {
+    options.verbose = true;
+  }
 
   if (typeof fileInput === 'string') {
     reportFiles.push(fileInput);

@@ -13,15 +13,22 @@ var _reports = require('./reports');
 
 var _reports2 = _interopRequireDefault(_reports);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _commander = require('commander');
 
-/*eslint-disable no-console */
+var _commander2 = _interopRequireDefault(_commander);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (fileInput) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 
   var reportFiles = [];
+
+  // Options verbose
+  if (_commander2.default.verbose) {
+    options.verbose = true;
+  }
 
   if (typeof fileInput === 'string') {
     reportFiles.push(fileInput);
@@ -34,6 +41,7 @@ exports.default = function (fileInput) {
   var task = new _accesssniff2.default(options);
 
   return task.run(reportFiles);
-};
+}; /*eslint-disable no-console */
+
 
 exports.report = _reports2.default;
