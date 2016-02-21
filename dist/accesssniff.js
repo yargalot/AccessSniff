@@ -57,7 +57,15 @@ var Accessibility = function () {
     _classCallCheck(this, Accessibility);
 
     this.basepath = process.cwd();
+
+    // Count the errors and stuff
     this.errorCount = 0;
+    this.noticeCount = 0;
+    this.warningCount = 0;
+
+    // Mark for if all the tests were lint free
+    this.lintFree = true;
+
     this.log = '';
     this.fileContents = '';
 
@@ -136,9 +144,14 @@ var Accessibility = function () {
         this.errorCount += 1;
       }
 
-      // If verbose is true then push the output through to the terminal
-      if (message && this.options.verbose) {
-        _logger2.default.generalMessage(message);
+      // If there is an error +1 the error stuff
+      if (message && message.heading === 'NOTICE') {
+        this.noticeCount += 1;
+      }
+
+      // If there is an error +1 the error stuff
+      if (message && message.heading === 'WARNING') {
+        this.warningCount += 1;
       }
 
       // Return the message for reports
@@ -181,6 +194,12 @@ var Accessibility = function () {
       var fileMessages = file.split('\n');
       var messageLog = [];
 
+      // Reset the error count per file
+      this.errorCount = 0;
+      this.noticeCount = 0;
+      this.warningCount = 0;
+
+      // Run the messages through the parser
       fileMessages.every(function (messageString) {
         // Each message will return as an array, [messageType, messagePipe]
         // Message Pipe needs to be sent through to the terminal for parsing
@@ -205,6 +224,17 @@ var Accessibility = function () {
 
         return true;
       });
+
+      // If verbose is true then push the output through to the terminal
+      var showMessage = this.errorCount || this.noticeCount || this.warningCount;
+
+      if (showMessage && messageLog.length || this.options.verbose && messageLog.length) {
+        _logger2.default.startMessage('Tested ' + this.options.filePath);
+        messageLog.forEach(function (message) {
+          return _logger2.default.generalMessage(message);
+        });
+        this.lintFree = false;
+      }
 
       // Fullfill the passed promise
       deferred.fulfill(messageLog);
@@ -233,10 +263,8 @@ var Accessibility = function () {
       var deferredOutside = _bluebird2.default.pending();
 
       // Set the filename for later
+      this.options.filePath = file;
       this.options.fileName = _path2.default.basename(file, '.html');
-
-      // Start Message
-      _logger2.default.startMessage('Testing ' + file);
 
       // Get file contents
       if (_validator2.default.isURL(file)) {
@@ -267,6 +295,7 @@ var Accessibility = function () {
       var _this3 = this;
 
       var files = _bluebird2.default.resolve(filesInput);
+      _logger2.default.startMessage('Starting Accessibility tests');
 
       return files.bind(this).map(this.fileResolver, { concurrency: 1 }).then(function (messageLog) {
         var logs = {};
@@ -274,6 +303,11 @@ var Accessibility = function () {
         filesInput.forEach(function (fileName, index) {
           return logs[fileName] = messageLog[index];
         });
+
+        if (_this3.lintFree) {
+          var fileString = filesInput.length > 1 ? 'files' : 'file';
+          _logger2.default.lintFree(filesInput.length + ' ' + fileString + ' lint free!');
+        }
 
         return logs;
       }).then(function (data) {

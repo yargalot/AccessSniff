@@ -67,6 +67,14 @@ logger.finishedMessage = (filePath: string):string => {
 
 };
 
+logger.lintFree = (message: string):string => {
+
+  console.log(chalk.green(message));
+
+  return message;
+
+};
+
 logger.errorMessage = (errors: number): string => {
   const message = `There were ${errors} errors present`;
 

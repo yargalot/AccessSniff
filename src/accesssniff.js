@@ -19,7 +19,15 @@ import phantom from 'phantomjs-prebuilt';
 export default class Accessibility {
   constructor(options) {
     this.basepath = process.cwd();
+
+    // Count the errors and stuff
     this.errorCount = 0;
+    this.noticeCount = 0;
+    this.warningCount = 0;
+
+    // Mark for if all the tests were lint free
+    this.lintFree = true;
+
     this.log = '';
     this.fileContents = '';
 
@@ -96,9 +104,14 @@ export default class Accessibility {
       this.errorCount += 1;
     }
 
-    // If verbose is true then push the output through to the terminal
-    if (message && this.options.verbose) {
-      logger.generalMessage(message);
+    // If there is an error +1 the error stuff
+    if (message && message.heading === 'NOTICE') {
+      this.noticeCount += 1;
+    }
+
+    // If there is an error +1 the error stuff
+    if (message && message.heading === 'WARNING') {
+      this.warningCount += 1;
     }
 
     // Return the message for reports
@@ -140,6 +153,12 @@ export default class Accessibility {
     const fileMessages = file.split('\n');
     let messageLog = [];
 
+    // Reset the error count per file
+    this.errorCount = 0;
+    this.noticeCount = 0;
+    this.warningCount = 0;
+
+    // Run the messages through the parser
     fileMessages.every(messageString => {
       // Each message will return as an array, [messageType, messagePipe]
       // Message Pipe needs to be sent through to the terminal for parsing
@@ -166,6 +185,15 @@ export default class Accessibility {
 
     });
 
+    // If verbose is true then push the output through to the terminal
+    const showMessage = this.errorCount ||  this.noticeCount || this.warningCount;
+
+    if (showMessage && messageLog.length ||  this.options.verbose && messageLog.length) {
+      logger.startMessage(`Tested ${this.options.filePath}`);
+      messageLog.forEach(message => logger.generalMessage(message));
+      this.lintFree = false;
+    }
+
     // Fullfill the passed promise
     deferred.fulfill(messageLog);
   }
@@ -187,10 +215,8 @@ export default class Accessibility {
     const deferredOutside = Promise.pending();
 
     // Set the filename for later
+    this.options.filePath = file;
     this.options.fileName = path.basename(file, '.html');
-
-    // Start Message
-    logger.startMessage('Testing ' + file);
 
     // Get file contents
     if (validator.isURL(file)) {
@@ -223,6 +249,7 @@ export default class Accessibility {
 
   run(filesInput) {
     const files = Promise.resolve(filesInput);
+    logger.startMessage('Starting Accessibility tests');
 
     return files
       .bind(this)
@@ -231,6 +258,11 @@ export default class Accessibility {
         let logs = {};
 
         filesInput.forEach((fileName, index) => logs[fileName] = messageLog[index]);
+
+        if (this.lintFree) {
+          const fileString = filesInput.length > 1 ? 'files' : 'file';
+          logger.lintFree(`${filesInput.length} ${fileString} lint free!`);
+        }
 
         return logs;
       })

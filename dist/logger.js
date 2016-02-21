@@ -62,6 +62,13 @@ logger.finishedMessage = function (filePath) {
   return message;
 };
 
+logger.lintFree = function (message) {
+
+  console.log(_chalk2.default.green(message));
+
+  return message;
+};
+
 logger.errorMessage = function (errors) {
   var message = 'There were ' + errors + ' errors present';
 
