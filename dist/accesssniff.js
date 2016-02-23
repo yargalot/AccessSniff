@@ -194,11 +194,6 @@ var Accessibility = function () {
       var fileMessages = file.split('\n');
       var messageLog = [];
 
-      // Reset the error count per file
-      this.errorCount = 0;
-      this.noticeCount = 0;
-      this.warningCount = 0;
-
       // Run the messages through the parser
       fileMessages.every(function (messageString) {
         // Each message will return as an array, [messageType, messagePipe]
@@ -228,7 +223,7 @@ var Accessibility = function () {
       // If verbose is true then push the output through to the terminal
       var showMessage = this.errorCount || this.noticeCount || this.warningCount;
 
-      if (showMessage && messageLog.length || this.options.verbose && messageLog.length) {
+      if (showMessage && messageLog.length || this.options.verbose) {
         _logger2.default.startMessage('Tested ' + this.options.filePath);
         messageLog.forEach(function (message) {
           return _logger2.default.generalMessage(message);
@@ -265,6 +260,10 @@ var Accessibility = function () {
       // Set the filename for later
       this.options.filePath = file;
       this.options.fileName = _path2.default.basename(file, '.html');
+
+      if (this.options.verbose) {
+        _logger2.default.startMessage('Testing ' + this.options.filePath);
+      }
 
       // Get file contents
       if (_validator2.default.isURL(file)) {
