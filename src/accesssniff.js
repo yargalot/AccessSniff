@@ -33,7 +33,7 @@ export default class Accessibility {
 
     this.defaults = {
       ignore: [],
-      verbose: true,
+      verbose: false,
       force: false,
       domElement: true,
       reportType: null,

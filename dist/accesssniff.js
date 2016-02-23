@@ -71,7 +71,7 @@ var Accessibility = function () {
 
     this.defaults = {
       ignore: [],
-      verbose: true,
+      verbose: false,
       force: false,
       domElement: true,
       reportType: null,
