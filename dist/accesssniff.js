@@ -279,7 +279,8 @@ var Accessibility = function () {
       // Call Phantom
       _child_process2.default.execFile(_phantomjsPrebuilt2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
         if (error) {
-          _logger2.default.generError(error);
+          _logger2.default.generalError('Testing ' + _this2.options.filePath + ' failed');
+          _logger2.default.generalError(error);
           deferredOutside.reject(error);
         }
 

@@ -235,7 +235,8 @@ export default class Accessibility {
         this.options.accessibilityLevel
       ], (error, stdout) => {
         if (error) {
-          logger.generError(error);
+          logger.generalError(`Testing ${this.options.filePath} failed`);
+          logger.generalError(error);
           deferredOutside.reject(error);
         }
 

@@ -37,12 +37,32 @@ exports.accessibilityTests = {
       });
 
   },
-  overall_testUrl: test => {
+  overall_bootstrapHome: test => {
     var target = 'https://getbootstrap.com/';
 
     AccessSniff.default([target], {force: true})
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap');
+        test.expect(1);
+        test.done();
+      });
+  },
+  overall_bootstrapStarted: test => {
+    var target = 'https://getbootstrap.com/getting-started/';
+
+    AccessSniff.default([target], {force: true})
+      .then(report => {
+        test.ok(report[target], 'Should produce a json report from boostrap getting started');
+        test.expect(1);
+        test.done();
+      });
+  },
+  overall_bootstrapComponents: test => {
+    var target = 'https://getbootstrap.com/components/';
+
+    AccessSniff.default([target], {force: true})
+      .then(report => {
+        test.ok(report[target], 'Should produce a json report from boostrap components');
         test.expect(1);
         test.done();
       });
