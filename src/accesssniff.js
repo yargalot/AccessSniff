@@ -190,7 +190,7 @@ export default class Accessibility {
     }
 
     // Fullfill the passed promise
-    deferred.fulfill(messageLog);
+    deferred.resolve(messageLog);
   }
 
   getUrlContents(url) {
@@ -236,7 +236,7 @@ export default class Accessibility {
       ], (error, stdout) => {
         if (error) {
           logger.generError(error);
-          deferredOutside.fulfill(error);
+          deferredOutside.reject(error);
         }
 
         this.parseOutput(stdout, deferredOutside);

@@ -232,7 +232,7 @@ var Accessibility = function () {
       }
 
       // Fullfill the passed promise
-      deferred.fulfill(messageLog);
+      deferred.resolve(messageLog);
     }
   }, {
     key: 'getUrlContents',
@@ -280,7 +280,7 @@ var Accessibility = function () {
       _child_process2.default.execFile(_phantomjsPrebuilt2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
         if (error) {
           _logger2.default.generError(error);
-          deferredOutside.fulfill(error);
+          deferredOutside.reject(error);
         }
 
         _this2.parseOutput(stdout, deferredOutside);

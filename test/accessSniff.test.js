@@ -38,7 +38,7 @@ exports.accessibilityTests = {
 
   },
   overall_testUrl: test => {
-    var target = 'http://getbootstrap.com/';
+    var target = 'https://getbootstrap.com/';
 
     AccessSniff.default([target], {force: true})
       .then(report => {
