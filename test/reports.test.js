@@ -26,8 +26,8 @@ exports.accessibilityTests = {
     done();
   },
   report_JSON: test => {
-    AccessSniff.default(['./test/examples/test.html'], {location: 'reports', force: true})
-      .then(report => AccessSniff.report(report))
+    AccessSniff.default(['./test/examples/test.html'], {force: true})
+      .then(report => AccessSniff.report(report, {location: 'reports'}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.json', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.json', 'utf8');

@@ -1,11 +1,11 @@
 {
   "name": "access-sniff",
-  "version": "2.1.0",
+  "version": "2.3.2",
   "dependencies": {
     "HTML_CodeSniffer": {
-      "version": "2.0.1",
-      "from": "squizlabs/HTML_CodeSniffer#2.0.6",
-      "resolved": "git://github.com/squizlabs/HTML_CodeSniffer.git#610cdf181d729b95f8b595a22926146acc0e724c"
+      "version": "2.0.7",
+      "from": "squizlabs/HTML_CodeSniffer#2.0.7",
+      "resolved": "git://github.com/squizlabs/HTML_CodeSniffer.git#d209ce54876657858a8a01528ad812cd234f37f0"
     },
     "axios": {
       "version": "0.8.1",
@@ -45,18 +45,25 @@
     },
     "chalk": {
       "version": "1.1.1",
-      "from": "chalk@>=1.0.0 <2.0.0",
+      "from": "chalk@>=1.1.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/chalk/-/chalk-1.1.1.tgz",
       "dependencies": {
         "ansi-styles": {
-          "version": "2.1.0",
+          "version": "2.2.0",
           "from": "ansi-styles@>=2.1.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.1.0.tgz"
+          "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.0.tgz",
+          "dependencies": {
+            "color-convert": {
+              "version": "1.0.0",
+              "from": "color-convert@>=1.0.0 <2.0.0",
+              "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-1.0.0.tgz"
+            }
+          }
         },
         "escape-string-regexp": {
-          "version": "1.0.4",
+          "version": "1.0.5",
           "from": "escape-string-regexp@>=1.0.2 <2.0.0",
-          "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.4.tgz"
+          "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
         },
         "has-ansi": {
           "version": "2.0.0",
@@ -71,9 +78,9 @@
           }
         },
         "strip-ansi": {
-          "version": "3.0.0",
+          "version": "3.0.1",
           "from": "strip-ansi@>=3.0.0 <4.0.0",
-          "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.0.tgz",
+          "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.1.tgz",
           "dependencies": {
             "ansi-regex": {
               "version": "2.0.0",
@@ -172,7 +179,7 @@
                     },
                     "inherits": {
                       "version": "2.0.1",
-                      "from": "inherits@>=2.0.0 <3.0.0",
+                      "from": "inherits@>=2.0.1 <2.1.0",
                       "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
                     },
                     "minimatch": {
@@ -331,14 +338,14 @@
               "resolved": "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz"
             },
             "mime-types": {
-              "version": "2.1.9",
+              "version": "2.1.10",
               "from": "mime-types@>=2.1.7 <2.2.0",
-              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.9.tgz",
+              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.10.tgz",
               "dependencies": {
                 "mime-db": {
-                  "version": "1.21.0",
-                  "from": "mime-db@>=1.21.0 <1.22.0",
-                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.21.0.tgz"
+                  "version": "1.22.0",
+                  "from": "mime-db@>=1.22.0 <1.23.0",
+                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.22.0.tgz"
                 }
               }
             },
@@ -422,9 +429,9 @@
                       "resolved": "https://registry.npmjs.org/jsbn/-/jsbn-0.1.0.tgz"
                     },
                     "tweetnacl": {
-                      "version": "0.13.3",
+                      "version": "0.14.1",
                       "from": "tweetnacl@>=0.13.0 <1.0.0",
-                      "resolved": "https://registry.npmjs.org/tweetnacl/-/tweetnacl-0.13.3.tgz"
+                      "resolved": "https://registry.npmjs.org/tweetnacl/-/tweetnacl-0.14.1.tgz"
                     },
                     "jodid25519": {
                       "version": "1.0.2",
@@ -510,9 +517,9 @@
               "resolved": "https://registry.npmjs.org/har-validator/-/har-validator-2.0.6.tgz",
               "dependencies": {
                 "is-my-json-valid": {
-                  "version": "2.12.4",
+                  "version": "2.13.1",
                   "from": "is-my-json-valid@>=2.12.4 <3.0.0",
-                  "resolved": "https://registry.npmjs.org/is-my-json-valid/-/is-my-json-valid-2.12.4.tgz",
+                  "resolved": "https://registry.npmjs.org/is-my-json-valid/-/is-my-json-valid-2.13.1.tgz",
                   "dependencies": {
                     "generate-function": {
                       "version": "2.0.0",

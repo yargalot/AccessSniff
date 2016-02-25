@@ -1,6 +1,6 @@
 {
   "name": "access-sniff",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "A node/iojs library & CLI for HTML_Codesniffer",
   "main": "dist/",
   "bin": {
@@ -27,8 +27,13 @@
     "report",
     "WCAG"
   ],
+  "files": [
+    "bin",
+    "dist",
+    "img"
+  ],
   "dependencies": {
-    "HTML_CodeSniffer": "github:squizlabs/HTML_CodeSniffer#2.0.6",
+    "HTML_CodeSniffer": "github:squizlabs/HTML_CodeSniffer#2.0.7",
     "axios": "^0.8.1",
     "bluebird": "^2.9.13",
     "chalk": "^1.1.1",
