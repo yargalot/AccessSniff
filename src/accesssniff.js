@@ -33,7 +33,7 @@ export default class Accessibility {
 
     this.defaults = {
       ignore: [],
-      verbose: true,
+      verbose: false,
       force: false,
       domElement: true,
       reportType: null,
@@ -153,11 +153,6 @@ export default class Accessibility {
     const fileMessages = file.split('\n');
     let messageLog = [];
 
-    // Reset the error count per file
-    this.errorCount = 0;
-    this.noticeCount = 0;
-    this.warningCount = 0;
-
     // Run the messages through the parser
     fileMessages.every(messageString => {
       // Each message will return as an array, [messageType, messagePipe]
@@ -188,7 +183,7 @@ export default class Accessibility {
     // If verbose is true then push the output through to the terminal
     const showMessage = this.errorCount ||  this.noticeCount || this.warningCount;
 
-    if (showMessage && messageLog.length ||  this.options.verbose && messageLog.length) {
+    if (showMessage && messageLog.length ||  this.options.verbose) {
       logger.startMessage(`Tested ${this.options.filePath}`);
       messageLog.forEach(message => logger.generalMessage(message));
       this.lintFree = false;
@@ -217,6 +212,10 @@ export default class Accessibility {
     // Set the filename for later
     this.options.filePath = file;
     this.options.fileName = path.basename(file, '.html');
+
+    if (this.options.verbose) {
+      logger.startMessage(`Testing ${this.options.filePath}`);
+    }
 
     // Get file contents
     if (validator.isURL(file)) {
