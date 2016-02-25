@@ -45,7 +45,8 @@ export default class Accessibility {
       reportLevelsArray: [],
       reportLocation : 'reports',
       accessibilityrc: true,
-      accessibilityLevel: 'WCAG2A'
+      accessibilityLevel: 'WCAG2A',
+      maxBuffer: 500*1024
     };
 
     // Defaults options with input options
@@ -233,7 +234,7 @@ export default class Accessibility {
         path.join(__dirname, './phantom.js'),
         file,
         this.options.accessibilityLevel
-      ], (error, stdout) => {
+      ], {maxBuffer: this.options.maxBuffer},  (error, stdout) => {
         if (error) {
           logger.generalError(`Testing ${this.options.filePath} failed`);
           logger.generalError(error);

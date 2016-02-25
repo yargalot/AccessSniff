@@ -67,6 +67,26 @@ exports.accessibilityTests = {
         test.done();
       });
   },
+  overall_bootstrapJavascript: test => {
+    var target = 'https://getbootstrap.com/javascript/';
+
+    AccessSniff.default([target], {force: true})
+      .then(report => {
+        test.ok(report[target], 'Should produce a json report from boostrap components');
+        test.expect(1);
+        test.done();
+      });
+  },
+  overall_bootstrapCustomize: test => {
+    var target = 'https://getbootstrap.com/customize/';
+
+    AccessSniff.default([target], {force: true})
+      .then(report => {
+        test.ok(report[target], 'Should produce a json report from boostrap components');
+        test.expect(1);
+        test.done();
+      });
+  },
   overall_testString: test => {
     var testString = '<html><body><h1>helloworld<h1></body></html>';
 

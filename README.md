@@ -139,6 +139,18 @@ AccessSniff(['**/*.html'], options)
   .catch(error => console.error(error))
 ```
 
+## maxBuffer
+
+`maxBuffer` is a number, defaults to `500*1024`
+
+In certain situations you might have to increase the memory allocated to render a page.
+
+```js
+options: {
+  force: true
+}
+```
+
 ## Reports
 You can pass the following options to the report generator
 

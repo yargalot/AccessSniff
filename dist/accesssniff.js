@@ -83,7 +83,8 @@ var Accessibility = function () {
       reportLevelsArray: [],
       reportLocation: 'reports',
       accessibilityrc: true,
-      accessibilityLevel: 'WCAG2A'
+      accessibilityLevel: 'WCAG2A',
+      maxBuffer: 500 * 1024
     };
 
     // Defaults options with input options
@@ -277,7 +278,7 @@ var Accessibility = function () {
       }
 
       // Call Phantom
-      _child_process2.default.execFile(_phantomjsPrebuilt2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], function (error, stdout) {
+      _child_process2.default.execFile(_phantomjsPrebuilt2.default.path, [_path2.default.join(__dirname, './phantom.js'), file, this.options.accessibilityLevel], { maxBuffer: this.options.maxBuffer }, function (error, stdout) {
         if (error) {
           _logger2.default.generalError('Testing ' + _this2.options.filePath + ' failed');
           _logger2.default.generalError(error);
