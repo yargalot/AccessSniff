@@ -1,6 +1,6 @@
 {
   "name": "access-sniff",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "dependencies": {
     "HTML_CodeSniffer": {
       "version": "2.0.7",
