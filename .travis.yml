@@ -1,26 +1,21 @@
 sudo: false
-
 language: node_js
-
 node_js:
-  - '0.12'
-  - '4'
-  - '5'
-
+- '0.12'
+- '4'
+- '5'
 notifications:
   email:
     on_success: always
     on_failure: always
-
 matrix:
   fast_finish: true
-
 deploy:
   provider: npm
-  email: steven.jmiller@gmail.com
   api_key:
-    secure: lYQqCTfiuyiimvyCU3rvIQy0u3gvQc/Ufx0ZAi6m93jAGrO/ss0Em348XerZ1Ad/A82yzivb1HSfjSonI7wawmC12v84eyOE7qEtrfrT6g14t7N9ivu0uhjXouA70zuU1gSjVqzn3wMXrmtxn7tef2N5YowWXd4ZRhV0rMvpOCY=
+    secure: deowQmEb1PKVWN2A9tXSdyRaVO5tTd16oZqn7rc8VPid8o+JPy+2Iv4YnQPshXn1ToYbSpSndW0whhDPHON9hBYgdsNWIvUDEDtEx20ca+7NaafDdaY3cFWag+aGGs1OLak/u3JUSyspvzRjG0POi2WX5s8izW6RyIWT0cs6zxk=
+  email: steven.jmiller@gmail.com
   on:
     repo: yargalot/AccessSniff
-    all_branches: true
+    branch: master
     tags: true
