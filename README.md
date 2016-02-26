@@ -147,7 +147,7 @@ In certain situations you might have to increase the memory allocated to render 
 
 ```js
 options: {
-  force: true
+  maxBuffer: 500*1024
 }
 ```
 
