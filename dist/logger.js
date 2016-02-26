@@ -34,7 +34,9 @@ logger.generalMessage = function (message) {
   heading += ' ' + message.issue;
 
   console.log(heading);
-  console.log(_chalk2.default.cyan(lineMessage));
+  if (message.position.lineNumber || message.position.columnNumber) {
+    console.log(_chalk2.default.cyan(lineMessage));
+  }
   console.log(_chalk2.default.grey(message.description));
   console.log(_chalk2.default.grey('--------------------'));
   console.log(_chalk2.default.grey(message.element.node), '\n');

@@ -161,11 +161,18 @@ var Accessibility = function () {
   }, {
     key: 'getElementPosition',
     value: function getElementPosition(htmlString) {
-      var position = {};
+      var position = {
+        lineNumber: 0,
+        columnNumber: 0
+      };
 
       var indexAt = this.fileContents.indexOf(htmlString);
       var before = this.fileContents.slice(0, indexAt);
       var stringArray = before.split(/\r\n|\r|\n/);
+
+      if (indexAt === -1) {
+        return position;
+      }
 
       position.lineNumber = stringArray.length;
       position.columnNumber = stringArray[position.lineNumber - 1].length;
@@ -282,7 +289,10 @@ var Accessibility = function () {
       var _this3 = this;
 
       var files = _bluebird2.default.resolve(filesInput);
-      _logger2.default.startMessage('Starting Accessibility tests');
+
+      if (this.options.verbose) {
+        _logger2.default.startMessage('Starting Accessibility tests');
+      }
 
       return files.bind(this).map(this.fileResolver, { concurrency: 1 }).then(function (messageLog) {
         var logs = {};

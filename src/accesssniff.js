@@ -121,11 +121,18 @@ export default class Accessibility {
   }
 
   getElementPosition(htmlString) {
-    let position = {};
+    let position = {
+      lineNumber: 0,
+      columnNumber: 0
+    };
 
     const indexAt = this.fileContents.indexOf(htmlString);
     const before = this.fileContents.slice(0, indexAt);
     const stringArray = before.split(/\r\n|\r|\n/);
+
+    if (indexAt === -1) {
+      return position;
+    }
 
     position.lineNumber = stringArray.length;
     position.columnNumber = stringArray[position.lineNumber - 1].length;
@@ -180,7 +187,7 @@ export default class Accessibility {
   }
 
   getUrlContents(url) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       axios
         .get(url)
         .then(response => resolve(response))
@@ -235,7 +242,10 @@ export default class Accessibility {
 
   run(filesInput) {
     const files = Promise.resolve(filesInput);
-    logger.startMessage('Starting Accessibility tests');
+
+    if (this.options.verbose) {
+      logger.startMessage('Starting Accessibility tests');
+    }
 
     return files
       .bind(this)
