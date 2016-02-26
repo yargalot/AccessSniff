@@ -52,7 +52,7 @@ gulp.task('pre-test', () =>
 
 gulp.task('nodeunit', ['pre-test'], () =>
   gulp
-    .src(`test/**/*.test.js`)
+    .src('test/**/*.test.js')
     .pipe(nodeunit({
       reporter: 'junit',
       reporterOptions: {
@@ -75,7 +75,7 @@ gulp.task('compress:watch', () =>
 );
 
 gulp.task('test:watch', () =>
-  gulp.watch(`test/*.js`, ['nodeunit'])
+  gulp.watch('test/*.js', ['nodeunit'])
 );
 
 gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
