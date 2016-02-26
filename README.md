@@ -139,7 +139,7 @@ AccessSniff(['**/*.html'], options)
   .catch(error => console.error(error))
 ```
 
-## maxBuffer
+### maxBuffer
 
 `maxBuffer` is a number, defaults to `500*1024`
 
