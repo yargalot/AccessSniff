@@ -122,28 +122,13 @@ export default class Accessibility {
 
   getElementPosition(htmlString) {
     let position = {};
-    const htmlArray = this.fileContents.split('\n');
 
-    htmlArray.every((element, lineNumber) => {
-      if (!element.match(htmlString)) {
-        return true;
-      }
+    const indexAt = this.fileContents.indexOf(htmlString);
+    const before = this.fileContents.slice(0, indexAt);
+    const stringArray = before.split(/\r\n|\r|\n/);
 
-      let columnNumber = 0;
-      let colIndex = 0;
-      const pattern = /(\s|\t)/g;
-
-      while (element.charAt(colIndex).match(pattern)) {
-        columnNumber++;
-        colIndex++;
-      }
-
-      position.lineNumber = lineNumber;
-      position.columnNumber = columnNumber;
-
-      return false;
-
-    });
+    position.lineNumber = stringArray.length;
+    position.columnNumber = stringArray[position.lineNumber - 1].length;
 
     return position;
 

@@ -31,7 +31,7 @@ exports.accessibilityTests = {
 
     AccessSniff.default(target, {force: true})
       .then(report => {
-        test.deepEqual(report[target], JSON.parse(expected), 'Should produce a json report for test.html');
+        test.deepEqual(report[target], JSON.parse(expected)[target], 'Should produce a json report for test.html');
         test.expect(1);
         test.done();
       });

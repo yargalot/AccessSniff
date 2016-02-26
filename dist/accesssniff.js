@@ -162,27 +162,13 @@ var Accessibility = function () {
     key: 'getElementPosition',
     value: function getElementPosition(htmlString) {
       var position = {};
-      var htmlArray = this.fileContents.split('\n');
 
-      htmlArray.every(function (element, lineNumber) {
-        if (!element.match(htmlString)) {
-          return true;
-        }
+      var indexAt = this.fileContents.indexOf(htmlString);
+      var before = this.fileContents.slice(0, indexAt);
+      var stringArray = before.split(/\r\n|\r|\n/);
 
-        var columnNumber = 0;
-        var colIndex = 0;
-        var pattern = /(\s|\t)/g;
-
-        while (element.charAt(colIndex).match(pattern)) {
-          columnNumber++;
-          colIndex++;
-        }
-
-        position.lineNumber = lineNumber;
-        position.columnNumber = columnNumber;
-
-        return false;
-      });
+      position.lineNumber = stringArray.length;
+      position.columnNumber = stringArray[position.lineNumber - 1].length;
 
       return position;
     }
