@@ -43,7 +43,7 @@ export default class Accessibility {
         error: true
       },
       reportLevelsArray: [],
-      reportLocation : 'reports',
+      reportLocation : '',
       accessibilityrc: true,
       accessibilityLevel: 'WCAG2A',
       maxBuffer: 500*1024
