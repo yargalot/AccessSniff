@@ -217,11 +217,13 @@ var Accessibility = function () {
       // If verbose is true then push the output through to the terminal
       var showMessage = this.errorCount || this.noticeCount || this.warningCount;
 
-      if (showMessage && messageLog.length || this.options.verbose) {
-        _logger2.default.startMessage('Tested ' + this.options.filePath);
-        messageLog.forEach(function (message) {
-          return _logger2.default.generalMessage(message);
-        });
+      if (showMessage && messageLog.length) {
+        if (this.options.verbose) {
+          _logger2.default.startMessage('Tested ' + this.options.filePath);
+          messageLog.forEach(function (message) {
+            return _logger2.default.generalMessage(message);
+          });
+        }
         this.lintFree = false;
       }
 
