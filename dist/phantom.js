@@ -65,6 +65,11 @@ page.open(url, function () {
         return HTMLCS_RUNNER.run('WCAG2AAA');
       });
       break;
+    case 'Section508':
+      page.evaluate(function () {
+        return HTMLCS_RUNNER.run('Section508');
+      });
+      break;
     default:
       console.log('Unknown standard.');
   }

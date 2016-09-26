@@ -56,7 +56,7 @@ options: {
 }
 ```
 
-Levels are `WCAG2A`, `WCAG2AA`, and `WCAG2AAA`
+Levels are `WCAG2A`, `WCAG2AA`, `WCAG2AAA`, and `Section508` 
 
 ### Accessibilityrc
 

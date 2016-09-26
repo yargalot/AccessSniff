@@ -58,6 +58,9 @@ page.open(url, function() {
     case 'WCAG2AAA':
       page.evaluate(() => HTMLCS_RUNNER.run('WCAG2AAA'));
       break;
+    case 'Section508':
+      page.evaluate(() => HTMLCS_RUNNER.run('Section508'));
+      break;
     default:
       console.log('Unknown standard.');
   }
