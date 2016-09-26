@@ -93,7 +93,7 @@ var Accessibility = function () {
     // Find the accessibilityRc file
     var accessRcPath = this.basepath + '/.accessibilityrc';
 
-    if (_fs2.default.exists(accessRcPath) && options.accessibilityrc) {
+    if (_fs2.default.existsSync(accessRcPath) && options.accessibilityrc) {
       var rcOptions = _fs2.default.readFileSync(accessRcPath, 'utf8');
 
       if (rcOptions) {

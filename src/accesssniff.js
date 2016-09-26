@@ -55,7 +55,7 @@ export default class Accessibility {
     // Find the accessibilityRc file
     const accessRcPath = `${this.basepath}/.accessibilityrc`;
 
-    if (fs.exists(accessRcPath) && options.accessibilityrc) {
+    if (fs.existsSync(accessRcPath) && options.accessibilityrc) {
       const rcOptions = fs.readFileSync(accessRcPath, 'utf8');
 
       if (rcOptions) {
