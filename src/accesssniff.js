@@ -33,7 +33,7 @@ export default class Accessibility {
 
     this.defaults = {
       ignore: [],
-      verbose: false,
+      verbose: true,
       force: false,
       domElement: true,
       reportType: null,
@@ -173,13 +173,13 @@ export default class Accessibility {
 
     });
 
-    // If verbose is true then push the output through to the terminal
-    const showMessage = this.errorCount ||  this.noticeCount || this.warningCount;
+    // If there are messages then the files are not lint free
+    this.lintFree = this.errorCount ||  this.noticeCount || this.warningCount ? true : false;
 
-    if (showMessage && messageLog.length ||  this.options.verbose) {
+    // If verbose is true then push the output through to the terminal
+    if (this.lintFree && this.options.verbose) {
       logger.startMessage(`Tested ${this.options.filePath}`);
       messageLog.forEach(message => logger.generalMessage(message));
-      this.lintFree = false;
     }
 
     // Fullfill the passed promise

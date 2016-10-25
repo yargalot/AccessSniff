@@ -20,6 +20,11 @@ var fs = require('fs');
     test.ifError(value)
 */
 
+const testOptions = {
+  force: true,
+  verbose: false
+};
+
 exports.accessibilityTests = {
   setUp: done => {
     // setup here if necessary
@@ -29,7 +34,7 @@ exports.accessibilityTests = {
     var target = './test/examples/test.html';
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
-    AccessSniff.default(target, {force: true})
+    AccessSniff.default(target, testOptions)
       .then(report => {
         test.deepEqual(report[target], JSON.parse(expected)[target], 'Should produce a json report for test.html');
         test.expect(1);
@@ -40,7 +45,7 @@ exports.accessibilityTests = {
   overall_bootstrapHome: test => {
     var target = 'https://getbootstrap.com/';
 
-    AccessSniff.default([target], {force: true})
+    AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap');
         test.expect(1);
@@ -50,7 +55,7 @@ exports.accessibilityTests = {
   overall_bootstrapStarted: test => {
     var target = 'https://getbootstrap.com/getting-started/';
 
-    AccessSniff.default([target], {force: true})
+    AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap getting started');
         test.expect(1);
@@ -60,7 +65,7 @@ exports.accessibilityTests = {
   overall_bootstrapComponents: test => {
     var target = 'https://getbootstrap.com/components/';
 
-    AccessSniff.default([target], {force: true})
+    AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap components');
         test.expect(1);
@@ -70,7 +75,7 @@ exports.accessibilityTests = {
   overall_bootstrapJavascript: test => {
     var target = 'https://getbootstrap.com/javascript/';
 
-    AccessSniff.default([target], {force: true})
+    AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap components');
         test.expect(1);
@@ -80,7 +85,7 @@ exports.accessibilityTests = {
   overall_bootstrapCustomize: test => {
     var target = 'https://getbootstrap.com/customize/';
 
-    AccessSniff.default([target], {force: true})
+    AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap components');
         test.expect(1);

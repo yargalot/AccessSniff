@@ -71,7 +71,7 @@ var Accessibility = function () {
 
     this.defaults = {
       ignore: [],
-      verbose: false,
+      verbose: true,
       force: false,
       domElement: true,
       reportType: null,
@@ -214,15 +214,15 @@ var Accessibility = function () {
         return true;
       });
 
-      // If verbose is true then push the output through to the terminal
-      var showMessage = this.errorCount || this.noticeCount || this.warningCount;
+      // If there are messages then the files are not lint free
+      this.lintFree = this.errorCount || this.noticeCount || this.warningCount ? true : false;
 
-      if (showMessage && messageLog.length || this.options.verbose) {
+      // If verbose is true then push the output through to the terminal
+      if (this.lintFree && this.options.verbose) {
         _logger2.default.startMessage('Tested ' + this.options.filePath);
         messageLog.forEach(function (message) {
           return _logger2.default.generalMessage(message);
         });
-        this.lintFree = false;
       }
 
       // Fullfill the passed promise
