@@ -97,21 +97,21 @@ export default class Accessibility {
         description: msgSplit[2]
       };
     } else {
-      message = null;
+      return null;
     }
 
     // If there is an error +1 the error stuff
-    if (message && message.heading === 'ERROR') {
+    if (message.heading === 'ERROR') {
       this.errorCount += 1;
     }
 
     // If there is an error +1 the error stuff
-    if (message && message.heading === 'NOTICE') {
+    if (message.heading === 'NOTICE') {
       this.noticeCount += 1;
     }
 
     // If there is an error +1 the error stuff
-    if (message && message.heading === 'WARNING') {
+    if (message.heading === 'WARNING') {
       this.warningCount += 1;
     }
 
