@@ -89,7 +89,7 @@ var reports = exports.reports = function () {
     key: 'reportTxt',
     value: function reportTxt(reports) {
 
-      var output = 'heading, issue, element, line, column, description \n';
+      var output = 'heading, issue, element, id, class, line, column, description \n';
       var seperator = '|';
 
       _underscore2.default.each(reports, function (report) {
@@ -112,7 +112,7 @@ var reports = exports.reports = function () {
     key: 'reportCsv',
     value: function reportCsv(reports) {
 
-      var output = 'heading, issue, element, line, column, description \n';
+      var output = 'heading, issue, element, id, class, line, column, description \n';
       var seperator = ',';
 
       _underscore2.default.each(reports, function (report) {
