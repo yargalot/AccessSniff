@@ -34,7 +34,26 @@ var defaultOptions = {
   location: ''
 };
 
-var outputHeadings = 'heading, issue, element, id, class, line, column, description \n';
+var generateReport = function generateReport(reports, seperator) {
+
+  var output = 'heading, issue, element, id, class, line, column, description \n';
+
+  _underscore2.default.each(reports, function (report) {
+    return report.forEach(function (message) {
+
+      output += message.heading + seperator;
+      output += message.issue + seperator;
+      output += message.element.node + seperator;
+      output += message.element.id + seperator;
+      output += message.element.class + seperator;
+      output += message.position.lineNumber + seperator;
+      output += message.position.columnNumber + seperator;
+      output += message.description + '\n';
+    });
+  });
+
+  return output;
+};
 
 exports.default = function (messageLog) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
@@ -82,54 +101,17 @@ var reports = exports.reports = function () {
   _createClass(reports, [{
     key: 'reportJson',
     value: function reportJson(messageLog) {
-      console.log('Writing JSON Report...');
-
       return JSON.stringify(messageLog);
     }
   }, {
     key: 'reportTxt',
     value: function reportTxt(reports) {
-      var output = outputHeadings;
-      var seperator = '|';
-
-      _underscore2.default.each(reports, function (report) {
-        return report.forEach(function (message) {
-
-          output += message.heading + seperator;
-          output += message.issue + seperator;
-          output += message.element.node + seperator;
-          output += message.element.id + seperator;
-          output += message.element.class + seperator;
-          output += message.position.lineNumber + seperator;
-          output += message.position.columnNumber + seperator;
-          output += message.description + '\n';
-        });
-      });
-
-      return output;
+      return generateReport(reports, '|');
     }
   }, {
     key: 'reportCsv',
     value: function reportCsv(reports) {
-
-      var output = outputHeadings;
-      var seperator = ',';
-
-      _underscore2.default.each(reports, function (report) {
-        return report.forEach(function (message) {
-
-          output += '' + message.heading + seperator;
-          output += '"' + message.issue + '"' + seperator;
-          output += message.element.node + seperator;
-          output += message.element.id + seperator;
-          output += message.element.class + seperator;
-          output += message.position.lineNumber + seperator;
-          output += message.position.columnNumber + seperator;
-          output += message.description + '\n';
-        });
-      });
-
-      return output;
+      return generateReport(reports, ',');
     }
   }, {
     key: 'writeFile',

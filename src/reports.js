@@ -10,7 +10,26 @@ const defaultOptions = {
   location: ''
 };
 
-const outputHeadings = 'heading, issue, element, id, class, line, column, description \n';
+const generateReport = (reports, seperator) => {
+
+  let output = 'heading, issue, element, id, class, line, column, description \n';
+
+  _.each(reports, report => report.forEach(message => {
+
+    output += message.heading + seperator;
+    output += message.issue + seperator;
+    output += message.element.node + seperator;
+    output += message.element.id + seperator;
+    output += message.element.class + seperator;
+    output += message.position.lineNumber + seperator;
+    output += message.position.columnNumber + seperator;
+    output += message.description + '\n';
+
+  }));
+
+  return output;
+
+};
 
 export default (messageLog, options = defaultOptions) => {
 
@@ -55,52 +74,15 @@ export class reports {
   }
 
   reportJson(messageLog) {
-    console.log('Writing JSON Report...');
-
     return JSON.stringify(messageLog);
   }
 
   reportTxt(reports) {
-    let output = outputHeadings;
-    const seperator = '|';
-
-    _.each(reports, (report) => report.forEach(message => {
-
-      output += message.heading + seperator;
-      output += message.issue + seperator;
-      output += message.element.node + seperator;
-      output += message.element.id + seperator;
-      output += message.element.class + seperator;
-      output += message.position.lineNumber + seperator;
-      output += message.position.columnNumber + seperator;
-      output += message.description + '\n';
-
-    }));
-
-    return output;
-
+    return generateReport(reports, '|');
   }
 
   reportCsv(reports) {
-
-    let output = outputHeadings;
-    const seperator = ',';
-
-    _.each(reports, report => report.forEach(message => {
-
-      output += `${message.heading}${seperator}`;
-      output += `"${message.issue}"${seperator}`;
-      output += message.element.node + seperator;
-      output += message.element.id + seperator;
-      output += message.element.class + seperator;
-      output += message.position.lineNumber + seperator;
-      output += message.position.columnNumber + seperator;
-      output += message.description + '\n';
-
-    }));
-
-    return output;
-
+    return generateReport(reports, ',');
   }
 
   writeFile() {
