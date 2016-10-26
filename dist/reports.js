@@ -34,6 +34,8 @@ var defaultOptions = {
   location: ''
 };
 
+var outputHeadings = 'heading, issue, element, id, class, line, column, description \n';
+
 exports.default = function (messageLog) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
 
@@ -80,7 +82,6 @@ var reports = exports.reports = function () {
   _createClass(reports, [{
     key: 'reportJson',
     value: function reportJson(messageLog) {
-
       console.log('Writing JSON Report...');
 
       return JSON.stringify(messageLog);
@@ -88,8 +89,7 @@ var reports = exports.reports = function () {
   }, {
     key: 'reportTxt',
     value: function reportTxt(reports) {
-
-      var output = 'heading, issue, element, line, column, description \n';
+      var output = outputHeadings;
       var seperator = '|';
 
       _underscore2.default.each(reports, function (report) {
@@ -112,13 +112,13 @@ var reports = exports.reports = function () {
     key: 'reportCsv',
     value: function reportCsv(reports) {
 
-      var output = 'heading, issue, element, line, column, description \n';
+      var output = outputHeadings;
       var seperator = ',';
 
       _underscore2.default.each(reports, function (report) {
         return report.forEach(function (message) {
 
-          output += message.heading + seperator;
+          output += '' + message.heading + seperator;
           output += '"' + message.issue + '"' + seperator;
           output += message.element.node + seperator;
           output += message.element.id + seperator;

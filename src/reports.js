@@ -10,6 +10,8 @@ const defaultOptions = {
   location: ''
 };
 
+const outputHeadings = 'heading, issue, element, id, class, line, column, description \n';
+
 export default (messageLog, options = defaultOptions) => {
 
   _.defaults(options, defaultOptions);
@@ -53,15 +55,13 @@ export class reports {
   }
 
   reportJson(messageLog) {
-
     console.log('Writing JSON Report...');
 
     return JSON.stringify(messageLog);
   }
 
   reportTxt(reports) {
-
-    let output = 'heading, issue, element, line, column, description \n';
+    let output = outputHeadings;
     const seperator = '|';
 
     _.each(reports, (report) => report.forEach(message => {
@@ -83,13 +83,13 @@ export class reports {
 
   reportCsv(reports) {
 
-    let output = 'heading, issue, element, line, column, description \n';
+    let output = outputHeadings;
     const seperator = ',';
 
     _.each(reports, report => report.forEach(message => {
 
-      output += message.heading + seperator;
-      output += `"${message.issue}"` + seperator;
+      output += `${message.heading}${seperator}`;
+      output += `"${message.issue}"${seperator}`;
       output += message.element.node + seperator;
       output += message.element.id + seperator;
       output += message.element.class + seperator;
