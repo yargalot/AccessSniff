@@ -1,5 +1,6 @@
 # AccessSniff
 [![Build Status](https://travis-ci.org/yargalot/AccessSniff.svg?branch=master)](https://travis-ci.org/yargalot/AccessSniff)
+[![Build status](https://ci.appveyor.com/api/projects/status/r805fyyn6bpfr57y?svg=true)](https://ci.appveyor.com/project/yargalot/accesssniff)
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
@@ -56,7 +57,7 @@ options: {
 }
 ```
 
-Levels are `WCAG2A`, `WCAG2AA`, `WCAG2AAA`, and `Section508` 
+Levels are `WCAG2A`, `WCAG2AA`, `WCAG2AAA`, and `Section508`
 
 ### Accessibilityrc
 
