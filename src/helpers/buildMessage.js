@@ -15,13 +15,13 @@ const buildMessage = (msg, fileContents, options) => {
     message = {
       heading: msgSplit[0],
       issue: msgSplit[1],
+      description: msgSplit[2],
+      position: getElementPosition(msgSplit[3], fileContents),
       element: {
         node: msgSplit[3],
         class: msgSplit[4],
         id: msgSplit[5]
-      },
-      position: getElementPosition(msgSplit[3], fileContents),
-      description: msgSplit[2]
+      }
     };
   }
 
