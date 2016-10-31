@@ -1,11 +1,3 @@
-/*
- * AccessSniff
- * https://yargalot@github.com/yargalot/AccessSniff
- *
- * Copyright (c) 2015 Steven John Miller
- * Licensed under the MIT license.
- */
-
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
@@ -15,6 +7,8 @@ import _ from 'underscore';
 import logger from './logger';
 import childProcess from 'child_process';
 import phantom from 'phantomjs-prebuilt';
+
+import { getElementPosition } from './helpers';
 
 export default class Accessibility {
   constructor(options) {
@@ -93,7 +87,7 @@ export default class Accessibility {
           class: msgSplit[4],
           id: msgSplit[5]
         },
-        position: this.getElementPosition(msgSplit[3]),
+        position: getElementPosition(msgSplit[3], this.fileContents),
         description: msgSplit[2]
       };
     } else {
@@ -117,27 +111,6 @@ export default class Accessibility {
 
     // Return the message for reports
     return message;
-
-  }
-
-  getElementPosition(htmlString) {
-    let position = {
-      lineNumber: 0,
-      columnNumber: 0
-    };
-
-    const indexAt = this.fileContents.indexOf(htmlString);
-    const before = this.fileContents.slice(0, indexAt);
-    const stringArray = before.split(/\r\n|\r|\n/);
-
-    if (indexAt === -1) {
-      return position;
-    }
-
-    position.lineNumber = stringArray.length;
-    position.columnNumber = stringArray[position.lineNumber - 1].length;
-
-    return position;
 
   }
 
@@ -208,8 +181,7 @@ export default class Accessibility {
 
     // Get file contents
     if (validator.isURL(file)) {
-      this.getUrlContents(file)
-        .then(data => this.fileContents = data.data);
+      this.getUrlContents(file).then(data => this.fileContents = data.data);
     } else if (fs.existsSync(file)) {
       this.fileContents = fs.readFileSync(file, 'utf8');
     } else {
@@ -233,7 +205,6 @@ export default class Accessibility {
       });
 
     return deferredOutside.promise;
-
   }
 
   run(filesInput) {
