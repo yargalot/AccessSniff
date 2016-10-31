@@ -59,6 +59,7 @@ gulp.task('nodeunit', ['pre-test'], () =>
         output: 'test'
       }
     }))
+    .on('error', console.error.bind(console))
     .pipe(istanbul.writeReports({
       dir: './test/coverage',
       reporters: ['json', 'text']

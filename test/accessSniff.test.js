@@ -30,7 +30,7 @@ exports.accessibilityTests = {
     // setup here if necessary
     done();
   },
-  overall_testFile: test => {
+  overall_testFileString: test => {
     var target = './test/examples/test.html';
     var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
@@ -41,6 +41,36 @@ exports.accessibilityTests = {
         test.done();
       });
 
+  },
+  overall_testGlobString: test => {
+    AccessSniff
+      .default('./test/**/*.html', {
+        force: true,
+        ignore: [
+          'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
+          'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+        ]
+      })
+      .then(report => {
+        test.ok(Object.keys(report).length === 4, 'There should be 5 reports from an string input');
+        test.expect(1);
+        test.done();
+      });
+  },
+  overall_testGlobArray: test => {
+    AccessSniff
+      .default(['./test/**/*.html'], {
+        force: true,
+        ignore: [
+          'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
+          'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+        ]
+      })
+      .then(report => {
+        test.ok(Object.keys(report).length === 4, 'There should be 5 reports from an array input');
+        test.expect(1);
+        test.done();
+      });
   },
   overall_bootstrapHome: test => {
     var target = 'https://getbootstrap.com/';
@@ -58,36 +88,6 @@ exports.accessibilityTests = {
     AccessSniff.default([target], testOptions)
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap getting started');
-        test.expect(1);
-        test.done();
-      });
-  },
-  overall_bootstrapComponents: test => {
-    var target = 'https://getbootstrap.com/components/';
-
-    AccessSniff.default([target], testOptions)
-      .then(report => {
-        test.ok(report[target], 'Should produce a json report from boostrap components');
-        test.expect(1);
-        test.done();
-      });
-  },
-  overall_bootstrapJavascript: test => {
-    var target = 'https://getbootstrap.com/javascript/';
-
-    AccessSniff.default([target], testOptions)
-      .then(report => {
-        test.ok(report[target], 'Should produce a json report from boostrap components');
-        test.expect(1);
-        test.done();
-      });
-  },
-  overall_bootstrapCustomize: test => {
-    var target = 'https://getbootstrap.com/customize/';
-
-    AccessSniff.default([target], testOptions)
-      .then(report => {
-        test.ok(report[target], 'Should produce a json report from boostrap components');
         test.expect(1);
         test.done();
       });

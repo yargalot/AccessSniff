@@ -1,9 +1,10 @@
-/*eslint-disable no-console */
 import Accessibility from './accesssniff';
 import reporter from './reports';
 import program from 'commander';
+import glob from 'glob';
+import _ from 'underscore';
 
-export default (fileInput, options = {}) => {
+const start = (fileInput, options = {}) => {
 
   let reportFiles = [];
 
@@ -20,10 +21,13 @@ export default (fileInput, options = {}) => {
     reportFiles = fileInput;
   }
 
+  reportFiles = reportFiles.map(file =>
+    glob.hasMagic(file) ? glob.sync(file) : file
+  );
+
   const task = new Accessibility(options);
 
-  return task
-    .run(reportFiles);
+  return task.run(_.flatten(reportFiles));
 };
 
-export {reporter as report};
+export { start as default, reporter as report};

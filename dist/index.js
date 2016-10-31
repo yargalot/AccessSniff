@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.report = undefined;
+exports.report = exports.default = undefined;
 
 var _accesssniff = require('./accesssniff');
 
@@ -17,9 +17,17 @@ var _commander = require('commander');
 
 var _commander2 = _interopRequireDefault(_commander);
 
+var _glob = require('glob');
+
+var _glob2 = _interopRequireDefault(_glob);
+
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (fileInput) {
+var start = function start(fileInput) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 
@@ -38,10 +46,14 @@ exports.default = function (fileInput) {
     reportFiles = fileInput;
   }
 
+  reportFiles = reportFiles.map(function (file) {
+    return _glob2.default.hasMagic(file) ? _glob2.default.sync(file) : file;
+  });
+
   var task = new _accesssniff2.default(options);
 
-  return task.run(reportFiles);
-}; /*eslint-disable no-console */
+  return task.run(_underscore2.default.flatten(reportFiles));
+};
 
-
+exports.default = start;
 exports.report = _reports2.default;
