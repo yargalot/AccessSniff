@@ -8,7 +8,7 @@ import logger from './logger';
 import childProcess from 'child_process';
 import phantom from 'phantomjs-prebuilt';
 
-import { getElementPosition } from './helpers';
+import { buildMessage } from './helpers';
 
 export default class Accessibility {
   constructor(options) {
@@ -68,52 +68,6 @@ export default class Accessibility {
     this.options = options;
   }
 
-  terminalLog(msg) {
-    const msgSplit = msg.split('|');
-    let message = {};
-
-    // If the level type is ignored, then return null;
-    if (_.contains(this.options.ignore, msgSplit[1])) {
-      return null;
-    }
-
-    // Start the Logging if the the report level matches
-    if (_.contains(this.options.reportLevelsArray, msgSplit[0])) {
-      message = {
-        heading: msgSplit[0],
-        issue: msgSplit[1],
-        element: {
-          node: msgSplit[3],
-          class: msgSplit[4],
-          id: msgSplit[5]
-        },
-        position: getElementPosition(msgSplit[3], this.fileContents),
-        description: msgSplit[2]
-      };
-    } else {
-      return null;
-    }
-
-    // If there is an error +1 the error stuff
-    if (message.heading === 'ERROR') {
-      this.errorCount += 1;
-    }
-
-    // If there is an error +1 the error stuff
-    if (message.heading === 'NOTICE') {
-      this.noticeCount += 1;
-    }
-
-    // If there is an error +1 the error stuff
-    if (message.heading === 'WARNING') {
-      this.warningCount += 1;
-    }
-
-    // Return the message for reports
-    return message;
-
-  }
-
   parseOutput(file, deferred) {
     // We need to split the input via newline to get message entries
     const fileMessages = file.split('\n');
@@ -134,12 +88,30 @@ export default class Accessibility {
 
       // Check to see if the message is an array, and then send it
       //through to the terminal
-      const messageOuput = Array.isArray(message) && this.terminalLog(messagePipe);
+      let messageOuput;
+      if (Array.isArray(message)) {
+        messageOuput = buildMessage(messagePipe, this.fileContents, this.options);
+      }
 
       // Push the returned message to the messageLog
       // Message output could be null so we dont need to push that
       if (messageOuput) {
         messageLog.push(messageOuput);
+
+        // If there is an error +1 the error stuff
+        if (messageOuput.heading === 'ERROR') {
+          this.errorCount += 1;
+        }
+
+        // If there is an error +1 the error stuff
+        if (messageOuput.heading === 'NOTICE') {
+          this.noticeCount += 1;
+        }
+
+        // If there is an error +1 the error stuff
+        if (messageOuput.heading === 'WARNING') {
+          this.warningCount += 1;
+        }
       }
 
       return true;
