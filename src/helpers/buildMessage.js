@@ -1,7 +1,14 @@
+/* @flow */
+
 import _ from 'underscore';
 import getElementPosition from './getElementPosition';
 
-const buildMessage = (msg, fileContents, options) => {
+type optionObject = {
+  ignore: Array<string>,
+  reportLevelsArray: Array<string>
+}
+
+const buildMessage = (msg: string, fileContents: string, options: optionObject) => {
   const msgSplit = msg.split('|');
   let message;
 
