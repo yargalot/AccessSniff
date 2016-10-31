@@ -195,10 +195,6 @@ export default class Accessibility {
     });
   }
 
-  getFileContents(file) {
-    return fs.readFileSync(file, 'utf8');
-  }
-
   fileResolver(file) {
     const deferredOutside = Promise.pending();
 
@@ -215,7 +211,7 @@ export default class Accessibility {
       this.getUrlContents(file)
         .then(data => this.fileContents = data.data);
     } else if (fs.existsSync(file)) {
-      this.fileContents = this.getFileContents(file);
+      this.fileContents = fs.readFileSync(file, 'utf8');
     } else {
       this.fileContents = file;
     }
@@ -226,7 +222,7 @@ export default class Accessibility {
         path.join(__dirname, './phantom.js'),
         file,
         this.options.accessibilityLevel
-      ], {maxBuffer: this.options.maxBuffer},  (error, stdout) => {
+      ], {maxBuffer: this.options.maxBuffer}, (error, stdout) => {
         if (error) {
           logger.generalError(`Testing ${this.options.filePath} failed`);
           logger.generalError(error);

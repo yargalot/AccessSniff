@@ -83,7 +83,5 @@ gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
 
 // Actual tasks
 gulp.task('test', () => runSequence('lint', 'babel', 'compressHTMLCS', 'nodeunit'));
-
-
 gulp.task('build', ['lint', 'compressHTMLCS', 'babel']);
 gulp.task('default', ['build', 'watch']);
