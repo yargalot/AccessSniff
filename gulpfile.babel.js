@@ -1,3 +1,4 @@
+import del from 'del';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import eslint from 'gulp-eslint';
@@ -10,6 +11,10 @@ import istanbul from 'gulp-istanbul';
 const srcFolder = './src';
 const distFolder = './dist';
 const HTMLCSFolder = './node_modules/HTML_CodeSniffer';
+
+
+gulp.task('clean', () =>
+  del(['dist', 'reports']));
 
 gulp.task('lint', () =>
   gulp
@@ -82,6 +87,6 @@ gulp.task('test:watch', () =>
 gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
 
 // Actual tasks
-gulp.task('test', () => runSequence('lint', 'babel', 'compressHTMLCS', 'nodeunit'));
+gulp.task('test', () => runSequence('clean', 'lint', 'babel', 'compressHTMLCS', 'nodeunit'));
 gulp.task('build', ['lint', 'compressHTMLCS', 'babel']);
 gulp.task('default', ['build', 'watch']);
