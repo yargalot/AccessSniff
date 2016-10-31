@@ -10,7 +10,7 @@ ERROR|WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2|<html><head>
     <a href="test" class="herp">Test</a>
   
 
-</body></html>|||0|0|The html element should have a lang or xml:lang attribute which describes the language of the document.
+</body></html>|||1|0|The html element should have a lang or xml:lang attribute which describes the language of the document.
 NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|<a id="herpDerp" class="test Element" href="test">Test</a>|herpDerp|test Element|8|4|Check that the link text combined with programmatically determined link context identifies the purpose of the link.
 NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|<a href="test">Test</a>|||9|4|Check that the link text combined with programmatically determined link context identifies the purpose of the link.
 NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|<a href="test" class="herp">Test</a>||herp|10|4|Check that the link text combined with programmatically determined link context identifies the purpose of the link.

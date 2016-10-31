@@ -1,24 +1,30 @@
 /* @flow */
 
-const getElementPosition = (htmlString: string, fileContents: string) => {
-  let position = {
-    lineNumber: 0,
-    columnNumber: 0
-  };
+const startOfLineIndex = (lines, line) => {
+  let x = lines.slice(0);
 
-  const indexAt = fileContents.indexOf(htmlString);
-  const before = fileContents.slice(0, indexAt);
-  const stringArray = before.split(/\r\n|\r|\n/);
+  x.splice(line - 1);
 
-  if (indexAt === -1) {
-    return position;
+  return x.join('\n').length + (x.length > 0);
+};
+
+const getLineFromPos = (content, index) => {
+  let lines = content.split('\n');
+  let lineNumber = content.substr(0, index).split('\n').length;
+  let columnNumber = index - startOfLineIndex(lines, lineNumber);
+
+  if (columnNumber < 0) {
+    columnNumber = 0;
   }
 
-  position.lineNumber = stringArray.length;
-  position.columnNumber = stringArray[position.lineNumber - 1].length;
+  return { lineNumber, columnNumber };
+};
+
+const getElementPosition = (htmlString: string, fileContents: string) => {
+  const index:number = fileContents.indexOf(htmlString);
+  const position = getLineFromPos(fileContents, index);
 
   return position;
 };
-
 
 export { getElementPosition as default };

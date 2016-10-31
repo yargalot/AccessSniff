@@ -32,11 +32,10 @@ exports.accessibilityTests = {
   },
   overall_testFileString: test => {
     var target = './test/examples/test.html';
-    var expected = fs.readFileSync('./test/expected/test.json', 'utf8');
 
     AccessSniff.default(target, testOptions)
       .then(report => {
-        test.deepEqual(report[target], JSON.parse(expected)[target], 'Should produce a json report for test.html');
+        test.ok(Object.keys(report).length === 1, 'There should be 1 report from an string input');
         test.expect(1);
         test.done();
       });
