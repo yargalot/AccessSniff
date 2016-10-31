@@ -23,8 +23,6 @@ const buildMessage = (msg, fileContents, options) => {
       position: getElementPosition(msgSplit[3], fileContents),
       description: msgSplit[2]
     };
-  } else {
-    return message;
   }
 
   // Return the message for reports
