@@ -183,12 +183,8 @@ export default class Accessibility {
       })
       .then(data => {
         if (!this.options.force && this.errorCount) {
-          let errorMessage = `There was ${this.errorCount} error`;
-
-          if (this.errorCount > 1) {
-            errorMessage = `There was ${this.errorCount} errors`;
-          }
-
+          let errorString = this.errorCount > 1 ? 'errors' : 'error';
+          let errorMessage = `There was ${this.errorCount} ${errorString}`;
           logger.generalError(errorMessage);
 
           return Promise.reject(errorMessage);
