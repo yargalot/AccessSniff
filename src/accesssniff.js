@@ -3,10 +3,9 @@ import path from 'path';
 import Promise from 'bluebird';
 import _ from 'underscore';
 import logger from './logger';
-import childProcess from 'child_process';
-import phantom from 'phantomjs-prebuilt';
 
 import { buildMessage, getFileContents } from './helpers';
+import { RunPhantomInstance } from './runners';
 
 export default class Accessibility {
   constructor(options) {
@@ -146,20 +145,12 @@ export default class Accessibility {
       .then(data => {
         this.fileContents = data;
 
-        // Call Phantom
-        childProcess
-          .execFile(phantom.path, [
-            path.join(__dirname, './phantom.js'),
-            file,
-            accessibilityLevel
-          ], { maxBuffer }, (error, stdout) => {
-            if (error) {
-              logger.generalError(`Testing ${this.options.filePath} failed`);
-              logger.generalError(error);
-              deferredOutside.reject(error);
-            }
-
-            this.parseOutput(stdout, deferredOutside);
+        RunPhantomInstance(file, accessibilityLevel, maxBuffer)
+          .then(data => this.parseOutput(data, deferredOutside))
+          .catch(error => {
+            logger.generalError(`Testing ${this.options.filePath} failed`);
+            logger.generalError(error);
+            deferredOutside.reject(error);
           });
       });
 
