@@ -21,8 +21,6 @@ const RunJsDomInstance = (file, accessibilityLevel) => {
           reject(err);
         }
 
-        console.log(window);
-
         window.HTMLCS_RUNNER.run(accessibilityLevel);
       }
     };
