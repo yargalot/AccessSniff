@@ -5,7 +5,7 @@ import _ from 'underscore';
 import logger from './logger';
 
 import { buildMessage, getFileContents } from './helpers';
-import { RunPhantomInstance } from './runners';
+import { RunPhantomInstance, RunJsDomInstance } from './runners';
 
 export default class Accessibility {
   constructor(options) {
@@ -67,14 +67,14 @@ export default class Accessibility {
 
   parseOutput(file, deferred) {
     // We need to split the input via newline to get message entries
-    const fileMessages = file.split('\n');
+    const fileMessages = Array.isArray(file) ? file : file.split('\n');
     let messageLog = [];
 
     // Run the messages through the parser
     fileMessages.every(messageString => {
       // Each message will return as an array, [messageType, messagePipe]
       // Message Pipe needs to be sent through to the terminal for parsing
-      const message = JSON.parse(messageString);
+      const message = _.isString(messageString) ? JSON.parse(messageString) : messageString;
       const messageType = message[0];
       const messagePipe = message[1];
 
@@ -112,7 +112,6 @@ export default class Accessibility {
       }
 
       return true;
-
     });
 
     // If there are messages then the files are not lint free
@@ -137,7 +136,7 @@ export default class Accessibility {
     this.options.fileName = path.basename(file, '.html');
 
     if (verbose) {
-      logger.startMessage(`Testing ${this.options.filePath}`);
+      logger.startMessage(`Testing ${file}`);
     }
 
     // Get file contents
@@ -145,13 +144,23 @@ export default class Accessibility {
       .then(data => {
         this.fileContents = data;
 
-        RunPhantomInstance(file, accessibilityLevel, maxBuffer)
-          .then(data => this.parseOutput(data, deferredOutside))
-          .catch(error => {
-            logger.generalError(`Testing ${this.options.filePath} failed`);
-            logger.generalError(error);
-            deferredOutside.reject(error);
-          });
+        if (this.options.template) {
+          RunJsDomInstance(file, accessibilityLevel)
+            .then(data => this.parseOutput(data, deferredOutside))
+            .catch(error => {
+              logger.generalError(`Testing ${file} failed`);
+              logger.generalError(error);
+              deferredOutside.reject(error);
+            });
+        } else {
+          RunPhantomInstance(file, accessibilityLevel, maxBuffer)
+            .then(data => this.parseOutput(data, deferredOutside))
+            .catch(error => {
+              logger.generalError(`Testing ${file} failed`);
+              logger.generalError(error);
+              deferredOutside.reject(error);
+            });
+        }
       });
 
     return deferredOutside.promise;

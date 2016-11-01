@@ -64,7 +64,6 @@ exports.accessibilityTests = {
         test.deepEqual(writtenReport, expected, 'Should write a TXT report for test.html');
         test.expect(2);
         test.done();
-
       });
   }
 };

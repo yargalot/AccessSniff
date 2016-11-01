@@ -6,21 +6,21 @@ function Runner() {
 
   this.run = function(standard) {
     var _this = this;
+    var messages = ['derp'];
 
     // At the moment, it passes the whole DOM document.
     HTMLCS.process(standard, document, function() {
       var messages = HTMLCS.getMessages();
 
-      messages.forEach(function(message) {
-        // Print out actual element to string
+      messages = messages.map((message) => {
         message.elementString = message.element.outerHTML;
-
-        // Output to messages
-        _this.output(message);
+        return _this.output(message);
       });
 
       console.log('done');
     });
+
+    return messages;
   };
 
   this.output = function(msg) {
@@ -50,6 +50,8 @@ function Runner() {
       msg.element.id;
 
     console.log(message);
+
+    return message;
 
   };
 
