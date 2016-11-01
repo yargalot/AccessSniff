@@ -145,22 +145,16 @@ export default class Accessibility {
         this.fileContents = data;
 
         if (this.options.template) {
-          RunJsDomInstance(file, accessibilityLevel)
-            .then(data => this.parseOutput(data, deferredOutside))
-            .catch(error => {
-              logger.generalError(`Testing ${file} failed`);
-              logger.generalError(error);
-              deferredOutside.reject(error);
-            });
+          return RunJsDomInstance(file, accessibilityLevel);
         } else {
-          RunPhantomInstance(file, accessibilityLevel, maxBuffer)
-            .then(data => this.parseOutput(data, deferredOutside))
-            .catch(error => {
-              logger.generalError(`Testing ${file} failed`);
-              logger.generalError(error);
-              deferredOutside.reject(error);
-            });
+          return RunPhantomInstance(file, accessibilityLevel, maxBuffer);
         }
+      })
+      .then(data => this.parseOutput(data, deferredOutside))
+      .catch(error => {
+        logger.generalError(`Testing ${file} failed`);
+        logger.generalError(error);
+        deferredOutside.reject(error);
       });
 
     return deferredOutside.promise;
