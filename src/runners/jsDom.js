@@ -9,8 +9,6 @@ const scriptPath = path.join(__dirname, '../HTMLCS.min.js');
 var vConsole = jsdom.createVirtualConsole();
 
 const RunJsDomInstance = (file, accessibilityLevel) => {
-
-
   return new Promise((resolve, reject) => {
     let messages = [];
     const jsDomOptions = {
@@ -26,7 +24,7 @@ const RunJsDomInstance = (file, accessibilityLevel) => {
     };
 
     if (validator.isURL(file)) {
-      jsDomOptions.url = file;
+      reject('Cannot render urls');
     } else if (fs.existsSync(file)) {
       jsDomOptions.file = file;
     } else {

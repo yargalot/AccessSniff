@@ -42,6 +42,7 @@
     "jsdom": "^9.8.3",
     "mkdirp": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.12",
+    "rc": "^1.1.6",
     "underscore": "^1.8.2",
     "validator": "^5.0.0"
   },

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import rc from 'rc';
 import path from 'path';
 import Promise from 'bluebird';
 import _ from 'underscore';
@@ -40,29 +40,19 @@ export default class Accessibility {
       maxBuffer: 500*1024
     };
 
-    // Defaults options with input options
     _.defaults(options, this.defaults);
 
-    // Find the accessibilityRc file
-    const accessRcPath = `${this.basepath}/.accessibilityrc`;
-
-    if (fs.existsSync(accessRcPath) && options.accessibilityrc) {
-      const rcOptions = fs.readFileSync(accessRcPath, 'utf8');
-
-      if (rcOptions) {
-        options = _.extend(options, JSON.parse(rcOptions));
-      }
-    }
+    const conf = rc('accessibility', options);
 
     // We need to convert the report levels to uppercase
-    _.each(options.reportLevels, (value, key) => {
+    _.each(conf.reportLevels, (value, key) => {
       if (value) {
-        options.reportLevelsArray.push(key.toUpperCase());
+        conf.reportLevelsArray.push(key.toUpperCase());
       }
     });
 
     // Assign options to this
-    this.options = options;
+    this.options = conf;
   }
 
   parseOutput(file, deferred) {
