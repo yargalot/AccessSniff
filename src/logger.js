@@ -55,7 +55,7 @@ logger.startMessage = (message: string): string => {
 
 };
 
-logger.finishedMessage = (filePath: string):string => {
+logger.finishedMessage = (filePath: string): string => {
 
   let message = 'Report Finished';
 
@@ -69,12 +69,13 @@ logger.finishedMessage = (filePath: string):string => {
 
 };
 
-logger.lintFree = (message: string):string => {
+logger.lintFree = (fileAmount: number): string => {
+  const fileString = fileAmount > 1 ? 'files' : 'file';
+  const message = `${fileAmount} ${fileString} lint free!`;
 
   console.log(chalk.green(message));
 
   return message;
-
 };
 
 logger.errorMessage = (errors: number): string => {

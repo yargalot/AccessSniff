@@ -131,12 +131,13 @@ export default class Accessibility {
 
   fileResolver(file) {
     const deferredOutside = Promise.pending();
+    const { accessibilityLevel, maxBuffer, verbose } = this.options;
 
     // Set the filename for later
     this.options.filePath = file;
     this.options.fileName = path.basename(file, '.html');
 
-    if (this.options.verbose) {
+    if (verbose) {
       logger.startMessage(`Testing ${this.options.filePath}`);
     }
 
@@ -150,8 +151,8 @@ export default class Accessibility {
           .execFile(phantom.path, [
             path.join(__dirname, './phantom.js'),
             file,
-            this.options.accessibilityLevel
-          ], {maxBuffer: this.options.maxBuffer}, (error, stdout) => {
+            accessibilityLevel
+          ], { maxBuffer }, (error, stdout) => {
             if (error) {
               logger.generalError(`Testing ${this.options.filePath} failed`);
               logger.generalError(error);
@@ -181,8 +182,7 @@ export default class Accessibility {
         filesInput.forEach((fileName, index) => logs[fileName] = messageLog[index]);
 
         if (this.lintFree) {
-          const fileString = filesInput.length > 1 ? 'files' : 'file';
-          logger.lintFree(`${filesInput.length} ${fileString} lint free!`);
+          logger.lintFree(filesInput.length);
         }
 
         return logs;
