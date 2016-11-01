@@ -4,7 +4,7 @@ import Promise from 'bluebird';
 import _ from 'underscore';
 import logger from './logger';
 
-import { buildMessage, getFileContents } from './helpers';
+import { buildMessage, getFileContents, NormalizeOutput } from './helpers';
 import { RunPhantomInstance, RunJsDomInstance } from './runners';
 
 export default class Accessibility {
@@ -42,6 +42,7 @@ export default class Accessibility {
 
     _.defaults(options, this.defaults);
 
+    // Check .accessibilityrc file
     const conf = rc('accessibility', options);
 
     // We need to convert the report levels to uppercase
@@ -55,16 +56,14 @@ export default class Accessibility {
     this.options = conf;
   }
 
-  parseOutput(file, deferred) {
+  parseOutput(outputMessages, deferred) {
     // We need to split the input via newline to get message entries
-    const fileMessages = Array.isArray(file) ? file : file.split('\n');
     let messageLog = [];
 
     // Run the messages through the parser
-    fileMessages.every(messageString => {
+    outputMessages.every(message => {
+
       // Each message will return as an array, [messageType, messagePipe]
-      // Message Pipe needs to be sent through to the terminal for parsing
-      const message = _.isString(messageString) ? JSON.parse(messageString) : messageString;
       const messageType = message[0];
       const messagePipe = message[1];
 
@@ -140,6 +139,7 @@ export default class Accessibility {
           return RunPhantomInstance(file, accessibilityLevel, maxBuffer);
         }
       })
+      .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
       .then(data => this.parseOutput(data, deferredOutside))
       .catch(error => {
         logger.generalError(`Testing ${file} failed`);
