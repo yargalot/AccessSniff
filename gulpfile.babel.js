@@ -14,7 +14,7 @@ const HTMLCSFolder = './node_modules/HTML_CodeSniffer';
 
 
 gulp.task('clean', () =>
-  del(['dist', 'reports']));
+  del(['dist', 'reports', 'test/*.xml']));
 
 gulp.task('lint', () =>
   gulp
