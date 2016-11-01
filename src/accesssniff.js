@@ -5,7 +5,7 @@ import _ from 'underscore';
 import logger from './logger';
 
 import { buildMessage, getFileContents, NormalizeOutput } from './helpers';
-import { RunPhantomInstance, RunJsDomInstance } from './runners';
+import SelectInstance from './runners';
 
 export default class Accessibility {
   constructor(options) {
@@ -72,12 +72,7 @@ export default class Accessibility {
         return false;
       }
 
-      // Check to see if the message is an array, and then send it
-      //through to the terminal
-      let messageOuput;
-      if (Array.isArray(message)) {
-        messageOuput = buildMessage(messagePipe, this.fileContents, this.options);
-      }
+      const messageOuput = buildMessage(messagePipe, this.fileContents, this.options);
 
       // Push the returned message to the messageLog
       // Message output could be null so we dont need to push that
@@ -118,7 +113,7 @@ export default class Accessibility {
 
   fileResolver(file) {
     const deferredOutside = Promise.pending();
-    const { accessibilityLevel, maxBuffer, verbose } = this.options;
+    const { verbose } = this.options;
 
     // Set the filename for later
     this.options.filePath = file;
@@ -132,12 +127,7 @@ export default class Accessibility {
     getFileContents(file)
       .then(data => {
         this.fileContents = data;
-
-        if (this.options.template) {
-          return RunJsDomInstance(file, accessibilityLevel);
-        } else {
-          return RunPhantomInstance(file, accessibilityLevel, maxBuffer);
-        }
+        return SelectInstance(file, this.options);
       })
       .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
       .then(data => this.parseOutput(data, deferredOutside))

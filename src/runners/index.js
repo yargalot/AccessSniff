@@ -1,4 +1,5 @@
 import RunPhantomInstance from './phantom';
 import RunJsDomInstance from './jsDom';
+import SelectInstance from './selectRenderer';
 
-export { RunPhantomInstance, RunJsDomInstance };
+export { SelectInstance as default, RunPhantomInstance, RunJsDomInstance };
