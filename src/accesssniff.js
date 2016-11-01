@@ -1,14 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import axios from 'axios';
 import Promise from 'bluebird';
-import validator from 'validator';
 import _ from 'underscore';
 import logger from './logger';
 import childProcess from 'child_process';
 import phantom from 'phantomjs-prebuilt';
 
-import { buildMessage } from './helpers';
+import { buildMessage, getFileContents } from './helpers';
 
 export default class Accessibility {
   constructor(options) {
@@ -131,15 +129,6 @@ export default class Accessibility {
     deferred.resolve(messageLog);
   }
 
-  getUrlContents(url) {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(url)
-        .then(response => resolve(response))
-        .catch(response => reject(response));
-    });
-  }
-
   fileResolver(file) {
     const deferredOutside = Promise.pending();
 
@@ -152,28 +141,25 @@ export default class Accessibility {
     }
 
     // Get file contents
-    if (validator.isURL(file)) {
-      this.getUrlContents(file).then(data => this.fileContents = data.data);
-    } else if (fs.existsSync(file)) {
-      this.fileContents = fs.readFileSync(file, 'utf8');
-    } else {
-      this.fileContents = file;
-    }
+    getFileContents(file)
+      .then(data => {
+        this.fileContents = data;
 
-    // Call Phantom
-    childProcess
-      .execFile(phantom.path, [
-        path.join(__dirname, './phantom.js'),
-        file,
-        this.options.accessibilityLevel
-      ], {maxBuffer: this.options.maxBuffer}, (error, stdout) => {
-        if (error) {
-          logger.generalError(`Testing ${this.options.filePath} failed`);
-          logger.generalError(error);
-          deferredOutside.reject(error);
-        }
+        // Call Phantom
+        childProcess
+          .execFile(phantom.path, [
+            path.join(__dirname, './phantom.js'),
+            file,
+            this.options.accessibilityLevel
+          ], {maxBuffer: this.options.maxBuffer}, (error, stdout) => {
+            if (error) {
+              logger.generalError(`Testing ${this.options.filePath} failed`);
+              logger.generalError(error);
+              deferredOutside.reject(error);
+            }
 
-        this.parseOutput(stdout, deferredOutside);
+            this.parseOutput(stdout, deferredOutside);
+          });
       });
 
     return deferredOutside.promise;
