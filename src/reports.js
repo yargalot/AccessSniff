@@ -14,12 +14,13 @@ const generateReport = (reports, seperator) => {
 
   let output = '';
 
-  _.each(reports, (report, fileName) =>
-    report.messageLog.forEach((message) => {
-      const headings = ['heading', 'issue', 'element', 'id', 'class', 'line', 'column', 'description'].join(seperator);
+  _.each(reports, (report, fileName) => {
+    const headings = ['heading', 'issue', 'element', 'id', 'class', 'line', 'column', 'description'].join(seperator);
 
-      output += `${fileName}\n`;
-      output += `${headings}\n`;
+    output += `${fileName}\n`;
+    output += `${headings}\n`;
+
+    report.messageLog.forEach((message) => {
       output += message.heading + seperator;
       output += message.issue + seperator;
       output += message.element.node + seperator;
@@ -28,7 +29,8 @@ const generateReport = (reports, seperator) => {
       output += message.position.lineNumber + seperator;
       output += message.position.columnNumber + seperator;
       output += message.description + '\n';
-  }));
+    });
+  });
 
   return output;
 
