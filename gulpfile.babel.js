@@ -64,6 +64,10 @@ gulp.task('nodeunit', ['pre-test'], () =>
         output: 'test'
       }
     }))
+    .on('error',(err) => {
+      process.exit.bind(process, 1);
+      console.error(err);
+    })
     .pipe(istanbul.writeReports({
       dir: './test/coverage',
       reporters: ['json', 'text']

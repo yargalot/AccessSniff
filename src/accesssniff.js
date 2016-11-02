@@ -84,7 +84,7 @@ export default class Accessibility {
           totalIssueCount.warning += counters.warning;
           totalIssueCount.notice += counters.notice;
 
-          reportLogs[fileName] = messageLog;
+          reportLogs[fileName] = { counters, messageLog };
         });
 
         return { reportLogs, totalIssueCount, AllReportsLintFree };

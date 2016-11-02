@@ -12,30 +12,33 @@ const defaultOptions = {
 
 const generateReport = (reports, seperator) => {
 
-  let output = 'heading, issue, element, id, class, line, column, description \n';
+  let output = '';
 
-  _.each(reports, report => report.forEach(message => {
+  _.each(reports, (report, fileName) =>
+    report.messageLog.forEach((message) => {
+      const headings = ['heading', 'issue', 'element', 'id', 'class', 'line', 'column', 'description'].join(seperator);
 
-    output += message.heading + seperator;
-    output += message.issue + seperator;
-    output += message.element.node + seperator;
-    output += message.element.id + seperator;
-    output += message.element.class + seperator;
-    output += message.position.lineNumber + seperator;
-    output += message.position.columnNumber + seperator;
-    output += message.description + '\n';
-
+      output += `${fileName}\n`;
+      output += `${headings}\n`;
+      output += message.heading + seperator;
+      output += message.issue + seperator;
+      output += message.element.node + seperator;
+      output += message.element.id + seperator;
+      output += message.element.class + seperator;
+      output += message.position.lineNumber + seperator;
+      output += message.position.columnNumber + seperator;
+      output += message.description + '\n';
   }));
 
   return output;
 
 };
 
-export default (messageLog, options = defaultOptions) => {
+export default (reports, options = defaultOptions) => {
 
   _.defaults(options, defaultOptions);
 
-  let report = new reports(messageLog, options);
+  let report = new ReportsGenerator(reports, options);
 
   if (options.location) {
     report.writeFile();
@@ -44,9 +47,10 @@ export default (messageLog, options = defaultOptions) => {
   return report.getReport();
 };
 
-export class reports {
 
-  constructor(messageLog, options) {
+class ReportsGenerator {
+
+  constructor(reports, options) {
 
     this.report = {
       name: options.fileName,
@@ -58,23 +62,23 @@ export class reports {
     switch (options.reportType) {
 
       case 'json':
-        this.report.output = this.reportJson(messageLog);
+        this.report.output = this.reportJson(reports);
         break;
 
       case 'csv':
-        this.report.output = this.reportCsv(messageLog);
+        this.report.output = this.reportCsv(reports);
         break;
 
       case 'txt':
-        this.report.output = this.reportTxt(messageLog);
+        this.report.output = this.reportTxt(reports);
         break;
 
     }
 
   }
 
-  reportJson(messageLog) {
-    return JSON.stringify(messageLog);
+  reportJson(reports) {
+    return JSON.stringify(reports);
   }
 
   reportTxt(reports) {
