@@ -74,7 +74,11 @@ exports.accessibilityTests = {
   overall_bootstrapHome: test => {
     var target = 'https://getbootstrap.com/';
 
-    AccessSniff.default([target], testOptions)
+    AccessSniff.default([target], {
+      force: true,
+      verbose: false,
+      browser: true
+    })
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap');
         test.expect(1);
@@ -84,7 +88,11 @@ exports.accessibilityTests = {
   overall_bootstrapStarted: test => {
     var target = 'https://getbootstrap.com/getting-started/';
 
-    AccessSniff.default([target], testOptions)
+    AccessSniff.default([target], {
+      force: true,
+      verbose: false,
+      browser: true
+    })
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap getting started');
         test.expect(1);

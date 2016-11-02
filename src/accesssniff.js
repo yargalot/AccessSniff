@@ -1,7 +1,6 @@
 import rc from 'rc';
-import path from 'path';
-import Promise from 'bluebird';
 import _ from 'underscore';
+import Promise from 'bluebird';
 import logger from './logger';
 
 import { buildMessage, getFileContents, NormalizeOutput } from './helpers';
@@ -20,12 +19,12 @@ export default class Accessibility {
     this.lintFree = true;
 
     this.log = '';
-    this.fileContents = '';
 
     this.defaults = {
       ignore: [],
       verbose: true,
       force: false,
+      browser: false,
       domElement: true,
       reportType: null,
       reportLevels: {
@@ -56,12 +55,9 @@ export default class Accessibility {
     this.options = conf;
   }
 
-  parseOutput(outputMessages, deferred) {
-    // We need to split the input via newline to get message entries
-    let messageLog = [];
-
+  parseOutput(outputMessages, fileName, fileContents) {
     // Run the messages through the parser
-    outputMessages.every(message => {
+    let messageLog = outputMessages.map(message => {
 
       // Each message will return as an array, [messageType, messagePipe]
       const messageType = message[0];
@@ -69,68 +65,59 @@ export default class Accessibility {
 
       // If the type is wcaglint done hop out of the loop
       if (messageType === 'wcaglint.done') {
-        return false;
+        return;
       }
 
-      const messageOuput = buildMessage(messagePipe, this.fileContents, this.options);
+      return buildMessage(messagePipe, fileContents, this.options);
+    });
 
-      // Push the returned message to the messageLog
-      // Message output could be null so we dont need to push that
-      if (messageOuput) {
-        messageLog.push(messageOuput);
+    // Filter out no messages
+    messageLog = messageLog.filter(message => message);
 
-        // If there is an error +1 the error stuff
-        if (messageOuput.heading === 'ERROR') {
-          this.errorCount += 1;
-        }
+    // If verbose is true then push the output through to the terminal
 
-        // If there is an error +1 the error stuff
-        if (messageOuput.heading === 'NOTICE') {
-          this.noticeCount += 1;
-        }
+    let counters = {
+      error: 0,
+      notice: 0,
+      warning: 0
+    };
 
-        // If there is an error +1 the error stuff
-        if (messageOuput.heading === 'WARNING') {
-          this.warningCount += 1;
-        }
+    const updateCounter = heading => counters[heading.toLowerCase()] ++;
+
+    messageLog.forEach(message => {
+
+      if (this.options.verbose) {
+        logger.generalMessage(message);
       }
 
-      return true;
+      updateCounter(message.heading);
     });
 
     // If there are messages then the files are not lint free
-    this.lintFree = this.errorCount ||  this.noticeCount || this.warningCount ? true : false;
+    const lintFree = (this.errorCount || this.noticeCount || this.warningCount) ? true : false;
 
-    // If verbose is true then push the output through to the terminal
-    if (this.lintFree && this.options.verbose) {
-      logger.startMessage(`Tested ${this.options.filePath}`);
-      messageLog.forEach(message => logger.generalMessage(message));
-    }
-
-    // Fullfill the passed promise
-    deferred.resolve(messageLog);
+    return { fileName, lintFree, counters, messageLog };
   }
 
   fileResolver(file) {
     const deferredOutside = Promise.pending();
     const { verbose } = this.options;
 
-    // Set the filename for later
-    this.options.filePath = file;
-    this.options.fileName = path.basename(file, '.html');
-
     if (verbose) {
       logger.startMessage(`Testing ${file}`);
     }
 
+    let fileContents;
+
     // Get file contents
     getFileContents(file)
       .then(data => {
-        this.fileContents = data;
+        fileContents = data;
         return SelectInstance(file, this.options);
       })
       .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
-      .then(data => this.parseOutput(data, deferredOutside))
+      .then(data => this.parseOutput(data, file, fileContents))
+      .then(reportData => deferredOutside.resolve(reportData))
       .catch(error => {
         logger.generalError(`Testing ${file} failed`);
         logger.generalError(error);
@@ -142,6 +129,7 @@ export default class Accessibility {
 
   run(filesInput) {
     const files = Promise.resolve(filesInput);
+    const { verbose } = this.options;
 
     if (this.options.verbose) {
       logger.startMessage('Starting Accessibility tests');
@@ -150,27 +138,45 @@ export default class Accessibility {
     return files
       .bind(this)
       .map(this.fileResolver, { concurrency: 1 })
-      .then(messageLog => {
-        let logs = {};
+      .then((reports) => {
+        let reportLogs = {};
+        let totalIssueCount = { error: 0, warning: 0, notice: 0 };
+        let AllReportsLintFree;
 
-        filesInput.forEach((fileName, index) => logs[fileName] = messageLog[index]);
+        reports.forEach(report => {
+          const { fileName, lintFree, messageLog, counters } = report;
 
-        if (this.lintFree) {
+          if (lintFree) {
+            AllReportsLintFree = true;
+          }
+
+          totalIssueCount.error += counters.error;
+          totalIssueCount.warning += counters.warning;
+          totalIssueCount.notice += counters.notice;
+
+          reportLogs[fileName] = messageLog;
+        });
+
+        return { reportLogs, totalIssueCount, AllReportsLintFree };
+      })
+      .then(({ reportLogs, totalIssueCount, AllReportsLintFree }) => {
+
+        if (AllReportsLintFree) {
           logger.lintFree(filesInput.length);
         }
 
-        return logs;
-      })
-      .then(data => {
-        if (!this.options.force && this.errorCount) {
-          let errorString = this.errorCount > 1 ? 'errors' : 'error';
-          let errorMessage = `There was ${this.errorCount} ${errorString}`;
-          logger.generalError(errorMessage);
+        let errorString = totalIssueCount.error > 1 ? 'errors' : 'error';
+        let errorMessage = `There was ${totalIssueCount.error} ${errorString}`;
 
+        if (totalIssueCount.error && verbose) {
+          logger.generalError(errorMessage);
+        }
+
+        if (!this.options.force && totalIssueCount.error) {
           return Promise.reject(errorMessage);
         }
 
-        return data;
+        return reportLogs;
       });
   }
 

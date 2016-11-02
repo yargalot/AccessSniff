@@ -20,13 +20,19 @@ var fs = require('fs');
     test.ifError(value)
 */
 
+
+const options = {
+  force: true,
+  browser: true
+};
+
 exports.accessibilityTests = {
   setUp: done => {
     // setup here if necessary
     done();
   },
   report_JSON: test => {
-    AccessSniff.default(['./test/examples/test.html'], {force: true})
+    AccessSniff.default(['./test/examples/test.html'], options)
       .then(report => AccessSniff.report(report, {location: 'reports'}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.json', 'utf8');
@@ -40,7 +46,7 @@ exports.accessibilityTests = {
       });
   },
   report_CSV: test => {
-    AccessSniff.default(['./test/examples/test.html'], {force: true})
+    AccessSniff.default(['./test/examples/test.html'], options)
       .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'csv', force: true}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.csv', 'utf8');
@@ -54,7 +60,7 @@ exports.accessibilityTests = {
       });
   },
   report_TXT: test => {
-    AccessSniff.default(['./test/examples/test.html'], {force: true})
+    AccessSniff.default(['./test/examples/test.html'], options)
       .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'txt', force: true}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.txt', 'utf8');
