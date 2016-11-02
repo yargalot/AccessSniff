@@ -3,7 +3,8 @@ import _ from 'underscore';
 import Promise from 'bluebird';
 import logger from './logger';
 
-import { buildMessage, getFileContents, NormalizeOutput } from './helpers';
+import { getFileContents, NormalizeOutput } from './helpers';
+import ParseOutput from './messages';
 import SelectInstance from './runners';
 
 export default class Accessibility {
@@ -55,50 +56,6 @@ export default class Accessibility {
     this.options = conf;
   }
 
-  parseOutput(outputMessages, fileName, fileContents) {
-    // Run the messages through the parser
-    let messageLog = outputMessages.map(message => {
-
-      // Each message will return as an array, [messageType, messagePipe]
-      const messageType = message[0];
-      const messagePipe = message[1];
-
-      // If the type is wcaglint done hop out of the loop
-      if (messageType === 'wcaglint.done') {
-        return;
-      }
-
-      return buildMessage(messagePipe, fileContents, this.options);
-    });
-
-    // Filter out no messages
-    messageLog = messageLog.filter(message => message);
-
-    // If verbose is true then push the output through to the terminal
-
-    let counters = {
-      error: 0,
-      notice: 0,
-      warning: 0
-    };
-
-    const updateCounter = heading => counters[heading.toLowerCase()] ++;
-
-    messageLog.forEach(message => {
-
-      if (this.options.verbose) {
-        logger.generalMessage(message);
-      }
-
-      updateCounter(message.heading);
-    });
-
-    // If there are messages then the files are not lint free
-    const lintFree = (this.errorCount || this.noticeCount || this.warningCount) ? true : false;
-
-    return { fileName, lintFree, counters, messageLog };
-  }
-
   fileResolver(file) {
     const deferredOutside = Promise.pending();
     const { verbose } = this.options;
@@ -116,7 +73,7 @@ export default class Accessibility {
         return SelectInstance(file, this.options);
       })
       .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
-      .then(data => this.parseOutput(data, file, fileContents))
+      .then(data => ParseOutput(data, file, fileContents, this.options))
       .then(reportData => deferredOutside.resolve(reportData))
       .catch(error => {
         logger.generalError(`Testing ${file} failed`);
