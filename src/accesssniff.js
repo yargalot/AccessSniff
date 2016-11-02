@@ -7,40 +7,13 @@ import { getFileContents, NormalizeOutput } from './helpers';
 import ParseOutput from './messages';
 import SelectInstance from './runners';
 
+import defaults from './helpers/defaults';
+
 export default class Accessibility {
   constructor(options) {
-    this.basepath = process.cwd();
 
-    // Count the errors and stuff
-    this.errorCount = 0;
-    this.noticeCount = 0;
-    this.warningCount = 0;
-
-    // Mark for if all the tests were lint free
-    this.lintFree = true;
-
-    this.log = '';
-
-    this.defaults = {
-      ignore: [],
-      verbose: true,
-      force: false,
-      browser: false,
-      domElement: true,
-      reportType: null,
-      reportLevels: {
-        notice: true,
-        warning: true,
-        error: true
-      },
-      reportLevelsArray: [],
-      reportLocation : '',
-      accessibilityrc: true,
-      accessibilityLevel: 'WCAG2A',
-      maxBuffer: 500*1024
-    };
-
-    _.defaults(options, this.defaults);
+    // Merge defaults with options
+    _.defaults(options, defaults);
 
     // Check .accessibilityrc file
     const conf = rc('accessibility', options);
