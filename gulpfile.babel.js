@@ -61,7 +61,7 @@ gulp.task('nodeunit', ['pre-test'], () =>
     .pipe(nodeunit({
       reporter: 'junit',
       reporterOptions: {
-        output: 'test'
+        output: 'test/xmlResults'
       }
     }))
     .pipe(istanbul.writeReports({
