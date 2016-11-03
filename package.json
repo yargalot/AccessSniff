@@ -44,6 +44,7 @@
     "phantomjs-prebuilt": "^2.1.12",
     "rc": "^1.1.6",
     "underscore": "^1.8.2",
+    "unixify": "^0.2.1",
     "validator": "^5.0.0"
   },
   "devDependencies": {

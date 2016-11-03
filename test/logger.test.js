@@ -60,7 +60,7 @@ exports.accessibilityTests = {
     const normalMessage = logger.finishedMessage();
     test.equal(normalMessage, 'Report Finished');
 
-    const fileMessage = logger.finishedMessage('/test.html');
+    let fileMessage = logger.finishedMessage('/test.html');
     test.equal(fileMessage, 'File "/test.html" created. Report Finished');
 
     test.expect(2);

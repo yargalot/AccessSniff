@@ -1,6 +1,7 @@
 /* @flow */
 /*eslint-disable no-console */
 import chalk from 'chalk';
+import unixify from 'unixify';
 
 // Init Logger object
 let logger = {};
@@ -17,7 +18,7 @@ logger.generalMessage = (
       lineNumber: number,
       columnNumber:  number
     }
-  }): [string, string, string, string, string] => {
+  }): [string, string, string, string] => {
 
   let heading: string = '';
   const lineMessage: string = `Line:${message.position.lineNumber} Col:${message.position.columnNumber}`;
@@ -60,7 +61,8 @@ logger.finishedMessage = (filePath: string): string => {
   let message = 'Report Finished';
 
   if (filePath) {
-    message = `File "${filePath}" created. ${message}`;
+    let normalisedFilepath = unixify(filePath);
+    message = `File "${normalisedFilepath}" created. ${message}`;
   }
 
   console.log(chalk.cyan(message));
