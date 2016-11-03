@@ -6,11 +6,10 @@ import validator from 'validator';
 
 const scriptPath = path.join(__dirname, '../HTMLCS.min.js');
 
-var vConsole = jsdom.createVirtualConsole();
-
 const RunJsDomInstance = (file, accessibilityLevel) => {
   return new Promise((resolve, reject) => {
     let messages = [];
+    const vConsole = jsdom.createVirtualConsole();
     const jsDomOptions = {
       scripts: [scriptPath],
       virtualConsole: vConsole,
