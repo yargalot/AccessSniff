@@ -1,105 +1,13 @@
 /* @flow */
-/*eslint-disable no-console */
-import chalk from 'chalk';
-import unixify from 'unixify';
 
-// Init Logger object
-let logger = {};
+import generalMessage from './generalMessage';
+import startMessage from './startMessage';
+import finishedMessage from './finishedMessage';
+import lintFree from './lintMessage';
+import errorMessage from './errorMessage';
+import generalError from './generalErrorMessage';
+import log from './logMessage';
 
-logger.generalMessage = (
-  message: {
-    heading: string,
-    issue: string,
-    description: string,
-    element: {
-      node: string
-    },
-    position: {
-      lineNumber: number,
-      columnNumber:  number
-    }
-  }): [string, string, string, string] => {
+let logger = { generalMessage, startMessage, finishedMessage, lintFree, errorMessage, generalError, log };
 
-  let heading: string = '';
-  const lineMessage: string = `Line:${message.position.lineNumber} Col:${message.position.columnNumber}`;
-
-  switch (message.heading) {
-    case 'ERROR':
-      heading = chalk.red.bold(message.heading);
-      break;
-    case 'NOTICE':
-      heading = chalk.blue.bold(message.heading);
-      break;
-    default:
-      heading = chalk.yellow.bold(message.heading);
-  }
-
-  heading += ` ${message.issue}`;
-
-  console.log(heading);
-  if (message.position.lineNumber || message.position.columnNumber) {
-    console.log(chalk.cyan(lineMessage));
-  }
-  console.log(chalk.grey(message.description));
-  console.log(chalk.grey('--------------------'));
-  console.log(chalk.grey(message.element.node), '\n');
-
-  return [`${message.heading} ${message.issue}`, lineMessage, message.description, message.element.node];
-
-};
-
-logger.startMessage = (message: string): string => {
-
-  console.log(chalk.white.underline(message), '\n');
-
-  return message;
-
-};
-
-logger.finishedMessage = (filePath: string): string => {
-
-  let message = 'Report Finished';
-
-  if (filePath) {
-    let normalisedFilepath = unixify(filePath);
-    message = `File "${normalisedFilepath}" created. ${message}`;
-  }
-
-  console.log(chalk.cyan(message));
-
-  return message;
-
-};
-
-logger.lintFree = (fileAmount: number): string => {
-  const fileString = fileAmount > 1 ? 'files' : 'file';
-  const message = `${fileAmount} ${fileString} lint free!`;
-
-  console.log(chalk.green(message));
-
-  return message;
-};
-
-logger.errorMessage = (errors: number): string => {
-  const message = `There were ${errors} errors present`;
-
-  console.log(chalk.red(message));
-
-  return message;
-};
-
-logger.generalError = (error: string): string => {
-
-  console.error(chalk.red(error));
-
-  return error;
-};
-
-logger.log = (message: string): string => {
-
-  console.log(message);
-
-  return message;
-};
-
-export default logger;
+export { logger as default, generalMessage, startMessage, finishedMessage, lintFree, errorMessage, generalError, log };

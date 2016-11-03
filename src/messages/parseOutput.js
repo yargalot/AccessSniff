@@ -1,5 +1,5 @@
 import buildMessage from './buildMessage';
-import logger from '../logger';
+import { generalMessage } from '../logger';
 
 const ParseOutput = (outputMessages, fileName, fileContents, options) => {
   // Run the messages through the parser
@@ -32,7 +32,7 @@ const ParseOutput = (outputMessages, fileName, fileContents, options) => {
   messageLog.forEach(message => {
 
     if (options.verbose) {
-      logger.generalMessage(message);
+      generalMessage(message);
     }
 
     updateCounter(message.heading);
