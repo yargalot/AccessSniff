@@ -73,7 +73,7 @@ exports.jsDOMTests = {
       });
   },
   overall_testString: test => {
-    var testString = '<h1>Hello World!<h1>';
+    var testString = '<h1>Hello World!</h1>';
 
     AccessSniff
       .default([testString], {
