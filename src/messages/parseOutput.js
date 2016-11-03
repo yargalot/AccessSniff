@@ -1,5 +1,5 @@
 import buildMessage from './buildMessage';
-import logger from '../logger.js';
+import logger from '../logger';
 
 const ParseOutput = (outputMessages, fileName, fileContents, options) => {
   // Run the messages through the parser
