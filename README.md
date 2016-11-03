@@ -4,6 +4,9 @@
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
+### NOTE
+3.0 is in development, please make pull requests against the 3.0 branch
+
 - [Gulp plugin](https://github.com/yargalot/gulp-accessibility)
 - [Grunt plugin](https://github.com/yargalot/grunt-accessibility)
 
