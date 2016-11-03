@@ -33,6 +33,7 @@ gulp.task('babel', () =>
     .pipe(babel({
       presets: ['es2015']
     }))
+    // eslint-disable-next-line
     .on('error', console.error.bind(console))
     .pipe(gulp.dest(distFolder))
 );
@@ -64,6 +65,10 @@ gulp.task('nodeunit', ['pre-test'], () =>
         output: 'test/xmlResults'
       }
     }))
+    .on('error',(err) => {
+      process.exit.bind(process, 1);
+      console.error(err);
+    })
     .pipe(istanbul.writeReports({
       dir: './test/coverage',
       reporters: ['json', 'text']
