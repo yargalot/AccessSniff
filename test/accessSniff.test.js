@@ -71,6 +71,23 @@ exports.accessibilityTests = {
         test.done();
       });
   },
+  overall_testString: test => {
+    var testString = '<h1>Hello World!<h1>';
+
+    AccessSniff
+      .default([testString], {
+        force: true,
+        ignore: [
+          'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
+          'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+        ]
+      })
+      .then(report => {
+        test.ok(report[testString], 'Should produce a json report for html string');
+        test.expect(1);
+        test.done();
+      });
+  },
   overall_bootstrapHome: test => {
     var target = 'https://getbootstrap.com/';
 
@@ -95,23 +112,6 @@ exports.accessibilityTests = {
     })
       .then(report => {
         test.ok(report[target], 'Should produce a json report from boostrap getting started');
-        test.expect(1);
-        test.done();
-      });
-  },
-  overall_testString: test => {
-    var testString = '<h1>Hello World<h1>';
-
-    AccessSniff
-      .default([testString], {
-        force: true,
-        ignore: [
-          'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
-          'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-        ]
-      })
-      .then(report => {
-        test.ok(report[testString], 'Should produce a json report for html string');
         test.expect(1);
         test.done();
       });
