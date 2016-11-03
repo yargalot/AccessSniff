@@ -23,12 +23,13 @@ test_script:
   # run tests
   - npm test
 
+after_test:
   # upload results to AppVeyor
   - $wc = New-Object 'System.Net.WebClient'
-  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\accessSniff.test.xml))
-  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\jsDom.test.xml))
-  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\logger.test.xml))
-  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\reports.test.xml))
+  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\accessSniff.test.js.xml))
+  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\jsDom.test.js.xml))
+  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\logger.test.js.xml))
+  - $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\reports.test.js.xml))
 
 # Don't actually build.
 build: off
