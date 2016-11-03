@@ -23,8 +23,12 @@ test_script:
   # run tests
   - npm test
 
-# after_test:
-#   # upload results to AppVeyor
+after_test:
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\accessSniff.test.js.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\jsDom.test.js.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\logger.test.js.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test\xmlResults\reports.test.js.xml))
 
 # Don't actually build.
 build: off
