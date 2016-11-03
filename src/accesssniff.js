@@ -3,7 +3,7 @@ import _ from 'underscore';
 import Promise from 'bluebird';
 import logger from './logger';
 
-import { getFileContents, NormalizeOutput } from './helpers';
+import { getFileContents, NormalizeOutput, CreateReportsJson } from './helpers';
 import ParseOutput from './messages';
 import SelectInstance from './runners';
 
@@ -32,12 +32,17 @@ export default class Accessibility {
   fileResolver(file) {
     const deferredOutside = Promise.pending();
     const { verbose } = this.options;
+    let fileContents;
 
     if (verbose) {
       logger.startMessage(`Testing ${file}`);
     }
 
-    let fileContents;
+    const ErrorReporter = (error) => {
+      logger.generalError(`Testing ${file} failed`);
+      logger.generalError(error);
+      deferredOutside.reject(error);
+    };
 
     // Get file contents
     getFileContents(file)
@@ -48,11 +53,7 @@ export default class Accessibility {
       .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
       .then(data => ParseOutput(data, file, fileContents, this.options))
       .then(reportData => deferredOutside.resolve(reportData))
-      .catch(error => {
-        logger.generalError(`Testing ${file} failed`);
-        logger.generalError(error);
-        deferredOutside.reject(error);
-      });
+      .catch(error => ErrorReporter(error));
 
     return deferredOutside.promise;
   }
@@ -68,27 +69,7 @@ export default class Accessibility {
     return files
       .bind(this)
       .map(this.fileResolver, { concurrency: 1 })
-      .then((reports) => {
-        let reportLogs = {};
-        let totalIssueCount = { error: 0, warning: 0, notice: 0 };
-        let AllReportsLintFree;
-
-        reports.forEach(report => {
-          const { fileName, lintFree, messageLog, counters } = report;
-
-          if (lintFree) {
-            AllReportsLintFree = true;
-          }
-
-          totalIssueCount.error += counters.error;
-          totalIssueCount.warning += counters.warning;
-          totalIssueCount.notice += counters.notice;
-
-          reportLogs[fileName] = { counters, messageLog };
-        });
-
-        return { reportLogs, totalIssueCount, AllReportsLintFree };
-      })
+      .then(reports => CreateReportsJson(reports))
       .then(({ reportLogs, totalIssueCount, AllReportsLintFree }) => {
 
         if (AllReportsLintFree) {
