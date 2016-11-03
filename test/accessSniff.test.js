@@ -100,7 +100,7 @@ exports.accessibilityTests = {
       });
   },
   overall_testString: test => {
-    var testString = '<html><body><h1>helloworld<h1></body></html>';
+    var testString = '<h1>Hello World<h1>';
 
     AccessSniff
       .default([testString], {
