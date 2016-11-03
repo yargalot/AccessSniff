@@ -7,7 +7,7 @@ type optionObject = {
   reportLevelsArray: Array<string>
 }
 
-const ignoredCheck = (ignoredRules: [], error: string) => {
+const ignoredCheck = (ignoredRules: [], error: string): boolean => {
   return _.some(ignoredRules, rule => error.startsWith(rule));
 };
 
