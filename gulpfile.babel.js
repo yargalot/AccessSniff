@@ -67,6 +67,7 @@ gulp.task('nodeunit', ['pre-test'], () =>
     }))
     .on('error',(err) => {
       process.exit.bind(process, 1);
+      // eslint-disable-next-line
       console.error(err);
     })
     .pipe(istanbul.writeReports({
@@ -75,6 +76,18 @@ gulp.task('nodeunit', ['pre-test'], () =>
     }))
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 75 } }))
 );
+
+gulp.task('developTests', () =>
+  gulp
+    .src('dist/**/*.spec.js')
+    .pipe(nodeunit())
+    .on('error',(err) => {
+      process.exit.bind(process, 1);
+      // eslint-disable-next-line
+      console.error(err);
+    })
+  );
+
 
 gulp.task('babel:watch', () =>
   gulp.watch(`${srcFolder}/**/*.js`, ['lint', 'babel'])
@@ -86,6 +99,10 @@ gulp.task('compress:watch', () =>
 
 gulp.task('test:watch', () =>
   gulp.watch('test/*.js', ['nodeunit'])
+);
+
+gulp.task('test:watch', () =>
+  gulp.watch('dist/**/*.spec.js', ['developTests'])
 );
 
 gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);

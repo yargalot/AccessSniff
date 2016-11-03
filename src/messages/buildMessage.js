@@ -7,12 +7,17 @@ type optionObject = {
   reportLevelsArray: Array<string>
 }
 
+const ignoredCheck = (ignoredRules: [], error: string) => {
+  return _.some(ignoredRules, rule => error.startsWith(rule));
+};
+
 const buildMessage = (msg: string, fileContents: string, {ignore, reportLevelsArray}: optionObject) => {
   const msgSplit = msg.split('|');
   let message;
 
-  // If the level type is ignored, then return null;
-  if (_.contains(ignore, msgSplit[1])) {
+  const ignored = ignoredCheck(ignore, msgSplit[1]);
+
+  if (ignored) {
     return message;
   }
 
@@ -36,4 +41,4 @@ const buildMessage = (msg: string, fileContents: string, {ignore, reportLevelsAr
 
 };
 
-export { buildMessage as default };
+export { buildMessage as default, ignoredCheck };
