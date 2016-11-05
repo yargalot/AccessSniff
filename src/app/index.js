@@ -5,7 +5,7 @@ import logger from '../logger';
 
 import TestRunner from './testRunner';
 import CreateErrorMessage from './createErrorMessage';
-import { CreateReportsJson } from '../helpers';
+import { CreateReportsJson, GenerateReportLevels } from '../helpers';
 
 import defaults from '../helpers/defaults';
 
@@ -18,12 +18,7 @@ export default class Accessibility {
     // Check .accessibilityrc file
     const conf = rc('accessibility', options);
 
-    // We need to convert the report levels to uppercase
-    _.each(conf.reportLevels, (value, key) => {
-      if (value) {
-        conf.reportLevelsArray.push(key.toUpperCase());
-      }
-    });
+    conf.reportLevelsArray = GenerateReportLevels(conf.reportLevels);
 
     // Assign options to this
     this.options = conf;

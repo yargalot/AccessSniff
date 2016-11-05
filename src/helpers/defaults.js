@@ -10,7 +10,6 @@ const defaultOptions = {
     warning: true,
     error: true
   },
-  reportLevelsArray: [],
   reportLocation : '',
   accessibilityrc: true,
   accessibilityLevel: 'WCAG2A',
