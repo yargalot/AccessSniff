@@ -4,14 +4,12 @@ const defaultOptions = {
   force: false,
   browser: false,
   domElement: true,
-  reportType: null,
   reportLevels: {
     notice: true,
     warning: true,
     error: true
   },
   reportLocation : '',
-  accessibilityrc: true,
   accessibilityLevel: 'WCAG2A',
   maxBuffer: 500*1024
 };
