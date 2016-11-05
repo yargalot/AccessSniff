@@ -1,13 +1,12 @@
 import rc from 'rc';
 import _ from 'underscore';
 import Promise from 'bluebird';
-import logger from './logger';
+import logger from '../logger';
 
-import { getFileContents, NormalizeOutput, CreateReportsJson } from './helpers';
-import ParseOutput from './messages';
-import SelectInstance from './runners';
+import TestRunner from './testRunner';
+import { CreateReportsJson } from '../helpers';
 
-import defaults from './helpers/defaults';
+import defaults from '../helpers/defaults';
 
 export default class Accessibility {
   constructor(options) {
@@ -29,35 +28,6 @@ export default class Accessibility {
     this.options = conf;
   }
 
-  fileResolver(file) {
-    const deferredOutside = Promise.pending();
-    const { verbose } = this.options;
-    let fileContents;
-
-    if (verbose) {
-      logger.startMessage(`Testing ${file}`);
-    }
-
-    const ErrorReporter = (error) => {
-      logger.generalError(`Testing ${file} failed`);
-      logger.generalError(error);
-      deferredOutside.reject(error);
-    };
-
-    // Get file contents
-    getFileContents(file)
-      .then(data => {
-        fileContents = data;
-        return SelectInstance(file, this.options);
-      })
-      .then(data => Array.isArray(data) ? data : NormalizeOutput(data))
-      .then(data => ParseOutput(data, file, fileContents, this.options))
-      .then(reportData => deferredOutside.resolve(reportData))
-      .catch(error => ErrorReporter(error));
-
-    return deferredOutside.promise;
-  }
-
   run(filesInput) {
     const files = Promise.resolve(filesInput);
     const { verbose } = this.options;
@@ -68,7 +38,7 @@ export default class Accessibility {
 
     return files
       .bind(this)
-      .map(this.fileResolver, { concurrency: 1 })
+      .map((file) => TestRunner(file, this.options), { concurrency: 1 })
       .then(reports => CreateReportsJson(reports))
       .then(({ reportLogs, totalIssueCount, AllReportsLintFree }) => {
 

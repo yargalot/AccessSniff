@@ -1,6 +1,7 @@
 import program from 'commander';
 import logger from './logger';
-import accessSniff, { report } from './';
+import accessSniff from './app';
+import report from './reports';
 import packageInfo from '../package.json';
 
 var exports = {};

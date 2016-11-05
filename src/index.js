@@ -1,4 +1,4 @@
-import Accessibility from './accesssniff';
+import Accessibility from './app';
 import reporter from './reports';
 import program from 'commander';
 import glob from 'glob';
