@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* global HTMLCS_RUNNER, phantom */
 
-var page    = require('webpage').create();
-var system  = require('system');
+var page = require('webpage').create();
+var system = require('system');
 
 var args = system.args;
 var url = args[1];
@@ -43,7 +43,7 @@ page.onLoadFinished = function() {
 
 page.open(url, function() {
 
-  page.injectJs('./HTMLCS.min.js');
+  page.injectJs('../HTMLCS.min.js');
 
   // Now Run. Note that page.evaluate() function is sanboxed to
   // the loaded page's context. We can't pass any variable to it.
