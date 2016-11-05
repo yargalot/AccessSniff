@@ -43,7 +43,7 @@ gulp.task('compressHTMLCS', () =>
     .src([
       `${HTMLCSFolder}/Standards/**/*.js`,
       `${HTMLCSFolder}/HTMLCS.js`,
-      `${distFolder}/runner.js`
+      `${distFolder}/client/runner.js`
     ])
     .pipe(concat('HTMLCS.min.js'))
     .pipe(uglify())
