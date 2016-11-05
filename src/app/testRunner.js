@@ -1,5 +1,6 @@
-import Promise from 'bluebird';
+/* @flow */
 
+import Promise from 'bluebird';
 import logger from '../logger';
 import ParseOutput from '../messages';
 import SelectInstance from '../runners';
@@ -11,7 +12,11 @@ const ErrorReporter = (file , error, deferredPromise) => {
   deferredPromise.reject(error);
 };
 
-const TestRunner = (file, options) => {
+type optionObject = {
+  verbose: true
+};
+
+const TestRunner = (file:string , options:optionObject) => {
   const deferredOutside = Promise.pending();
   const { verbose } = options;
   let fileContents;

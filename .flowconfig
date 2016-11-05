@@ -1,7 +1,6 @@
 [ignore]
 .*/dist/.*
 .*/reports/.*
-.*/node_modules/.*
 .*/gulpfile.js/.*
 
 [include]

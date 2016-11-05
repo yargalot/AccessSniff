@@ -4,6 +4,7 @@ import Promise from 'bluebird';
 import logger from '../logger';
 
 import TestRunner from './testRunner';
+import CreateErrorMessage from './createErrorMessage';
 import { CreateReportsJson } from '../helpers';
 
 import defaults from '../helpers/defaults';
@@ -41,13 +42,11 @@ export default class Accessibility {
       .map((file) => TestRunner(file, this.options), { concurrency: 1 })
       .then(reports => CreateReportsJson(reports))
       .then(({ reportLogs, totalIssueCount, AllReportsLintFree }) => {
+        let errorMessage = CreateErrorMessage(totalIssueCount);
 
         if (AllReportsLintFree) {
           logger.lintFree(filesInput.length);
         }
-
-        let errorString = totalIssueCount.error > 1 ? 'errors' : 'error';
-        let errorMessage = `There was ${totalIssueCount.error} ${errorString}`;
 
         if (totalIssueCount.error && verbose) {
           logger.generalError(errorMessage);
