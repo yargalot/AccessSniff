@@ -43,7 +43,7 @@ exports.accessibilityTests = {
   },
   overall_testGlobString: test => {
     AccessSniff
-      .default('./test/**/*.html', {
+      .default('./test/examples/**/*.html', {
         force: true,
         ignore: [
           'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
@@ -58,7 +58,7 @@ exports.accessibilityTests = {
   },
   overall_testGlobArray: test => {
     AccessSniff
-      .default(['./test/**/*.html'], {
+      .default(['./test/examples/**/*.html'], {
         force: true,
         ignore: [
           'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',

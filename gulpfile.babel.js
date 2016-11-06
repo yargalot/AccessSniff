@@ -72,9 +72,10 @@ gulp.task('nodeunit', ['pre-test'], () =>
     })
     .pipe(istanbul.writeReports({
       dir: './test/coverage',
-      reporters: ['json', 'text']
+      reporters: ['lcov']
     }))
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 75 } }))
+    .pipe(gulp.dest('test/coverage'))
 );
 
 gulp.task('developTests', () =>
