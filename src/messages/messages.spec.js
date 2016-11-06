@@ -22,7 +22,10 @@ const Tests = {
     checkedRule = ignoredCheck(ignored, 'WCAG2A.Principle1.Guideline1_1.1_1_1.H2.EG3');
     test.ok(checkedRule === false);
 
-    test.expect(3);
+    checkedRule = ignoredCheck(ignored, undefined);
+    test.ok(checkedRule === false);
+
+    test.expect(4);
     test.done();
   }
 };
