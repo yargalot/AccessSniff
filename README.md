@@ -1,6 +1,8 @@
 # AccessSniff
 [![Build Status](https://travis-ci.org/yargalot/AccessSniff.svg?branch=master)](https://travis-ci.org/yargalot/AccessSniff)
 [![Build status](https://ci.appveyor.com/api/projects/status/r805fyyn6bpfr57y?svg=true)](https://ci.appveyor.com/project/yargalot/accesssniff)
+[![codecov](https://codecov.io/gh/yargalot/AccessSniff/branch/master/graph/badge.svg)](https://codecov.io/gh/yargalot/AccessSniff)
+
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
