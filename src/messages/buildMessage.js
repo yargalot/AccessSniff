@@ -8,6 +8,10 @@ type optionObject = {
 }
 
 const ignoredCheck = (ignoredRules: [], error: string): boolean => {
+  if (!error) {
+    return false;
+  }
+
   return _.some(ignoredRules, rule => error.startsWith(rule));
 };
 
