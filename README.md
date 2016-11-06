@@ -4,10 +4,7 @@
 [![codecov](https://codecov.io/gh/yargalot/AccessSniff/branch/master/graph/badge.svg)](https://codecov.io/gh/yargalot/AccessSniff)
 
 
-A CLI and Phantom.js library for HTML_CodeSniffer
-
-### Note
-3.0 is currently in development, please make pull requests against that branch
+A CLI, JsDom and PhantomJs library for HTML_CodeSniffer
 
 - [Gulp plugin](https://github.com/yargalot/gulp-accessibility)
 - [Grunt plugin](https://github.com/yargalot/grunt-accessibility)
