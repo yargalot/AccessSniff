@@ -20,23 +20,25 @@ type PositionObject = {
   columnNumber:  number
 };
 
-const generalMessage = (message: MessageObject): [string, string, string, string] => {
-  let heading: string = '';
-  const position: PositionObject = message.position;
-  const lineMessage: string = `Line:${position.lineNumber} Col:${position.columnNumber}`;
-
-  switch (message.heading) {
+const createHeading = (heading:string, issue: string): string => {
+  switch (heading) {
     case 'ERROR':
-      heading = chalk.red.bold(message.heading);
+      heading = chalk.red.bold(heading);
       break;
     case 'NOTICE':
-      heading = chalk.blue.bold(message.heading);
+      heading = chalk.blue.bold(heading);
       break;
     default:
-      heading = chalk.yellow.bold(message.heading);
+      heading = chalk.yellow.bold(heading);
   }
 
-  heading += ` ${message.issue}`;
+  return heading += ` ${issue}`;
+};
+
+const generalMessage = (message: MessageObject): [string, string, string, string] => {
+  const position: PositionObject = message.position;
+  const lineMessage: string = `Line:${position.lineNumber} Col:${position.columnNumber}`;
+  const heading: string = createHeading(message.heading, message.issue);
 
   console.log(heading);
   if (message.position.lineNumber || message.position.columnNumber) {
