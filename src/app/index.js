@@ -18,10 +18,6 @@ export default class Accessibility {
 
     // Assign options to this
     this.options = options;
-
-    console.log(options); // eslint-disable-line
-
-
   }
 
   run(filesInput) {
