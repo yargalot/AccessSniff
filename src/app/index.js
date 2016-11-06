@@ -1,4 +1,3 @@
-import rc from 'rc';
 import _ from 'underscore';
 import Promise from 'bluebird';
 import logger from '../logger';
@@ -15,13 +14,14 @@ export default class Accessibility {
     // Merge defaults with options
     _.defaults(options, defaults);
 
-    // Check .accessibilityrc file
-    const conf = rc('accessibility', options);
-
-    conf.reportLevelsArray = GenerateReportLevels(conf.reportLevels);
+    options.reportLevelsArray = GenerateReportLevels(options.reportLevels);
 
     // Assign options to this
-    this.options = conf;
+    this.options = options;
+
+    console.log(options); // eslint-disable-line
+
+
   }
 
   run(filesInput) {

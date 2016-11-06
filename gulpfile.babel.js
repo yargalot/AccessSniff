@@ -58,7 +58,7 @@ gulp.task('pre-test', () =>
 
 gulp.task('nodeunit', ['pre-test'], () =>
   gulp
-    .src('test/**/*.test.js')
+    .src(['test/**/*.test.js', 'dist/**/*.spec.js'])
     .pipe(nodeunit({
       reporter: 'junit',
       reporterOptions: {
