@@ -1,6 +1,8 @@
 # AccessSniff
 [![Build Status](https://travis-ci.org/yargalot/AccessSniff.svg?branch=master)](https://travis-ci.org/yargalot/AccessSniff)
 [![Build status](https://ci.appveyor.com/api/projects/status/r805fyyn6bpfr57y?svg=true)](https://ci.appveyor.com/project/yargalot/accesssniff)
+[![codecov](https://codecov.io/gh/yargalot/AccessSniff/branch/master/graph/badge.svg)](https://codecov.io/gh/yargalot/AccessSniff)
+
 
 A CLI and Phantom.js library for HTML_CodeSniffer
 
@@ -64,16 +66,7 @@ Levels are `WCAG2A`, `WCAG2AA`, `WCAG2AAA`, and `Section508`
 
 ### Accessibilityrc
 
-`accessibilityrc` is a boolean
-
-
-```js
-options: {
-  accessibilityrc: true
-}
-```
-
-Set to true to access a .accessibilityrc file in your project which should be layed out as:
+You can create an .accessibilityrc file in your project to set options:
 
 ```json
 {
@@ -84,12 +77,11 @@ Set to true to access a .accessibilityrc file in your project which should be la
 }
 ```
 
-
 ### Ignore
 
 `ignore` is an array
 
-You can ignore rules by placing them in an array outlined below
+You can ignore rules by placing them in an array outlined below.
 
 ```js
 options: {
@@ -99,6 +91,10 @@ options: {
   ]
 }
 ```
+
+Rules will also match to remove and entire set.
+
+`WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1` will ignore `WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl`
 
 ### Verbose output
 
@@ -111,19 +107,6 @@ options: {
 ```
 
 Output messages to console, set to true by default
-
-
-### DomElement
-
-`domElement` is a boolean
-
-```js
-options: {
-  domElement: false
-}
-```
-
-Include reference (tag name, class names & id) to reported elements. Optional for both output formats.
 
 ### Force
 
@@ -139,9 +122,21 @@ Continue running in the event of failures.
 You can catch failures from the promise as below:
 ```js
 AccessSniff(['**/*.html'], options)
-  .then(report => AccessReports(report, reportOptions));
-  .catch(error => console.error(error))
+.then(report => AccessReports(report, reportOptions));
+.catch(error => console.error(error))
 ```
+
+### Browser
+
+`browser` is a boolean, defaults to `false`
+
+```js
+options: {
+  browser: false
+}
+```
+
+AccessSniff uses jsDom as the default, setting this to true will use PhantomJs instead
 
 ### maxBuffer
 

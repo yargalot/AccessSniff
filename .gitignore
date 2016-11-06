@@ -1,6 +1,8 @@
 node_modules
-reports
+dist
+/reports
 npm-debug.log
 .idea
 test/*.xml
 test/coverage
+/test/xmlResults

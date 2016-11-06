@@ -1,6 +1,6 @@
 {
   "name": "access-sniff",
-  "version": "2.4.7",
+  "version": "3.0.0",
   "description": "A node/iojs library & CLI for HTML_Codesniffer",
   "main": "dist/",
   "bin": {
@@ -39,9 +39,12 @@
     "chalk": "^1.1.1",
     "commander": "^2.6.0",
     "glob": "^7.1.1",
+    "jsdom": "^9.8.3",
     "mkdirp": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.12",
+    "rc": "^1.1.6",
     "underscore": "^1.8.2",
+    "unixify": "^0.2.1",
     "validator": "^5.0.0"
   },
   "devDependencies": {
@@ -50,7 +53,10 @@
     "babel-plugin-syntax-flow": "^6.3.13",
     "babel-plugin-transform-flow-strip-types": "^6.4.0",
     "babel-preset-es2015": "^6.11.3",
+    "benchmark": "^2.1.2",
+    "del": "^2.2.2",
     "eslint": "^3.6.1",
+    "flow-bin": "^0.34.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",

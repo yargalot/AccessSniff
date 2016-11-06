@@ -1,8 +1,9 @@
-import Accessibility from './accesssniff';
+import Accessibility from './app';
 import reporter from './reports';
 import program from 'commander';
-import glob from 'glob';
 import _ from 'underscore';
+import glob from 'glob';
+import rc from 'rc';
 
 const start = (fileInput, options = {}) => {
 
@@ -25,7 +26,11 @@ const start = (fileInput, options = {}) => {
     glob.hasMagic(file) ? glob.sync(file) : file
   );
 
-  const task = new Accessibility(options);
+  // Check .accessibilityrc file
+  const conf = rc('accessibility', options);
+
+  // Run Task
+  const task = new Accessibility(conf);
 
   return task.run(_.flatten(reportFiles));
 };
