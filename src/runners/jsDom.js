@@ -23,7 +23,7 @@ const RunJsDomInstance = (file, accessibilityLevel) => {
     };
 
     if (validator.isURL(file)) {
-      reject('Cannot render urls');
+      reject('JsDom Cannot render urls, please set the browser option to true');
     } else if (fs.existsSync(file)) {
       jsDomOptions.file = file;
     } else {
