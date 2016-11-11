@@ -30,7 +30,7 @@ export default class Accessibility {
 
     return files
       .bind(this)
-      .map((file) => TestRunner(file, this.options), { concurrency: 1 })
+      .mapSeries((file) => TestRunner(file, this.options), { concurrency: 1 })
       .then(reports => CreateReportsJson(reports))
       .then(({ reportLogs, totalIssueCount, AllReportsLintFree }) => {
         let errorMessage = CreateErrorMessage(totalIssueCount);
