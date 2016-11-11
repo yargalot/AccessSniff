@@ -6,9 +6,10 @@ var suite = new Benchmark.Suite;
 suite
 .add('Phantomjs', {
   defer: true,
+  maxTime: 60,
   fn: (deferred) => {
     AccessSniff
-      .default('./examples/test.html', {
+      .default('./test/_site/**/*.html', {
         force: true,
         verbose: false
       })
@@ -17,20 +18,21 @@ suite
       });
   }
 })
-.add('JSDom', {
-  defer: true,
-  fn: (deferred) => {
-    AccessSniff
-      .default('./examples/test.html', {
-        force: true,
-        verbose: false,
-        template: true
-      })
-      .then(report => {
-        deferred.resolve();
-      });
-  }
-})
+// .add('JSDom', {
+//   defer: true,
+//   maxTime: 60,
+//   fn: (deferred) => {
+//     AccessSniff
+//       .default('./test/_site/**/*.html', {
+//         force: true,
+//         verbose: false,
+//         template: true
+//       })
+//       .then(report => {
+//         deferred.resolve();
+//       });
+//   }
+// })
 // add listeners
 .on('cycle', function(event) {
   console.log(String(event.target));

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "gulp",
     "test": "gulp test",
-    "prepublish": "npm test"
+    "prepublish": "npm test",
+    "benchmark": "gulp build && node test/benchmark.js"
   },
   "repository": {
     "type": "git",
