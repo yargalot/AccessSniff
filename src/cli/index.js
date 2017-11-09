@@ -30,7 +30,8 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
-  accessSniff(program.args, options)
+  new accessSniff(options)
+    .run(program.args)
     .then(reportData => {
       if (options.reportType || options.reportLocation) {
         return report(reportData, options);
