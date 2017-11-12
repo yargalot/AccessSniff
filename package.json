@@ -1,6 +1,6 @@
 {
   "name": "access-sniff",
-  "version": "3.0.01",
+  "version": "3.1.0",
   "description": "A node/iojs library & CLI for HTML_Codesniffer",
   "main": "dist/",
   "bin": {
