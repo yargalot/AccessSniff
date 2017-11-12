@@ -6,3 +6,4 @@ npm-debug.log
 test/*.xml
 test/coverage
 /test/xmlResults
+/.DS_Store
