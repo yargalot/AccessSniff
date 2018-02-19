@@ -14,6 +14,7 @@ exports.setup = function(cliOptions) {
     .version(packageInfo.version)
     .option('-r, --reportType [reportType]', 'Report type [json]', 'json')
     .option('-l, --reportLocation [reportLocation]', 'Report Location [reports]', 'reports')
+    .option('-f, --force', 'No failure in case of errors')
     .option('-q, --quiet', 'No terminal output')
     .parse(cliOptions);
 
@@ -25,6 +26,10 @@ exports.setup = function(cliOptions) {
   // ADD IN REPORTS
   options.reportType = program.reportType;
   options.reportLocation = program.reportLocation;
+
+  if (program.force) {
+    options.force = true;
+  }
 
   if (program.quiet) {
     options.verbose = false;
