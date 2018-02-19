@@ -44,7 +44,10 @@ export default class Accessibility {
         }
 
         if (!this.options.force && totalIssueCount.error) {
-          return Promise.reject(errorMessage);
+          return Promise.reject({
+            errorMessage: errorMessage,
+            reportLogs: reportLogs
+          });
         }
 
         return reportLogs;

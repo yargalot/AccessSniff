@@ -35,12 +35,17 @@ exports.setup = function(cliOptions) {
     options.verbose = false;
   }
 
+  function writeReport(reportData) {
+    if (options.reportType || options.reportLocation) {
+      return report(reportData, options);
+    }
+  }
+
   new accessSniff(options)
     .run(program.args)
-    .then(reportData => {
-      if (options.reportType || options.reportLocation) {
-        return report(reportData, options);
-      }
+    .then(writeReport, result => {
+      writeReport(result.reportLogs);
+      return Promise.reject(result.errorMessage);
     });
 
 };

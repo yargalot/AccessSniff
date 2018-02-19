@@ -71,5 +71,21 @@ exports.accessibilityTests = {
         test.expect(2);
         test.done();
       });
+  },
+  report_Error: test => {
+    AccessSniff.default(['./test/examples/error/no-alt.html'], {
+      browser: true
+    }).then(() => test.ok(false, 'Error not detected'),
+            result => AccessSniff.report(result.reportLogs, {reportLocation: 'reports/error'}))
+      .then(report => {
+        var writtenReport = fs.readFileSync('./reports/error/report.json', 'utf8');
+        var expected = fs.readFileSync('./test/expected/error/report.json', 'utf8');
+
+        test.deepEqual(report, expected, 'Should return a JSON report if an error is detected in a test file');
+        test.deepEqual(writtenReport, expected, 'Should write a JSON report if an error is detected in a test file');
+        test.expect(2);
+        test.done();
+
+      });
   }
 };
