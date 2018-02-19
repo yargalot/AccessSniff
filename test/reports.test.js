@@ -33,7 +33,7 @@ exports.accessibilityTests = {
   },
   report_JSON: test => {
     AccessSniff.default(['./test/examples/test.html'], options)
-      .then(report => AccessSniff.report(report, {location: 'reports'}))
+      .then(report => AccessSniff.report(report, {reportLocation: 'reports'}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.json', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.json', 'utf8');
@@ -47,7 +47,7 @@ exports.accessibilityTests = {
   },
   report_CSV: test => {
     AccessSniff.default(['./test/examples/test.html'], options)
-      .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'csv', force: true}))
+      .then(report => AccessSniff.report(report, {reportLocation: 'reports', reportType: 'csv', force: true}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.csv', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.csv', 'utf8');
@@ -61,7 +61,7 @@ exports.accessibilityTests = {
   },
   report_TXT: test => {
     AccessSniff.default(['./test/examples/test.html'], options)
-      .then(report => AccessSniff.report(report, {location: 'reports', reportType: 'txt', force: true}))
+      .then(report => AccessSniff.report(report, {reportLocation: 'reports', reportType: 'txt', force: true}))
       .then(report => {
         var writtenReport = fs.readFileSync('./reports/report.txt', 'utf8');
         var expected = fs.readFileSync('./test/expected/report.txt', 'utf8');
