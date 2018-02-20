@@ -9,7 +9,7 @@ import GenerateReport from './generateReport';
 const defaultOptions = {
   fileName: 'report',
   reportType: 'json',
-  location: ''
+  reportLocation: ''
 };
 
 export default (reports, options = defaultOptions) => {
@@ -18,7 +18,7 @@ export default (reports, options = defaultOptions) => {
 
   let report = new ReportsGenerator(reports, options);
 
-  if (options.location) {
+  if (options.reportLocation) {
     report.writeFile();
   }
 
@@ -33,7 +33,7 @@ class ReportsGenerator {
     this.report = {
       name: options.fileName,
       type: options.reportType,
-      location: options.location,
+      location: options.reportLocation,
       output: ''
     };
 

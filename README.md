@@ -223,5 +223,8 @@ txt, csv, json.
 #### Report Location
 `-r` or `-reportLocation`
 
+#### Force
+`-f` or `-force`
+
 #### Quiet
 `-q` or `-quiet`
