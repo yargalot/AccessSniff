@@ -5,12 +5,11 @@ import eslint from 'gulp-eslint';
 import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import nodeunit from 'gulp-nodeunit';
-import runSequence from 'run-sequence';
 import istanbul from 'gulp-istanbul';
 
 const srcFolder = './src';
 const distFolder = './dist';
-const HTMLCSFolder = './node_modules/HTML_CodeSniffer';
+const HTMLCSFolder = './node_modules/html_codesniffer';
 
 
 gulp.task('clean', () =>
@@ -41,8 +40,11 @@ gulp.task('babel', () =>
 gulp.task('compressHTMLCS', () =>
   gulp
     .src([
+      `${HTMLCSFolder}/Contrib/Build/umd-header.js`,
       `${HTMLCSFolder}/Standards/**/*.js`,
       `${HTMLCSFolder}/HTMLCS.js`,
+      `${HTMLCSFolder}/HTMLCS.Util.js`,
+      `${HTMLCSFolder}/Contrib/Build/umd-footer.js`,
       `${distFolder}/client/runner.js`
     ])
     .pipe(concat('HTMLCS.min.js'))
@@ -56,7 +58,7 @@ gulp.task('pre-test', () =>
     .pipe(istanbul.hookRequire())
 );
 
-gulp.task('nodeunit', ['pre-test'], () =>
+gulp.task('nodeunit', gulp.series('pre-test', () =>
   gulp
     .src(['test/**/*.test.js', 'dist/**/*.spec.js'])
     .pipe(nodeunit({
@@ -76,7 +78,7 @@ gulp.task('nodeunit', ['pre-test'], () =>
     }))
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 75 } }))
     .pipe(gulp.dest('test/coverage'))
-);
+));
 
 gulp.task('developTests', () =>
   gulp
@@ -106,9 +108,9 @@ gulp.task('test:watch', () =>
   gulp.watch('dist/**/*.spec.js', ['developTests'])
 );
 
-gulp.task('watch', ['babel:watch', 'compress:watch', 'test:watch']);
+gulp.task('watch', gulp.parallel('babel:watch', 'compress:watch', 'test:watch'));
 
 // Actual tasks
-gulp.task('test', () => runSequence('clean', 'lint', 'babel', 'compressHTMLCS', 'nodeunit'));
-gulp.task('build', ['lint', 'compressHTMLCS', 'babel']);
-gulp.task('default', ['build', 'watch']);
+gulp.task('test', gulp.series('clean', 'lint', 'babel', 'compressHTMLCS', 'nodeunit'));
+gulp.task('build', gulp.parallel('lint', 'compressHTMLCS', 'babel'));
+gulp.task('default', gulp.parallel('build', 'watch'));
